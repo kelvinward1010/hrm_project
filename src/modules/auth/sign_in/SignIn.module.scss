@@ -1,3 +1,5 @@
+@import "@/assets/scss/main.scss";
+
 .container{
     display: flex;
     justify-content: center;
@@ -27,7 +29,7 @@
 
             .button{
                 width: 100%;
-                background: #0091FF;
+                background: $color-primary;
                 height: 45px;
 
                 .title_button{
@@ -39,7 +41,7 @@
                 text-align: center;
 
                 .forgot_title{
-                    color: #0091FF;
+                    color: $color-primary;
                     font-size: 14px;
                     font-weight: 400;
                     cursor: pointer;

@@ -6,6 +6,7 @@ import "./locale/i18n";
 import { MantineProvider } from '@mantine/core';
 import { RouterProvider } from 'react-router-dom';
 import { routerConfig } from './routes/index.tsx';
+import "@/assets/scss/main.scss";
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

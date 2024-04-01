@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { authUrl, employeeUrl, forgotPasswordUrl, layoutUrl, signinUrl } from "./urls";
-import { Auth, Employee, ForgotPassword, Layout, SignIn } from "../modules";
-import { Error } from "../components";
+import { Auth, Employee, ForgotPassword, Layout, SignIn } from "@/modules";
+import { Error } from "@/components";
 
 
 interface RouteProps {
