@@ -1,0 +1,9 @@
+/*Sign in*/
+.select_signin .ant-select-selector {
+    padding: 18px 20px !important;
+}
+
+.ant-select-item-option-selected {
+    background: #E9F9EE !important;
+    color: #30A46C !important;
+}

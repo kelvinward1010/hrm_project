@@ -1,0 +1,15 @@
+{
+    "name_app": "HRM Management System",
+    "auth": {
+        "sign_in": {
+            "name": "Sign In",
+            "forgot_password": "Forgot Your Password?"
+        },
+        "forgot_password":{
+            "name": "Forgot Password",
+            "label_button": "Confirm & Send OTP",
+            "sign_in_text": "Back to Sign In"
+        },
+        "cs": "Copyright © 2022. All Rights Reserved"
+    }
+}
