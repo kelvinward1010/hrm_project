@@ -1,13 +1,29 @@
 *{
   margin: 0;
 }
+
 .ant-form-item-required::before{
   content: none !important;
 }
+
 :root{
   --noti-color-success: #12A594;
   --noti-color-warning: #EE9D2B;
   --noti-color-error: #E5484D;
   --noti-color-info: #11181C;
   --noti-color-export: #6E56CF;
+
+  --text-color-black: #11181C;
+  --text-color-blue: #006ADC;
+  --text-color-pink: var(--noti-color-export);
+
+  --background-pink: #F5F2FF;
+
+  --color-icon-green: #40C4AA;
+}
+
+.drop .ant-dropdown-menu{
+  width: 300px !important;
+  height: 250px !important;
+  padding: 10px;
 }

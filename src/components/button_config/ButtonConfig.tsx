@@ -12,6 +12,7 @@ interface ButtonConfigProps{
     height?: number;
     background?: string;
     color?: string;
+    m?: string;
 }
 
 const { Text } = Typography;
@@ -24,7 +25,8 @@ export function ButtonConfig(props: ButtonConfigProps) {
                 width: `${props.with ?? "100%"}`,
                 height: `${props.height}px`,
                 background: `${props.background}`,
-                color: `${props.color}`
+                color: `${props.color}`,
+                margin: `${props.m}`
             }}
         >
             {props.leftIcon}

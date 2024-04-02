@@ -14,7 +14,7 @@ export const Notification = ({
 }: NotificationProps) => {
     if(type === "success"){
         return notification.success({
-            message: message
+            message: message,
         })
     }
 

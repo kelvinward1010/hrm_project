@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import styles from "./SignIn.module.scss";
-import { Button, Form, Input, notification, Select, Typography } from "antd";
+import { Button, Form, Input, Select, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import { forgotPasswordUrl } from "../../../routes/urls";
 import { FACTORY_CONFIG } from "./types";
