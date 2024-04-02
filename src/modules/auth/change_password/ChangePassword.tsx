@@ -1,26 +1,27 @@
-import { Button, Form, Input, Typography } from "antd";
-import styles from "./ForgotPassword.module.scss";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { signinUrl } from "../../../routes/urls";
+import styles from "./ChangePassword.module.scss";
+import { Button, Form, Input, notification, Typography } from "antd";
 import { LabelConfig } from "../conponents/LabelConfig";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 type FieldType = {
-    email: string;
+    newpassword: string;
+    confirmpassword: string;
 };
 
-export function ForgotPassword() {
+export function ChangePassword() {
     const { t } = useTranslation();
-    const navigate = useNavigate();
-
 
     const onFinish = (values: FieldType) => {
         const data = {
-            email: values.email,
+            newpassword: values.newpassword,
+            confirmpassword: values.confirmpassword,
         }
         console.log(data)
+        notification.info({
+            message: "Ok",
+        })
     };
 
     return (
@@ -37,30 +38,36 @@ export function ForgotPassword() {
                     autoComplete="off"
                     layout={'vertical'}
                 >
+                    <Title level={3}>{t("auth.change_password.title")}</Title>
                     <Form.Item<FieldType>
-                        label={<LabelConfig label={t("auth.label.email")} />}
-                        name="email"
+                        label={<LabelConfig label={t("auth.label.newpassword")} />}
+                        name="newpassword"
                         className={styles.item_input}
                         rules={[
-                            { required: true, message: 'Please input your email!' }, 
-                            {max: 30, message: "Email must be at maximuns 30 characters"}
+                            { required: true, message: 'Please input your password!' },
                         ]}
                     >
                         <Input className={"input_auth"}/>
                     </Form.Item>
 
+                    <Form.Item<FieldType>
+                        label={<LabelConfig label={t("auth.label.confirmpassword")} />}
+                        name="confirmpassword"
+                        className={styles.item_input}
+                        rules={[
+                            { required: true, message: 'Please input your confirm password!' }
+                        ]}
+                    >
+                        <Input.Password className={"input_auth"}/>
+                    </Form.Item>
+
                     <Form.Item wrapperCol={{ offset: 1, span: 22, }}>
                         <Button className={styles.button} htmlType="submit">
                             <Title level={5} className={styles.title_button}>
-                                {t("auth.forgot_password.label_button")}
+                                {t("auth.change_password.title_button")}
                             </Title>
                         </Button>
                     </Form.Item>
-                    <div className={styles.forgot}>
-                        <Text onClick={() => navigate(signinUrl)} className={styles.forgot_title}>
-                            {t("auth.forgot_password.sign_in_text")}
-                        </Text>
-                    </div>
                 </Form>
             </div>
         </div>

@@ -4,6 +4,8 @@ import { Button, Form, Input, notification, Select, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import { forgotPasswordUrl } from "../../../routes/urls";
 import { FACTORY_CONFIG } from "./types";
+import { LabelConfig } from "../conponents/LabelConfig";
+import { Notification } from "@/components/notification/Notification";
 
 const { Title, Text } = Typography;
 
@@ -24,8 +26,9 @@ export function SignIn() {
             company_id: values.factory,
         }
         console.log(data)
-        notification.info({
-            message: "Ok",
+        Notification({
+            message: "okkkk",
+            type: "success",
         })
     };
 
@@ -44,7 +47,7 @@ export function SignIn() {
                     layout={'vertical'}
                 >
                     <Form.Item<FieldType>
-                        label={<Text className={styles.label_main}>Email:</Text>}
+                        label={<LabelConfig label={t("auth.label.email")} />}
                         name="username"
                         className={styles.item_input}
                         rules={[
@@ -52,22 +55,22 @@ export function SignIn() {
                             {max: 30, message: "Username must be at maximuns 30 characters"}
                         ]}
                     >
-                        <Input className={styles.input_fix}/>
+                        <Input className={"input_auth"}/>
                     </Form.Item>
 
                     <Form.Item<FieldType>
-                        label={<Text className={styles.label_main}>Password:</Text>}
+                        label={<LabelConfig label={t("auth.label.password")} />}
                         name="password"
                         className={styles.item_input}
                         rules={[
                             { required: true, message: 'Please input your password!' }
                         ]}
                     >
-                        <Input.Password className={styles.input_fix}/>
+                        <Input.Password className={"input_auth"}/>
                     </Form.Item>
 
                     <Form.Item<FieldType>
-                        label={<Text className={styles.label_main}>Factory:</Text>}
+                        label={<LabelConfig label={t("auth.label.factory")} />}
                         name="factory"
                         className={styles.item_input}
                         rules={[

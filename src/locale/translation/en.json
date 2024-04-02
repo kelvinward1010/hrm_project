@@ -1,6 +1,13 @@
 {
     "name_app": "HRM Management System",
     "auth": {
+        "label": {
+            "email": "Email:",
+            "password": "Password:",
+            "factory": "Factory:",
+            "newpassword": "New Password:",
+            "confirmpassword": "Confirm Password:"
+        },
         "sign_in": {
             "name": "Sign In",
             "forgot_password": "Forgot Your Password?"
@@ -9,6 +16,10 @@
             "name": "Forgot Password",
             "label_button": "Confirm & Send OTP",
             "sign_in_text": "Back to Sign In"
+        },
+        "change_password":{
+            "title": "Please input password",
+            "title_button": "Confirm"
         },
         "cs": "Copyright © 2022. All Rights Reserved"
     }

@@ -1,3 +1,13 @@
 *{
   margin: 0;
 }
+.ant-form-item-required::before{
+  content: none !important;
+}
+:root{
+  --noti-color-success: #12A594;
+  --noti-color-warning: #EE9D2B;
+  --noti-color-error: #E5484D;
+  --noti-color-info: #11181C;
+  --noti-color-export: #6E56CF;
+}

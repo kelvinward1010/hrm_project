@@ -1,0 +1,22 @@
+.ant-notification-notice-export-config{
+    background: #F5F2FF !important;
+    color: var(--noti-color-export) !important;
+}
+.ant-notification-notice-export-config .ant-notification-notice-message{
+    color: var(--noti-color-export) !important;
+}
+
+.ant-notification-notice-warning .ant-notification-notice-message,
+.ant-notification-notice-warning .ant-notification-notice-icon{
+    color: var(--noti-color-warning) !important;
+}
+
+.ant-notification-notice-success .ant-notification-notice-message,
+.ant-notification-notice-success .ant-notification-notice-icon{
+    color: var(--noti-color-success) !important;
+}
+
+.ant-notification-notice-error .ant-notification-notice-message,
+.ant-notification-notice-error .ant-notification-notice-icon{
+    color: var(--noti-color-error) !important;
+}

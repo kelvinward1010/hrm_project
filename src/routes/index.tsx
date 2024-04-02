@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { authUrl, employeeUrl, forgotPasswordUrl, layoutUrl, signinUrl } from "./urls";
-import { Auth, Employee, ForgotPassword, Layout, SignIn } from "@/modules";
+import { authUrl, changepasswordUrl, employeeUrl, forgotPasswordUrl, layoutUrl, signinUrl } from "./urls";
+import { Auth, ChangePassword, Employee, ForgotPassword, Layout, SignIn } from "@/modules";
 import { Error } from "@/components";
 
 
@@ -9,7 +9,7 @@ interface RouteProps {
 }
 
 const ProtectedRoute: React.FC<RouteProps> = ({ children }) => {
-    const isAuthenticated = false;
+    const isAuthenticated = true;
     return isAuthenticated ? <>{children}</> : <Navigate to={signinUrl} replace />;
 };
 
@@ -42,6 +42,10 @@ export const routerConfig = createBrowserRouter([
             {
                 path: forgotPasswordUrl,
                 element:<ForgotPassword />
+            },
+            {
+                path: changepasswordUrl,
+                element: <ChangePassword />
             }
         ]
     }

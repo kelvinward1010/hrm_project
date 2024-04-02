@@ -3,3 +3,38 @@ $color-indianred: #EF6165;
 $color-crimson: #E5484D;
 $color-yellow: #EBBC00;
 $color-blueviolet: #6E56CF;
+
+.input_auth{
+    padding: 8px 12px;
+}
+
+.label_auth{
+    font-size: 17px;
+    font-weight: 400;
+}
+
+$noti-success: #D9F3EE;
+$noti-warning: #FFF4D5;
+$noti-error: #FFEFEF;
+$noti-info: #F1F3F5;
+$noti-export: #F5F2FF;
+
+/*Notification*/
+.ant-notification-notice{
+    border-radius: 5px;
+}
+.ant-notification-notice-success{
+    background: $noti-success !important;
+}
+.ant-notification-notice-warning{
+    background: $noti-warning !important;
+}
+.ant-notification-notice-error{
+    background: $noti-error !important;
+}
+.ant-notification-notice-info{
+    background: $noti-info !important;
+}
+.ant-notification-notice-export-config{
+    background: $noti-export !important;
+}
