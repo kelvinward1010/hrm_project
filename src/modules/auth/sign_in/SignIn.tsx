@@ -28,7 +28,7 @@ export function SignIn() {
         console.log(data)
         Notification({
             message: "okkkk",
-            type: "success",
+            type: "export",
         })
     };
 
