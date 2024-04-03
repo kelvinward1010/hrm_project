@@ -4,4 +4,5 @@ export { ForgotPassword } from "./auth/forgot_password/ForgotPassword";
 export { ChangePassword} from "./auth/change_password/ChangePassword";
 
 export { Layout } from "./app/Layout";
-export { Employee } from "./employee/Employee";
+export { Employee } from "./employee/views/Employee";
+export { AddNewEmployee } from "./employee/views/AddNewEmployee";

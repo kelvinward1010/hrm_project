@@ -17,13 +17,51 @@
   --text-color-blue: #006ADC;
   --text-color-pink: var(--noti-color-export);
 
+  --color-dark-black: #DFE3E6;
+  
   --background-pink: #F5F2FF;
 
   --color-icon-green: #40C4AA;
+
+  /*Button color*/
+  --button-color-dark-black: #C1C8CD;
+  --button-color-light-black: #F1F3F5;
+
+  --button-color-dark-blue: #0091FF;
+  --button-color-light-blue: #E1F0FF;
+
+  --button-color-dark-indianred: #EF6165;
+  --button-color-light-indianred: #FFEFEF;
+
+  --button-color-dark-crimson: #E5484D;
+  --button-color-light-crimson: #FFEFEF;
+
+  --button-color-dark-yellow: #EBBC00;
+  --button-color-light-yellow: #FFF8BB;
+
+  --button-color-dark-pink: #6E56CF;
+  --button-color-light-pink: #F5F2FF;
+
+  --button-color-dark-orange: #F76808;
+  --button-color-light-orange: #FFF1E7;
+
+  --button-color-dark-green: #30A46C;
+  --button-color-light-green: #E9F9EE;
+
+  --button-color-dark-teal: #69D9C1;
+  --button-color-light-teal: #D2F7ED78;
 }
 
 .drop .ant-dropdown-menu{
   width: 300px !important;
   height: 250px !important;
   padding: 10px;
+}
+
+.ant-tabs-top >.ant-tabs-nav::before{
+  border: none;
+}
+
+.ant-tabs-ink-bar-animated{
+  display: none;
 }

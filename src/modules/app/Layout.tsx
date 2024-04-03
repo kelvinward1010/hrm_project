@@ -15,10 +15,16 @@ export function Layout() {
     const breadcrumbItems = pathSnippets.map((_, index) => {
             const url = `/${pathSnippets.slice(0, index + 1).join("/")}`;
             return {
-                key: url,
                 title: <Link to={url}><Typography.Text>{breadcrumbNameMap[url]}</Typography.Text></Link>,
         };
     });
+
+    const configBreadcrumItems = [
+        {
+            title: <Typography.Text>General</Typography.Text>
+        },
+        ...breadcrumbItems
+    ]
 
     return (
         <AppShell
@@ -45,14 +51,7 @@ export function Layout() {
             </AppShell.Navbar>
 
             <AppShell.Main>
-                <Breadcrumb>
-                    <Breadcrumb.Item>
-                        <Typography.Text>General</Typography.Text>
-                    </Breadcrumb.Item>
-                    {breadcrumbItems.map((item) => (
-                        <Breadcrumb.Item key={item.key}>{item.title}</Breadcrumb.Item>
-                    ))}
-                </Breadcrumb>
+                <Breadcrumb items={configBreadcrumItems}/>
                 <Outlet />
             </AppShell.Main>
         </AppShell>
