@@ -18,7 +18,7 @@ interface ButtonConfigProps{
 
 const { Text } = Typography;
 
-export function ButtonConfig(props: ButtonConfigProps) {
+export function ButtonConfigAntd(props: ButtonConfigProps) {
     return (
         <Button
             onClick={props.onClick}

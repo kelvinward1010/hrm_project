@@ -1,11 +1,12 @@
 import { useTranslation } from "react-i18next";
 import styles from "./SignIn.module.scss";
-import { Button, Form, Input, Select, Typography } from "antd";
+import { Form, Input, Select, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import { forgotPasswordUrl } from "../../../routes/urls";
 import { FACTORY_CONFIG } from "./types";
 import { LabelConfig } from "../conponents/LabelConfig";
 import { Notification } from "@/components/notification/Notification";
+import { ButtonConfigMui } from "@/components";
 
 const { Title, Text } = Typography;
 
@@ -85,11 +86,14 @@ export function SignIn() {
                     </Form.Item>
 
                     <Form.Item wrapperCol={{ offset: 1, span: 22, }}>
-                        <Button className={styles.button} htmlType="submit">
-                            <Title level={5} className={styles.title_button}>
-                                {t("auth.sign_in.name")}
-                            </Title>
-                        </Button>
+                        <ButtonConfigMui
+                            label={t("auth.sign_in.name")}
+                            background="var(--button-color-dark-blue)"
+                            colorLabel="white"
+                            border="none"
+                            fontSizeLabel={14}
+                            fontWeightLabel={500}
+                        />
                     </Form.Item>
                     <div className={styles.forgot}>
                         <Text onClick={() => navigate(forgotPasswordUrl)} className={styles.forgot_title}>

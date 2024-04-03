@@ -1,4 +1,3 @@
-import { ButtonConfig } from "@/components";
 import styles from "./Employee.module.scss";
 import { DeleteOutlined, FileAddOutlined, SearchOutlined } from "@ant-design/icons";
 import { Input } from "@mantine/core";
@@ -7,6 +6,7 @@ import { TableEmployee } from "../components/TableEmployee";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { addnewemployeeUrl } from "@/routes/urls";
+import { ButtonConfigMui } from "@/components";
 
 const {Text} = Typography;
 
@@ -27,7 +27,7 @@ export function Employee() {
             <div className={styles.table_wrapper}>
                 <Row justify={'space-between'} align={'middle'}>
                     <Col span={4} push={20} className={styles.actions}>
-                        <ButtonConfig
+                        <ButtonConfigMui
                             label={"Add"}
                             with="130px"
                             background="var(--button-color-light-blue)"
@@ -39,7 +39,7 @@ export function Employee() {
                             leftIcon={<FileAddOutlined />}
                             onClick={() => navigate(addnewemployeeUrl)}
                         />
-                        <ButtonConfig
+                        <ButtonConfigMui                            
                             label={"Delete"}
                             with="130px"
                             background="var(--button-color-light-crimson)"
@@ -48,7 +48,7 @@ export function Employee() {
                             border="none"
                             fontSizeLabel={14}
                             fontWeightLabel={500}
-                            leftIcon={<DeleteOutlined />}
+                            leftIcon={<DeleteOutlined style={{fontSize: "15px"}}/>}
                         />
                     </Col>
                 </Row>

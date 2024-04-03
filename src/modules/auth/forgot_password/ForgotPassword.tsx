@@ -1,9 +1,10 @@
-import { Button, Form, Input, Typography } from "antd";
+import { Form, Input, Typography } from "antd";
 import styles from "./ForgotPassword.module.scss";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { signinUrl } from "../../../routes/urls";
 import { LabelConfig } from "../conponents/LabelConfig";
+import { ButtonConfigMui } from "@/components";
 
 const { Title, Text } = Typography;
 
@@ -50,11 +51,14 @@ export function ForgotPassword() {
                     </Form.Item>
 
                     <Form.Item wrapperCol={{ offset: 1, span: 22, }}>
-                        <Button className={styles.button} htmlType="submit">
-                            <Title level={5} className={styles.title_button}>
-                                {t("auth.forgot_password.label_button")}
-                            </Title>
-                        </Button>
+                        <ButtonConfigMui
+                            label={t("auth.forgot_password.label_button")}
+                            background="var(--button-color-dark-blue)"
+                            colorLabel="white"
+                            border="none"
+                            fontSizeLabel={14}
+                            fontWeightLabel={500}
+                        />
                     </Form.Item>
                     <div className={styles.forgot}>
                         <Text onClick={() => navigate(signinUrl)} className={styles.forgot_title}>

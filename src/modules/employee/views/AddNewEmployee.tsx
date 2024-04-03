@@ -1,26 +1,27 @@
 import { Col, Row, Typography, Tabs } from "antd";
 import styles from "./Employee.module.scss";
-import { ButtonConfig } from "@/components";
 import { useTranslation } from "react-i18next";
 import type { TabsProps } from 'antd';
 import { useState } from "react";
+import { ButtonConfigMui } from "@/components";
 
 const { Text } = Typography;
 
 export function AddNewEmployee() {
 
     const { t } = useTranslation();
-    const [activeTab, setActiveTab] = useState<string>();
+    const [activeTab, setActiveTab] = useState<string>("1");
 
     const ConfigButtonTab = (label: string, key: string) => {
-        return <ButtonConfig 
+        return <ButtonConfigMui
             label={label}
             background={activeTab === key ? "var(--button-color-dark-blue)" : "var(--button-color-light-blue)"}
             colorLabel={activeTab === key ? "white" : "var(--button-color-dark-blue)"}
             fontWeightLabel={500}
-            fontSizeLabel={"16px"}
+            fontSizeLabel={"14px"}
             height={45}
             border="none"
+            padding="5px 30px"
         />
     }
 
@@ -63,7 +64,7 @@ export function AddNewEmployee() {
                     <Text className={styles.label_main}>Employee Management</Text>
                 </Col>
                 <Col span={2}>
-                    <ButtonConfig 
+                    <ButtonConfigMui
                         label={"Add"}
                         background="var(--button-color-dark-black)"
                         colorLabel="white"

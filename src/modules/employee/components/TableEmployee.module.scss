@@ -1,4 +1,9 @@
 .container{
     height: 650px;
     width: 100%;
+
+    .table_main{
+        height: 600px;
+        overflow: auto;
+    }
 }

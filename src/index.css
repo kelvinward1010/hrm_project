@@ -50,6 +50,9 @@
 
   --button-color-dark-teal: #69D9C1;
   --button-color-light-teal: #D2F7ED78;
+
+  --color-checked: #30A46C;
+  --color-cell-selected: #EDF6FF;
 }
 
 .drop .ant-dropdown-menu{
@@ -69,4 +72,19 @@
 
 .ant-tabs-tab{
   margin: 0 0 0 10px !important;
+}
+
+/*Check box table*/
+.table_employyee .ant-checkbox-checked .ant-checkbox-inner{
+  background-color: var(--color-checked) !important;
+  border-color: var(--color-checked) !important;
+}
+
+.table_employyee .ant-checkbox-indeterminate .ant-checkbox-inner::after{
+  background-color: var(--color-checked) !important;
+  border-color: var(--color-checked) !important;
+}
+
+.table_employyee .ant-table-wrapper .ant-table-tbody .ant-table-row.ant-table-row-selected >.ant-table-cell{
+  background: var(--color-cell-selected) !important;
 }
