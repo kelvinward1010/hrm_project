@@ -1,9 +1,9 @@
 import { Typography } from "antd";
 import styles from "./Navbar.module.scss";
 import { NavLink } from "@mantine/core";
-import { IconCalendarCog } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { employeeUrl } from "@/routes/urls";
+import { EmployeeIcon } from "@/assets/svg";
 
 const { Title } = Typography;
 
@@ -16,7 +16,7 @@ function Navbar() {
                 color="lime.4"
                 label="Employee Management" 
                 className={styles.navlink}
-                leftSection={<IconCalendarCog className={styles.icon_calender}/>}
+                leftSection={<img src={EmployeeIcon} alt="employee-icon"/>}
                 onClick={() => navigate(employeeUrl)}
             />
         </div>

@@ -58,10 +58,15 @@
   padding: 10px;
 }
 
+/*Tabs*/
 .ant-tabs-top >.ant-tabs-nav::before{
   border: none;
 }
 
 .ant-tabs-ink-bar-animated{
   display: none;
+}
+
+.ant-tabs-tab{
+  margin: 0 0 0 10px !important;
 }
