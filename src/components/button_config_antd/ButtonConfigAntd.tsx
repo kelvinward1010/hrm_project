@@ -14,6 +14,7 @@ interface ButtonConfigProps{
     color?: string;
     m?: string;
     border?: string;
+    padding?: string;
 }
 
 const { Text } = Typography;
@@ -29,6 +30,7 @@ export function ButtonConfigAntd(props: ButtonConfigProps) {
                 color: `${props.color}`,
                 margin: `${props.m}`,
                 border: `${props.border}`,
+                padding: `${props.padding}`,
             }}
         >
             {props.leftIcon}

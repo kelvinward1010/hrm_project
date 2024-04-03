@@ -4,8 +4,9 @@ import { Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import "./style.css";
 import { Logo } from "@/assets/svg";
+import { TextLicense } from "@/components";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 export function Auth() {
     const { t } = useTranslation();
@@ -21,9 +22,7 @@ export function Auth() {
             </Title>
             <div className={styles.main}>
                 <Outlet />
-                <Text>
-                    {t("auth.cs")}
-                </Text>
+                <TextLicense />
             </div>
         </div>
     )

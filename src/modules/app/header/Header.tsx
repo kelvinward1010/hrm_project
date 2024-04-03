@@ -28,7 +28,7 @@ function Header() {
                             items,
                         }}
                         trigger={['click']}
-                        className={styles.head}
+                        className={"head"}
                     >
                         <Avatar style={{cursor: "pointer"}} icon={<UserOutlined />}/>
                     </Dropdown>

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { signinUrl } from "../../../routes/urls";
 import { LabelConfig } from "../conponents/LabelConfig";
-import { ButtonConfigMui } from "@/components";
+import { ButtonConfigAntd } from "@/components";
 
 const { Title, Text } = Typography;
 
@@ -51,7 +51,7 @@ export function ForgotPassword() {
                     </Form.Item>
 
                     <Form.Item wrapperCol={{ offset: 1, span: 22, }}>
-                        <ButtonConfigMui
+                        <ButtonConfigAntd
                             label={t("auth.forgot_password.label_button")}
                             background="var(--button-color-dark-blue)"
                             colorLabel="white"

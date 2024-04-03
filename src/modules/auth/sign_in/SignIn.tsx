@@ -6,7 +6,7 @@ import { forgotPasswordUrl } from "../../../routes/urls";
 import { FACTORY_CONFIG } from "./types";
 import { LabelConfig } from "../conponents/LabelConfig";
 import { Notification } from "@/components/notification/Notification";
-import { ButtonConfigMui } from "@/components";
+import { ButtonConfigAntd } from "@/components";
 
 const { Title, Text } = Typography;
 
@@ -86,7 +86,7 @@ export function SignIn() {
                     </Form.Item>
 
                     <Form.Item wrapperCol={{ offset: 1, span: 22, }}>
-                        <ButtonConfigMui
+                        <ButtonConfigAntd
                             label={t("auth.sign_in.name")}
                             background="var(--button-color-dark-blue)"
                             colorLabel="white"

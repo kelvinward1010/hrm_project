@@ -74,7 +74,7 @@
   margin: 0 0 0 10px !important;
 }
 
-/*Check box table*/
+/*table*/
 .table_employyee .ant-checkbox-checked .ant-checkbox-inner{
   background-color: var(--color-checked) !important;
   border-color: var(--color-checked) !important;
@@ -87,4 +87,14 @@
 
 .table_employyee .ant-table-wrapper .ant-table-tbody .ant-table-row.ant-table-row-selected >.ant-table-cell{
   background: var(--color-cell-selected) !important;
+}
+
+
+/*action acc*/
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item{
+  cursor: default !important;
+}
+
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item-active:hover{
+  background-color: white !important;
 }

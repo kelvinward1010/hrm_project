@@ -22,5 +22,8 @@
             "title_button": "Confirm"
         },
         "cs": "Copyright © 2022. All Rights Reserved"
+    },
+    "features": {
+        "name": "Employee Management"
     }
 }

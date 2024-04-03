@@ -6,7 +6,7 @@ import { TableEmployee } from "../components/TableEmployee";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { addnewemployeeUrl } from "@/routes/urls";
-import { ButtonConfigMui } from "@/components";
+import { ButtonConfigAntd, TextLicense } from "@/components";
 
 const {Text} = Typography;
 
@@ -18,7 +18,7 @@ export function Employee() {
         <div className={styles.container}>
             <Row justify={'space-between'} align={'middle'}>
                 <Col span={10}>
-                    <Text className={styles.label_main}>Employee Management</Text>
+                    <Text className={styles.label_main}>{t("features.name")}</Text>
                 </Col>
                 <Col span={4}>
                     <Input placeholder="Search" leftSection={<SearchOutlined size={16} />} />
@@ -27,7 +27,7 @@ export function Employee() {
             <div className={styles.table_wrapper}>
                 <Row justify={'space-between'} align={'middle'}>
                     <Col span={4} push={20} className={styles.actions}>
-                        <ButtonConfigMui
+                        <ButtonConfigAntd
                             label={"Add"}
                             with="130px"
                             background="var(--button-color-light-blue)"
@@ -39,7 +39,7 @@ export function Employee() {
                             leftIcon={<FileAddOutlined />}
                             onClick={() => navigate(addnewemployeeUrl)}
                         />
-                        <ButtonConfigMui                            
+                        <ButtonConfigAntd                     
                             label={"Delete"}
                             with="130px"
                             background="var(--button-color-light-crimson)"
@@ -55,13 +55,7 @@ export function Employee() {
                 <div className={styles.row_1}/>
                 <TableEmployee />
             </div>
-            <Row justify={'center'}>
-                <Col>
-                    <Text>
-                        {t("auth.cs")}
-                    </Text>
-                </Col>
-            </Row>
+            <TextLicense />
         </div>
     )
 }

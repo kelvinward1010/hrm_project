@@ -3,7 +3,7 @@ import styles from "./Employee.module.scss";
 import { useTranslation } from "react-i18next";
 import type { TabsProps } from 'antd';
 import { useState } from "react";
-import { ButtonConfigMui } from "@/components";
+import { ButtonConfigAntd, TextLicense } from "@/components";
 
 const { Text } = Typography;
 
@@ -13,7 +13,7 @@ export function AddNewEmployee() {
     const [activeTab, setActiveTab] = useState<string>("1");
 
     const ConfigButtonTab = (label: string, key: string) => {
-        return <ButtonConfigMui
+        return <ButtonConfigAntd
             label={label}
             background={activeTab === key ? "var(--button-color-dark-blue)" : "var(--button-color-light-blue)"}
             colorLabel={activeTab === key ? "white" : "var(--button-color-dark-blue)"}
@@ -61,15 +61,16 @@ export function AddNewEmployee() {
         <div className={styles.container}>
             <Row justify={'space-between'} align={'middle'}>
                 <Col span={10}>
-                    <Text className={styles.label_main}>Employee Management</Text>
+                    <Text className={styles.label_main}>{t("features.name")}</Text>
                 </Col>
                 <Col span={2}>
-                    <ButtonConfigMui
+                    <ButtonConfigAntd
                         label={"Add"}
                         background="var(--button-color-dark-black)"
                         colorLabel="white"
                         height={40}
                         with="80px"
+                        border="none"
                     />
                 </Col>
             </Row>
@@ -82,13 +83,7 @@ export function AddNewEmployee() {
                 />
             </div>
 
-            <Row justify={'center'}>
-                <Col>
-                    <Text>
-                        {t("auth.cs")}
-                    </Text>
-                </Col>
-            </Row>
+            <TextLicense />
         </div>
     )
 }

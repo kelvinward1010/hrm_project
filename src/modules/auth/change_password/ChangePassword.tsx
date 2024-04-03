@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
 import styles from "./ChangePassword.module.scss";
-import { Button, Form, Input, notification, Typography } from "antd";
+import { Form, Input, notification, Typography } from "antd";
 import { LabelConfig } from "../conponents/LabelConfig";
+import { ButtonConfigAntd } from "@/components";
 
 const { Title } = Typography;
 
@@ -62,11 +63,14 @@ export function ChangePassword() {
                     </Form.Item>
 
                     <Form.Item wrapperCol={{ offset: 1, span: 22, }}>
-                        <Button className={styles.button} htmlType="submit">
-                            <Title level={5} className={styles.title_button}>
-                                {t("auth.change_password.title_button")}
-                            </Title>
-                        </Button>
+                        <ButtonConfigAntd
+                            label={t("auth.change_password.title_button")}
+                            background="var(--button-color-dark-blue)"
+                            colorLabel="white"
+                            border="none"
+                            fontSizeLabel={14}
+                            fontWeightLabel={500}
+                        />
                     </Form.Item>
                 </Form>
             </div>
