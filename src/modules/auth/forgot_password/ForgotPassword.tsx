@@ -41,7 +41,6 @@ export function ForgotPassword() {
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.email")} />}
                         name="email"
-                        className={styles.item_input}
                         rules={[
                             { required: true, message: 'Please input your email!' }, 
                             {max: 30, message: "Email must be at maximuns 30 characters"}
@@ -58,6 +57,7 @@ export function ForgotPassword() {
                             border="none"
                             fontSizeLabel={14}
                             fontWeightLabel={500}
+                            height={40}
                         />
                     </Form.Item>
                     <div className={styles.forgot}>

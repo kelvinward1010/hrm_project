@@ -43,20 +43,29 @@ export function ChangePassword() {
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.newpassword")} />}
                         name="newpassword"
-                        className={styles.item_input}
                         rules={[
                             { required: true, message: 'Please input your password!' },
                         ]}
                     >
-                        <Input className={"input_auth"}/>
+                        <Input.Password className={"input_auth"}/>
                     </Form.Item>
 
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.confirmpassword")} />}
                         name="confirmpassword"
-                        className={styles.item_input}
                         rules={[
-                            { required: true, message: 'Please input your confirm password!' }
+                            {
+                                required: true,
+                                message: 'Please confirm your password!',
+                            },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (!value || getFieldValue('newpassword') === value) {
+                                        return Promise.resolve();
+                                    }
+                                    return Promise.reject(new Error('The new password that you entered do not match!'));
+                                },
+                            }),
                         ]}
                     >
                         <Input.Password className={"input_auth"}/>
@@ -70,6 +79,7 @@ export function ChangePassword() {
                             border="none"
                             fontSizeLabel={14}
                             fontWeightLabel={500}
+                            height={40}
                         />
                     </Form.Item>
                 </Form>

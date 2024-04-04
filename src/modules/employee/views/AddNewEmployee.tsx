@@ -4,6 +4,13 @@ import { useTranslation } from "react-i18next";
 import type { TabsProps } from 'antd';
 import { useState } from "react";
 import { ButtonConfigAntd, TextLicense } from "@/components";
+import { 
+    ContractInfomation, 
+    EmployeeInfomation, 
+    EmploymentDetails,
+    Others,
+    SalaryAndWages
+} from "../components/add_new_employee";
 
 const { Text } = Typography;
 
@@ -28,28 +35,28 @@ export function AddNewEmployee() {
     const items: TabsProps['items'] = [
         {
           key: '1',
-          label: ConfigButtonTab("Employee Infomation", "1"),
-          children: 'Content of Tab Pane 1',
+          label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab1"), "1"),
+          children: <EmployeeInfomation />,
         },
         {
           key: '2',
-          label: ConfigButtonTab("Contract Information", "2"),
-          children: 'Content of Tab Pane 2',
+          label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab2"), "2"),
+          children: <ContractInfomation />,
         },
         {
           key: '3',
-          label: ConfigButtonTab("Employment Details", "3"),
-          children: 'Content of Tab Pane 3',
+          label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab3"), "3"),
+          children: <EmploymentDetails />,
         },
         {
             key: '4',
-            label: ConfigButtonTab("Salary & Wages", "4"),
-            children: 'Content of Tab Pane 4',
+            label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab4"), "4"),
+            children: <SalaryAndWages />,
         },
         {
             key: '5',
-            label: ConfigButtonTab("Others", "5"),
-            children: 'Content other",'
+            label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab5"), "5"),
+            children: <Others />,
         }
     ];
 
@@ -65,7 +72,7 @@ export function AddNewEmployee() {
                 </Col>
                 <Col span={2}>
                     <ButtonConfigAntd
-                        label={"Add"}
+                        label={t("features.employee.features_add_new.lable_add")}
                         background="var(--button-color-dark-black)"
                         colorLabel="white"
                         height={40}
@@ -83,7 +90,7 @@ export function AddNewEmployee() {
                 />
             </div>
 
-            <TextLicense />
+            <TextLicense/>
         </div>
     )
 }

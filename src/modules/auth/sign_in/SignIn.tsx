@@ -50,7 +50,6 @@ export function SignIn() {
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.email")} />}
                         name="username"
-                        className={styles.item_input}
                         rules={[
                             { required: true, message: 'Please input your username!' }, 
                             {max: 30, message: "Username must be at maximuns 30 characters"}
@@ -62,7 +61,6 @@ export function SignIn() {
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.password")} />}
                         name="password"
-                        className={styles.item_input}
                         rules={[
                             { required: true, message: 'Please input your password!' }
                         ]}
@@ -73,7 +71,6 @@ export function SignIn() {
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.factory")} />}
                         name="factory"
-                        className={styles.item_input}
                         rules={[
                             { required: true, message: 'Please input your factory!' }
                         ]}
@@ -93,6 +90,7 @@ export function SignIn() {
                             border="none"
                             fontSizeLabel={14}
                             fontWeightLabel={500}
+                            height={40}
                         />
                     </Form.Item>
                     <div className={styles.forgot}>

@@ -24,6 +24,27 @@
         "cs": "Copyright © 2022. All Rights Reserved"
     },
     "features": {
-        "name": "Employee Management"
+        "name": "Employee Management",
+        "employee": {
+            "lable_add": "Add",
+            "lable_delete": "Delete",
+            "features_add_new": {
+                "lable_add": "Add",
+                "tabs": {
+                    "tab1": "Employee Information",
+                    "tab2": "Contract Information",
+                    "tab3": "Employment Details",
+                    "tab4": "Salary & Wages",
+                    "tab5": "Others"
+                },
+                "titleall": {
+                    "title1": "Personal Information",
+                    "title2": "Contract Information",
+                    "title3": "Employment Details",
+                    "title4": "Salary & Wages",
+                    "title5": "Others"
+                }
+            }
+        }
     }
 }

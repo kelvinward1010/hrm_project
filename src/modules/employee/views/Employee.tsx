@@ -28,7 +28,7 @@ export function Employee() {
                 <Row justify={'space-between'} align={'middle'}>
                     <Col span={4} push={20} className={styles.actions}>
                         <ButtonConfigAntd
-                            label={"Add"}
+                            label={t("features.employee.lable_add")}
                             with="130px"
                             background="var(--button-color-light-blue)"
                             colorLabel="var(--button-color-dark-blue)"
@@ -40,7 +40,7 @@ export function Employee() {
                             onClick={() => navigate(addnewemployeeUrl)}
                         />
                         <ButtonConfigAntd                     
-                            label={"Delete"}
+                            label={t("features.employee.lable_delete")}
                             with="130px"
                             background="var(--button-color-light-crimson)"
                             colorLabel="var(--button-color-dark-crimson)"
