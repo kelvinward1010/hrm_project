@@ -1,9 +1,13 @@
 import { TitleAll } from "./TitleAll";
 import styles from "./EmployeeInfomation.module.scss";
 import { useTranslation } from "react-i18next";
-import { Col, Form, Input, Row } from "antd";
+import { Col, DatePicker, Form, Input, Row, Select } from "antd";
 import { useState } from "react";
 import { Notification } from "@/components/notification/Notification";
+import { GENDER_CONFIG } from "../../types";
+
+
+const dateFormat = 'YYYY/MM/DD';
 
 const formItemLayout = {
     labelCol: {
@@ -35,7 +39,23 @@ export function EmployeeInfomation() {
     const { t } = useTranslation();
     const [fields, setFields] = useState<FieldData[]>([
         {
-            name: ['nik'],
+            name: ['name'],
+            value: "",
+        },
+        {
+            name: ['gender'],
+            value: "",
+        },
+        {
+            name: ['mother_name'],
+            value: "",
+        },
+        {
+            name: ['dob'],
+            value: "",
+        },
+        {
+            name: ['pob'],
             value: "",
         },
         {
@@ -43,6 +63,8 @@ export function EmployeeInfomation() {
             value: "",
         },
     ]);
+
+    console.log(fields)
 
     const onFinish = (values: any) => {
         const data = {
@@ -81,7 +103,7 @@ export function EmployeeInfomation() {
 
 const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFailure, onSubmit }) => (
     <Form
-        name="profile"
+        name="add_new_employee"
         {...formItemLayout}
         fields={fields}
         onFieldsChange={(_, allFields) => {
@@ -90,17 +112,56 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
         onFinish={onSubmit}
         onFinishFailed={onFailure}
         initialValues={{
-            "nik": fields.find(value => value?.value != null && value?.name == "nik")?.value,
+            "name": fields.find(value => value?.value != null && value?.name == "name")?.value,
+            "gender": fields.find(value => value?.value != null && value?.name == "gender")?.value,
+            "mother_name": fields.find(value => value?.value != null && value?.name == "mother_name")?.value,
+            "dob": fields.find(value => value?.value != null && value?.name == "dob")?.value,
+            "pob": fields.find(value => value?.value != null && value?.name == "pob")?.value,
             "mobile": fields.find(value => value?.value != null && value?.name == "mobile")?.value,
         }}
         className={styles.formmain}
+        autoComplete="off"
     >
         <Row justify={'space-between'}>
             <Col span={11}>
                 <Form.Item
-                    name="nik"
-                    label="NIK :"
-                    rules={[{message: 'NIK is required!' }]}
+                    name="name"
+                    label="Name :"
+                    rules={[{required: true, message: 'Name is required!' }]}
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
+                <Form.Item
+                    name="gender"
+                    label="Gender :"
+                    rules={[{required: true, message: 'Gender is required!' }]}
+                >
+                    <Select
+                        options={GENDER_CONFIG}
+                        placeholder="Choose Gender"
+                        className="select_fix"
+                    />
+                </Form.Item>
+                <Form.Item
+                    name="mother_name"
+                    label="Mother name :"
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
+                <Form.Item
+                    name="dob"
+                    label="Date of birth :"
+                    rules={[{required: true, message: 'Date of birth is required!' }]}
+                >
+                    <DatePicker
+                        format={dateFormat} 
+                        placeholder="Select day of birth"
+                        className={"date_picker"}
+                    />
+                </Form.Item>
+                <Form.Item
+                    name="pob"
+                    label="Place of birth :"
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
@@ -109,7 +170,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
                 <Form.Item
                     name="mobile"
                     label="Mobile No :"
-                    rules={[{message: 'Mobile is required!' }]}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>

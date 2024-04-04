@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import styles from "./Header.module.scss";
 import { Avatar, Dropdown, Flex, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { ActionAcc } from "./ActionAcc";
+import { ActionAcc } from "./components/ActionAcc";
 import { Logo } from "@/assets/svg";
 
 const { Text } = Typography;

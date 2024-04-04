@@ -78,7 +78,7 @@ export function SignIn() {
                         <Select
                             options={FACTORY_CONFIG}
                             placeholder="Select factory"
-                            className="select_signin"
+                            className="select_fix"
                         />
                     </Form.Item>
 

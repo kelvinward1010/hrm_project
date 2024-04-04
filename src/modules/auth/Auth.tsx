@@ -2,7 +2,6 @@ import styles from "./Auth.module.scss";
 import { Outlet } from "react-router-dom";
 import { Typography } from "antd";
 import { useTranslation } from "react-i18next";
-import "./style.css";
 import { Logo } from "@/assets/svg";
 import { TextLicense } from "@/components";
 
@@ -20,7 +19,7 @@ export function Auth() {
             <Title>
                 {t("name_app")}
             </Title>
-            <div className={styles.main}>
+            <div className={`${styles.main} auth_main`}>
                 <Outlet />
                 <TextLicense />
             </div>
