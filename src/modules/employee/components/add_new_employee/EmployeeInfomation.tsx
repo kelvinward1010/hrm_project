@@ -12,11 +12,11 @@ const dateFormat = 'YYYY/MM/DD';
 const formItemLayout = {
     labelCol: {
         xs: { span: 24 },
-        sm: { span: 4 },
+        sm: { span: 5 },
     },
     wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 20 },
+        sm: { span: 19 },
     },
 };
 
@@ -33,43 +33,72 @@ interface CustomizedFormProps {
     fields: FieldData[];
     onSubmit: (data: any) => void;
     onFailure: (data: any) => void;
+    t?: any;
 }
 
 export function EmployeeInfomation() {
     const { t } = useTranslation();
     const [fields, setFields] = useState<FieldData[]>([
         {
-            name: ['name'],
-            value: "",
+            name: ['name'], value: "",
         },
         {
-            name: ['gender'],
-            value: "",
+            name: ['gender'], value: "",
         },
         {
-            name: ['mother_name'],
-            value: "",
+            name: ['mother_name'], value: "",
         },
         {
-            name: ['dob'],
-            value: "",
+            name: ['dob'], value: "",
         },
         {
-            name: ['pob'],
-            value: "",
+            name: ['pob'], value: "",
         },
         {
-            name: ['mobile'],
-            value: "",
+            name: ['ktp_no'], value: "",
+        },
+        {
+            name: ['nc_id'], value: "",
+        },
+        {
+            name: ['home_address_1'], value: "",
+        },
+        {
+            name: ['home_address_2'], value: "",
+        },
+        {
+            name: ['mobile_no'],value: "",
+        },
+        {
+            name: ['tel_no'],value: "",
+        },
+        {
+            name: ['marriage_id'],value: "",
+        },
+        {
+            name: ['card_number'],value: "",
+        },
+        {
+            name: ['bank_account_no'],value: "",
+        },
+        {
+            name: ['bank_name'],value: "",
+        },
+        {
+            name: ['family_card_number'],value: "",
+        },
+        {
+            name: ['safety_insurance_no'],value: "",
+        },
+        {
+            name: ['health_insurance_no'],value: "",
         },
     ]);
 
-    console.log(fields)
-
     const onFinish = (values: any) => {
         const data = {
-            nik: values.nik,
-            mobile: values.mobile,
+            name: values.name,
+            gender: values.gender,
         }
         Notification({
             message: "Created OK",
@@ -95,15 +124,16 @@ export function EmployeeInfomation() {
                 }}
                 onFailure={(error: any) => onFinishFailed(error)}
                 onSubmit={(values: any) => onFinish(values)}
+                t={t}
             />
         </div>
     )
 }
 
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFailure, onSubmit }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFailure, onSubmit, t }) => (
     <Form
-        name="add_new_employee"
+        name="employee_information"
         {...formItemLayout}
         fields={fields}
         onFieldsChange={(_, allFields) => {
@@ -117,23 +147,35 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
             "mother_name": fields.find(value => value?.value != null && value?.name == "mother_name")?.value,
             "dob": fields.find(value => value?.value != null && value?.name == "dob")?.value,
             "pob": fields.find(value => value?.value != null && value?.name == "pob")?.value,
-            "mobile": fields.find(value => value?.value != null && value?.name == "mobile")?.value,
+            "ktp_no": fields.find(value => value?.value != null && value?.name == "ktp_no")?.value,
+            "nc_id": fields.find(value => value?.value != null && value?.name == "nc_id")?.value,
+            "home_address_1": fields.find(value => value?.value != null && value?.name == "home_address_1")?.value,
+            "home_address_2": fields.find(value => value?.value != null && value?.name == "home_address_2")?.value,
+            "mobile_no": fields.find(value => value?.value != null && value?.name == "mobile_no")?.value,
+            "tel_no": fields.find(value => value?.value != null && value?.name == "tel_no")?.value,
+            "marriage_id": fields.find(value => value?.value != null && value?.name == "marriage_id")?.value,
+            "card_number": fields.find(value => value?.value != null && value?.name == "card_number")?.value,
+            "bank_account_no": fields.find(value => value?.value != null && value?.name == "bank_account_no")?.value,
+            "bank_name": fields.find(value => value?.value != null && value?.name == "bank_name")?.value,
+            "family_card_number": fields.find(value => value?.value != null && value?.name == "family_card_number")?.value,
+            "safety_insurance_no": fields.find(value => value?.value != null && value?.name == "safety_insurance_no")?.value,
+            "health_insurance_no": fields.find(value => value?.value != null && value?.name == "health_insurance_no")?.value,
         }}
         className={styles.formmain}
         autoComplete="off"
     >
-        <Row justify={'space-between'}>
-            <Col span={11}>
+        <Row justify={'space-between'} wrap>
+            <Col span={11} className={styles.row_fix}>
                 <Form.Item
                     name="name"
-                    label="Name :"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_name")}
                     rules={[{required: true, message: 'Name is required!' }]}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
                     name="gender"
-                    label="Gender :"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_gender")}
                     rules={[{required: true, message: 'Gender is required!' }]}
                 >
                     <Select
@@ -144,32 +186,107 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
                 </Form.Item>
                 <Form.Item
                     name="mother_name"
-                    label="Mother name :"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_mother_name")}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
                     name="dob"
-                    label="Date of birth :"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_date_of_birth")}
                     rules={[{required: true, message: 'Date of birth is required!' }]}
                 >
                     <DatePicker
                         format={dateFormat} 
                         placeholder="Select day of birth"
                         className={"date_picker"}
+                        size={'large'}
                     />
                 </Form.Item>
                 <Form.Item
                     name="pob"
-                    label="Place of birth :"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_place_of_birth")}
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
+                <Form.Item
+                    name="ktp_no"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_ktp_no")}
+                    rules={[{required: true, message: 'KTP No is required!' }]}
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
+                <Form.Item
+                    name="nc_id"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_national_card_id")}
+                    rules={[{required: true, message: 'National Card ID is required!' }]}
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
+                <Form.Item
+                    name="home_address_1"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_home_address_1")}
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
+                <Form.Item
+                    name="home_address_2"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_home_address_2")}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={12} className={styles.row_fix}>
                 <Form.Item
-                    name="mobile"
-                    label="Mobile No :"
+                    name="mobile_no"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_mobile_no")}
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
+                <Form.Item
+                    name="tel_no"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_tel_no")}
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
+                <Form.Item
+                    name="marriage_id"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_marriage_status")}
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
+                <Form.Item
+                    name="card_number"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_bank_card_no")}
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
+                <Form.Item
+                    name="bank_account_no"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_bank_account_no")}
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
+                <Form.Item
+                    name="bank_name"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_bank_name")}
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
+                <Form.Item
+                    name="family_card_number"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_family_card_name")}
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
+                <Form.Item
+                    name="safety_insurance_no"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_safety_insurance_no")}
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
+                <Form.Item
+                    name="health_insurance_no"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_health_insurance_no")}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>

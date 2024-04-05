@@ -43,6 +43,30 @@
                     "title3": "Employment Details",
                     "title4": "Salary & Wages",
                     "title5": "Others"
+                },
+                "employee_infomation": {
+                    "lable_input_name": "Name: ",
+                    "lable_input_gender": "Gender: ",
+                    "lable_input_mother_name": "Mother name: ",
+                    "lable_input_date_of_birth": "Date of birth: ",
+                    "lable_input_place_of_birth": "Place of birth: ",
+                    "lable_input_ktp_no": "KTP No: ",
+                    "lable_input_national_card_id": "National Card ID: ",
+                    "lable_input_home_address_1": "Home Address 1: ",
+                    "lable_input_home_address_2": "Home Address 2: ",
+                    "lable_input_mobile_no": "Mobile No:",
+                    "lable_input_tel_no": "Tel No: ",
+                    "lable_input_marriage_status": "Marriage Status: ",
+                    "lable_input_bank_card_no": "Bank Card No: ",
+                    "lable_input_bank_account_no": "Bank Account No: ",
+                    "lable_input_bank_name": "Bank Name: ",
+                    "lable_input_family_card_name": "Family Card Name: ",
+                    "lable_input_safety_insurance_no": "Safety Insurance No: ",
+                    "lable_input_health_insurance_no": "Health insurance No: "
+                },
+                "contract_infomation": {
+                    "lable_input_date_start": "Date Start: ",
+                    "lable_input_employee_type": "Employee Type: "
                 }
             }
         }

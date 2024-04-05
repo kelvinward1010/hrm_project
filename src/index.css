@@ -114,3 +114,22 @@
 .anticon-calendar{
   color: #30A46C;
 }
+
+.ant-picker-date-panel{
+  width: 400px !important;
+}
+
+.ant-picker-cell-inner{
+  border-radius: 50% !important;
+}
+
+.ant-picker-now-btn{
+  display: none;
+}
+
+.ant-picker-content th{
+  background-color: var(--button-color-light-green) !important;
+  color: var(--button-color-dark-green) !important;
+  border-radius: 5px;
+  margin: 0 5px !important;
+}
