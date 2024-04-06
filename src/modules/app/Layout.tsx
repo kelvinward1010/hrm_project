@@ -5,10 +5,12 @@ import Header from './header/Header';
 import Navbar from './navbar/Navbar';
 import { breadcrumbNameMap } from '@/routes/urls';
 import { Breadcrumb, Typography } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 export function Layout() {
-    const [opened, { toggle }] = useDisclosure();
 
+    const { t } = useTranslation();
+    const [opened, { toggle }] = useDisclosure();
     const location = useLocation();
 
     const pathSnippets = location.pathname.split("/").filter((i) => i);
@@ -21,7 +23,7 @@ export function Layout() {
 
     const configBreadcrumItems = [
         {
-            title: <Typography.Text>General</Typography.Text>
+            title: <Typography.Text>{t("nav.lable_main")}</Typography.Text>
         },
         ...breadcrumbItems
     ]

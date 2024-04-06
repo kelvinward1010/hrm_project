@@ -3,6 +3,7 @@
     "auth": {
         "label": {
             "email": "Email:",
+            "username": "Username:",
             "password": "Password:",
             "factory": "Factory:",
             "newpassword": "New Password:",
@@ -22,6 +23,9 @@
             "title_button": "Confirm"
         },
         "cs": "Copyright © 2022. All Rights Reserved"
+    },
+    "nav": {
+        "lable_main": "General"
     },
     "features": {
         "name": "Employee Management",

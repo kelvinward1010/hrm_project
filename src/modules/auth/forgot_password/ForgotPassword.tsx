@@ -2,7 +2,7 @@ import { Form, Input, Typography } from "antd";
 import styles from "./ForgotPassword.module.scss";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { signinUrl } from "../../../routes/urls";
+import { changepasswordUrl, signinUrl } from "../../../routes/urls";
 import { LabelConfig } from "../conponents/LabelConfig";
 import { ButtonConfigAntd } from "@/components";
 
@@ -22,6 +22,7 @@ export function ForgotPassword() {
             email: values.email,
         }
         console.log(data)
+        navigate(changepasswordUrl)
     };
 
     return (
@@ -58,6 +59,7 @@ export function ForgotPassword() {
                             fontSizeLabel={14}
                             fontWeightLabel={500}
                             height={40}
+                            htmlType={'submit'}
                         />
                     </Form.Item>
                     <div className={styles.forgot}>

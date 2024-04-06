@@ -14,7 +14,9 @@ function Navbar() {
 
     return (
         <div className={styles.container}>
-            <Title level={2} className={styles.offall}>General</Title>
+            <Title level={2} className={styles.offall}>
+                {t("nav.lable_main")}
+            </Title>
             <NavLink 
                 color="lime.4"
                 label={t("features.name")}

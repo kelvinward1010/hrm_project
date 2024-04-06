@@ -9,7 +9,7 @@ import { COLOR_AVATAR_CONFIG, OPTIONS_LANGUAGES } from "./types";
 const { Text } = Typography;
 
 function Header() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const username = "kelvinward"
 
     const items = [
@@ -18,8 +18,9 @@ function Header() {
             key: '0',
         },
     ]
-    const handleChange = (value: string) => {
-        console.log(`selected ${value}`);
+    const handleChangeLanguages = (value: string) => {
+        i18n.changeLanguage(value);
+        i18n.reloadResources();
     };
 
     return (
@@ -33,7 +34,7 @@ function Header() {
                     <Select
                         defaultValue="en"
                         style={{ width: 120, marginRight: "10px" }}
-                        onChange={handleChange}
+                        onChange={handleChangeLanguages}
                         options={OPTIONS_LANGUAGES}
                     />
                     <Dropdown

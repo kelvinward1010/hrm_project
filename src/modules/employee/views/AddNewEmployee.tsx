@@ -76,7 +76,7 @@ export function AddNewEmployee() {
                         background="var(--button-color-dark-black)"
                         colorLabel="white"
                         height={40}
-                        with="80px"
+                        with="auto"
                         border="none"
                     />
                 </Col>

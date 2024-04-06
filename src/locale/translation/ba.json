@@ -1,3 +1,78 @@
 {
-    
+    "name_app": "HRM Management System",
+    "auth": {
+        "label": {
+            "email": "Email:",
+            "username": "User nama:",
+            "password": "Password:",
+            "factory": "Factory:",
+            "newpassword": "Kata sandi baru:",
+            "confirmpassword": "Konfirmasi sandi:"
+        },
+        "sign_in": {
+            "name": "Sign In",
+            "forgot_password": "Lupa Password?"
+        },
+        "forgot_password":{
+            "name": "Lupa Password",
+            "label_button": "Confirm & Send OTP",
+            "sign_in_text": "Kembali untuk sign in"
+        },
+        "change_password":{
+            "title": "Silakan masukkan kata sandi",
+            "title_button": "Confirm"
+        },
+        "cs": "Copyright © 2022. All Rights Reserved"
+    },
+    "nav": {
+        "lable_main": "UMUM"
+    },
+    "features": {
+        "name": "Data Karyawan",
+        "employee": {
+            "lable_add": "Tambah Data",
+            "lable_delete": "Hapus",
+            "features_add_new": {
+                "lable_add": "Tambah Data",
+                "tabs": {
+                    "tab1": "Infomasi Karyawan",
+                    "tab2": "Infomasi Kontrak Kerja",
+                    "tab3": "Detail Karyawan",
+                    "tab4": "Gaji",
+                    "tab5": "Lain lain"
+                },
+                "titleall": {
+                    "title1": "Informasi karyawan",
+                    "title2": "Informasi kontrak kerja",
+                    "title3": "Detail karyawan",
+                    "title4": "Gaji",
+                    "title5": "Lain lain"
+                },
+                "employee_infomation": {
+                    "lable_input_name": "Name: ",
+                    "lable_input_gender": "Jenis Kelamin: ",
+                    "lable_input_mother_name": "Nama Ibu: ",
+                    "lable_input_date_of_birth": "Tgl lahir: ",
+                    "lable_input_place_of_birth": "Tempat Lahir: ",
+                    "lable_input_ktp_no": "Nomor KTP: ",
+                    "lable_input_national_card_id": "National Card ID: ",
+                    "lable_input_home_address_1": "Alamat Rumah 1: ",
+                    "lable_input_home_address_2": "Alamat Rumah 2: ",
+                    "lable_input_mobile_no": "Nomor HP:",
+                    "lable_input_tel_no": "Nomor Telp: ",
+                    "lable_input_marriage_status": "Status Perkawinan: ",
+                    "lable_input_bank_card_no": "Nomor Kartu Bank: ",
+                    "lable_input_bank_account_no": "Rekening Bank Nomor: ",
+                    "lable_input_bank_name": "Nama Bank: ",
+                    "lable_input_family_card_name": "Nomor Kartu Keluarga: ",
+                    "lable_input_safety_insurance_no": "Nomor Kepesertaan BPJS Ketenagakerjaan: ",
+                    "lable_input_health_insurance_no": "Nomor kepesertaan BPJS Kesehatan: "
+                },
+                "contract_infomation": {
+                    "lable_input_date_start": "Tgl mulai bekerja: ",
+                    "lable_input_employee_type": "Tipe karyawan: "
+                }
+            }
+        }
+    }
 }

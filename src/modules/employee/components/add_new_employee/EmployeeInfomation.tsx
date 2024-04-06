@@ -12,11 +12,11 @@ const dateFormat = 'YYYY/MM/DD';
 const formItemLayout = {
     labelCol: {
         xs: { span: 24 },
-        sm: { span: 5 },
+        sm: { span: 8 },
     },
     wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 19 },
+        sm: { span: 16 },
     },
 };
 

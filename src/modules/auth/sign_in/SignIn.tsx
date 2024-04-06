@@ -48,7 +48,7 @@ export function SignIn() {
                     layout={'vertical'}
                 >
                     <Form.Item<FieldType>
-                        label={<LabelConfig label={t("auth.label.email")} />}
+                        label={<LabelConfig label={t("auth.label.username")} />}
                         name="username"
                         rules={[
                             { required: true, message: 'Please input your username!' }, 
