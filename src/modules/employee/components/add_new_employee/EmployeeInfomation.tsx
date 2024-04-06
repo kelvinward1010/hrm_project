@@ -167,6 +167,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
         <Row justify={'space-between'} wrap>
             <Col span={11} className={styles.row_fix}>
                 <Form.Item
+                    labelAlign={'left'}
                     name="name"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_name")}
                     rules={[{required: true, message: 'Name is required!' }]}
@@ -174,6 +175,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="gender"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_gender")}
                     rules={[{required: true, message: 'Gender is required!' }]}
@@ -185,12 +187,14 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
                     />
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="mother_name"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_mother_name")}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="dob"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_date_of_birth")}
                     rules={[{required: true, message: 'Date of birth is required!' }]}
@@ -203,12 +207,14 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
                     />
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="pob"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_place_of_birth")}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="ktp_no"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_ktp_no")}
                     rules={[{required: true, message: 'KTP No is required!' }]}
@@ -216,6 +222,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="nc_id"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_national_card_id")}
                     rules={[{required: true, message: 'National Card ID is required!' }]}
@@ -223,12 +230,14 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="home_address_1"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_home_address_1")}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="home_address_2"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_home_address_2")}
                 >
@@ -237,54 +246,63 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
             </Col>
             <Col span={12} className={styles.row_fix}>
                 <Form.Item
+                    labelAlign={'left'}
                     name="mobile_no"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_mobile_no")}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="tel_no"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_tel_no")}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="marriage_id"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_marriage_status")}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="card_number"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_bank_card_no")}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="bank_account_no"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_bank_account_no")}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="bank_name"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_bank_name")}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="family_card_number"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_family_card_name")}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="safety_insurance_no"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_safety_insurance_no")}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
                 <Form.Item
+                    labelAlign={'left'}
                     name="health_insurance_no"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_health_insurance_no")}
                 >

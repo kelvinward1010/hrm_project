@@ -80,6 +80,7 @@ export function ChangePassword() {
                             fontSizeLabel={14}
                             fontWeightLabel={500}
                             height={40}
+                            htmlType={'submit'}
                         />
                     </Form.Item>
                 </Form>

@@ -2,11 +2,11 @@ import { useTranslation } from "react-i18next";
 import styles from "./SignIn.module.scss";
 import { Form, Input, Select, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
-import { forgotPasswordUrl } from "../../../routes/urls";
 import { FACTORY_CONFIG } from "./types";
 import { LabelConfig } from "../conponents/LabelConfig";
 import { Notification } from "@/components/notification/Notification";
 import { ButtonConfigAntd } from "@/components";
+import { forgotPasswordUrl } from "@/routes/urls";
 
 const { Title, Text } = Typography;
 
@@ -91,6 +91,7 @@ export function SignIn() {
                             fontSizeLabel={14}
                             fontWeightLabel={500}
                             height={40}
+                            htmlType={"submit"}
                         />
                     </Form.Item>
                     <div className={styles.forgot}>

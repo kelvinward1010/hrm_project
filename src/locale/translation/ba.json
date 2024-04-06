@@ -70,7 +70,30 @@
                 },
                 "contract_infomation": {
                     "lable_input_date_start": "Tgl mulai bekerja: ",
-                    "lable_input_employee_type": "Tipe karyawan: "
+                    "lable_input_employee_type": "Tipe karyawan: ",
+                    "contract": {
+                        "lable": "Contract:",
+                        "des_contract": "Please upload pdf, png, xlsx, docx file format!",
+                        "contract_date": "Contract Date: ",
+                        "contract_name": "Contract Name: ",
+                        "lable_button_upload": "Upload file",
+                        "lable_button_add": "Add",
+                        "table": {
+                            "lable1": "No",
+                            "lable2": "Contract Name",
+                            "lable3": "Contract Date",
+                            "lable4": "Actions"
+                        }
+                    }
+                },
+                "eploymentdetails": {
+                    "lable_input_department": "Department",
+                    "lable_input_position": "Position",
+                    "lable_input_shift": "Shift",
+                    "lable_input_entitle_ot": "Entitle OT",
+                    "lable_input_meal_allowance_paid": "Meal Allowance Paid",
+                    "lable_input_operational_allowance_paid": "Operational Allowance Paid",
+                    "lable_input_attendance_allowance_paid": "Attendance Allowance Paid"
                 }
             }
         }

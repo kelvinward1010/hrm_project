@@ -53,6 +53,8 @@
 
   --color-checked: #30A46C;
   --color-cell-selected: #EDF6FF;
+
+  --color-text-dark-black: #687076;
 }
 /*Select*/
 .select_fix .ant-select-selector {
@@ -97,6 +99,10 @@
 
 .table_employyee .ant-table-wrapper .ant-table-tbody .ant-table-row.ant-table-row-selected >.ant-table-cell{
   background: var(--color-cell-selected) !important;
+}
+
+.table_all ::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 3px grey !important;
 }
 
 

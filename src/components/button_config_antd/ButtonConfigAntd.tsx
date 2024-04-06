@@ -16,6 +16,7 @@ interface ButtonConfigProps{
     border?: string;
     padding?: string;
     htmlType?: "button" | "submit" | "reset" | undefined;
+    minWidth?: string;
 }
 
 const { Text } = Typography;
@@ -32,6 +33,7 @@ export function ButtonConfigAntd(props: ButtonConfigProps) {
                 margin: `${props.m}`,
                 border: `${props.border}`,
                 padding: `${props.padding}`,
+                minWidth: `${props.minWidth}`
             }}
             htmlType={props.htmlType}
         >

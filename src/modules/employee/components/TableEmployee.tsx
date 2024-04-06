@@ -72,7 +72,7 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
                     y: 450,
                     x: "auto"
                 }}
-                className={"table_employyee"}
+                className={"table_employyee table_all"}
                 pagination={{
                     total: originData.length,
                     showSizeChanger: true,

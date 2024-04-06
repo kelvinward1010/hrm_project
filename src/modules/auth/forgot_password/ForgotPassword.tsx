@@ -2,9 +2,9 @@ import { Form, Input, Typography } from "antd";
 import styles from "./ForgotPassword.module.scss";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { changepasswordUrl, signinUrl } from "../../../routes/urls";
 import { LabelConfig } from "../conponents/LabelConfig";
 import { ButtonConfigAntd } from "@/components";
+import { changepasswordUrl, signinUrl } from "@/routes/urls";
 
 const { Title, Text } = Typography;
 
