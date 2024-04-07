@@ -69,8 +69,6 @@ export function EmploymentDetails() {
         setFormCheck({ ...formCheck, [e.target.name]: e.target.checked == true ? 1 : 0});
     };
 
-    console.log(formCheck)
-
     return (
         <div className={styles.container}>
             <TitleAll title={t("features.employee.features_add_new.titleall.title3")} />
@@ -111,7 +109,7 @@ export function EmploymentDetails() {
 
 const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSubmit, t }) => (
     <Form
-        name="contract_information"
+        name="employee_details"
         {...formItemLayout}
         fields={fields}
         onFieldsChange={(_, allFields) => {

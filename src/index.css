@@ -66,6 +66,10 @@
   color: #30A46C !important;
 }
 
+.select_muti .ant-select-selector{
+  padding: 4px 0;
+}
+
 /*Dropdown*/
 .drop .ant-dropdown-menu{
   width: 300px !important;
@@ -87,7 +91,7 @@
 }
 
 /*table*/
-.table_employyee .ant-checkbox-checked .ant-checkbox-inner{
+.ant-checkbox-checked .ant-checkbox-inner{
   background-color: var(--color-checked) !important;
   border-color: var(--color-checked) !important;
 }

@@ -21,7 +21,7 @@ export const i18n = i18next
     .use(LanguageDetector)
     .init({
         resources: translationsJson,
-        lng: "en",
+        // lng: "en", // default language
         fallbackLng: "en",
         // debug: import.meta.env.DEV,
         debug: false,

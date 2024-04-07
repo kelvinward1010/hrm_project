@@ -69,13 +69,13 @@
                     "lable_input_health_insurance_no": "Health insurance No: "
                 },
                 "contract_infomation": {
-                    "lable_input_date_start": "Date Start: ",
-                    "lable_input_employee_type": "Employee Type: ",
+                    "lable_input_date_start": "Date Start",
+                    "lable_input_employee_type": "Employee Type",
                     "contract": {
-                        "lable": "Contract:",
+                        "lable": "Contract",
                         "des_contract": "Please upload pdf, png, xlsx, docx file format!",
-                        "contract_date": "Contract Date: ",
-                        "contract_name": "Contract Name: ",
+                        "contract_date": "Contract Date ",
+                        "contract_name": "Contract Name ",
                         "lable_button_upload": "Upload file",
                         "lable_button_add": "Add",
                         "table": {
@@ -94,6 +94,19 @@
                     "lable_input_meal_allowance_paid": "Meal Allowance Paid",
                     "lable_input_operational_allowance_paid": "Operational Allowance Paid",
                     "lable_input_attendance_allowance_paid": "Attendance Allowance Paid"
+                },
+                "salaryandwages": {
+                    "lable_input_basic_salary": "Basic Salary",
+                    "lable_input_audit_salary": "Audit Salary",
+                    "lable_input_safety_insurance": "Safety Insurance",
+                    "lable_input_health_insurance": "Health Insurance",
+                    "lable_input_meal_allowance": "Meal Allowance"
+                },
+                "others": {
+                    "lable_input_grade": "Grade",
+                    "lable_input_remark": "Remark",
+                    "lable_input_benefits": "Benefits",
+                    "lable_input_hrm_user_account": "HRM User Account"
                 }
             }
         }

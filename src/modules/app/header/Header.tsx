@@ -23,6 +23,8 @@ function Header() {
         i18n.reloadResources();
     };
 
+    const currentLanguage = localStorage.getItem('i18nextLng_hrm');
+
     return (
         <div className={styles.container}>
             <Flex justify={'space-between'} align={'center'} style={{ height: "100%" }}>
@@ -32,7 +34,7 @@ function Header() {
                 </Flex>
                 <Flex justify={'center'} align={'center'} className={styles.drop}>
                     <Select
-                        defaultValue="en"
+                        defaultValue={currentLanguage}
                         style={{ width: 120, marginRight: "10px" }}
                         onChange={handleChangeLanguages}
                         options={OPTIONS_LANGUAGES}

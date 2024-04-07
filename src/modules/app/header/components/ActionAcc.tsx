@@ -1,14 +1,16 @@
 import { Avatar, Flex, Typography } from "antd";
 import styles from "../Header.module.scss";
-import { UserOutlined } from "@ant-design/icons";
 import { ButtonConfigAntd } from "@/components";
 import { useState } from "react";
 import { ModalSignOut } from "./ModalSignOut";
+import { cutString } from "@/utils/string";
+import { COLOR_AVATAR_CONFIG } from "../types";
 
 const { Text, Title } = Typography;
 
 export function ActionAcc() {
     const [isOpenSignOut, setIsOpenSignOut] = useState(false);
+    const username = "kelvinward";
 
     const handleOpen = () => {
         setIsOpenSignOut(true);
@@ -22,7 +24,9 @@ export function ActionAcc() {
             />
             <div className={styles.card_main}>
                 <Flex justify={'flex-start'} align={'center'} gap={10}>
-                    <Avatar icon={<UserOutlined />}/>
+                    <Avatar style={{ cursor: "pointer", background: `${COLOR_AVATAR_CONFIG[username?.length % 8]}` }}>
+                            {cutString(username)}
+                        </Avatar>
                     <Text className={styles.name_acc}>Kelvin Ward</Text>
                 </Flex>
                 <span className={styles.cv_name}>Line Manager</span>

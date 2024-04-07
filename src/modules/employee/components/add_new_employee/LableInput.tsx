@@ -9,5 +9,5 @@ interface LabelInputProps{
 export const LableInput: React.FC<LabelInputProps> = ({
     label
 }) => {
-    return <Text style={{fontSize: "16px", fontWeight: "400"}}>{label}</Text>
+    return <Text style={{fontSize: "14px", fontWeight: "400"}}>{label}</Text>
 }

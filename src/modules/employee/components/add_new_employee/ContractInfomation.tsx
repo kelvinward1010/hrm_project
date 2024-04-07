@@ -57,8 +57,8 @@ export function ContractInfomation() {
 
     const onFinish = (values: any) => {
         const data = {
-            name: values.name,
-            gender: values.gender,
+            contract_start_date: values.contract_start_date,
+            type: values.type,
         }
         Notification({
             message: "Created OK",
