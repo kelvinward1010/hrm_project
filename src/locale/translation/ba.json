@@ -49,6 +49,7 @@
                     "title5": "Lain lain"
                 },
                 "employee_infomation": {
+                    "lable_input_nik": "NIK",
                     "lable_input_name": "Name: ",
                     "lable_input_gender": "Jenis Kelamin: ",
                     "lable_input_mother_name": "Nama Ibu: ",

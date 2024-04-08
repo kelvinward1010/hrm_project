@@ -9,6 +9,8 @@ import { ButtonConfigAntd } from "@/components";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { formatDate } from "@/utils/format";
 import { LableInput } from "./LableInput";
+import { useRecoilState } from "recoil";
+import { isFilledContractInfomation } from "../../state/add_new_employee/add.atom";
 
 const dateFormat = 'YYYY/MM/DD';
 const { Text } = Typography;
@@ -46,6 +48,7 @@ interface CustomizedFormProps {
 
 export function ContractInfomation() {
     const { t } = useTranslation();
+    const [, setFilledInformationImportant] = useRecoilState(isFilledContractInfomation);
     const [fields, setFields] = useState<FieldData[]>([
         {
             name: ['contract_start_date'], value: "",
@@ -136,6 +139,11 @@ export function ContractInfomation() {
                 fields={fields}
                 onChange={(newFields) => {
                     setFields(newFields);
+                    if(fields[0].value !== null && fields[1].value !== ""){
+                        setFilledInformationImportant(true);
+                    }else{
+                        setFilledInformationImportant(false);
+                    }
                 }}
                 onSubmit={(values: any) => onFinish(values)}
                 t={t}

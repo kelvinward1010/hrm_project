@@ -1,7 +1,8 @@
 import { Button, Typography } from "antd";
+import styles from "./ButtonConfig.module.scss";
 
 interface ButtonConfigProps{
-    label: any;
+    label?: any;
     colorLabel?: any;
     fontSizeLabel?: any;
     fontWeightLabel?: any;
@@ -17,6 +18,7 @@ interface ButtonConfigProps{
     padding?: string;
     htmlType?: "button" | "submit" | "reset" | undefined;
     minWidth?: string;
+    disabled?: boolean;
 }
 
 const { Text } = Typography;
@@ -36,18 +38,22 @@ export function ButtonConfigAntd(props: ButtonConfigProps) {
                 minWidth: `${props.minWidth}`
             }}
             htmlType={props.htmlType}
+            disabled={props.disabled}
         >
-            {props.leftIcon}
-            <Text 
-                style={{
-                    color: `${props.colorLabel ?? "black"}`,
-                    fontSize: `${props.fontSizeLabel ?? "15px"}`,
-                    fontWeight: `${props.fontWeightLabel ?? 300}`
-                }}
-            >
-                {props.label}
-            </Text>
-            {props.rightIcon}
+            <div className={styles.center}>
+                {props.leftIcon}
+                <Text 
+                    style={{
+                        color: `${props.colorLabel ?? "black"}`,
+                        fontSize: `${props.fontSizeLabel ?? "15px"}`,
+                        fontWeight: `${props.fontWeightLabel ?? 300}`,
+                        margin: "0 10px"
+                    }}
+                >
+                    {props.label}
+                </Text>
+                {props.rightIcon}
+            </div>
         </Button>
     )
 }

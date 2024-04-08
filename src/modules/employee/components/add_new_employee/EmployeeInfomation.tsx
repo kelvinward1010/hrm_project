@@ -5,6 +5,8 @@ import { Col, DatePicker, Form, Input, Row, Select } from "antd";
 import { useState } from "react";
 import { Notification } from "@/components/notification/Notification";
 import { GENDER_CONFIG } from "../../types";
+import { isFilledEmployeeInfomation } from "../../state/add_new_employee/add.atom";
+import { useRecoilState } from "recoil";
 
 
 const dateFormat = 'YYYY/MM/DD';
@@ -34,11 +36,16 @@ interface CustomizedFormProps {
     onSubmit: (data: any) => void;
     onFailure: (data: any) => void;
     t?: any;
+    setFilledInformationImportant?: any;
 }
 
 export function EmployeeInfomation() {
     const { t } = useTranslation();
+    const [, setFilledInformationImportant] = useRecoilState(isFilledEmployeeInfomation);
     const [fields, setFields] = useState<FieldData[]>([
+        {
+            name: ['nik'], value: "",
+        },
         {
             name: ['name'], value: "",
         },
@@ -125,47 +132,40 @@ export function EmployeeInfomation() {
                 onFailure={(error: any) => onFinishFailed(error)}
                 onSubmit={(values: any) => onFinish(values)}
                 t={t}
+                setFilledInformationImportant={setFilledInformationImportant}
             />
         </div>
     )
 }
 
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFailure, onSubmit, t }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFailure, onSubmit, t, setFilledInformationImportant }) => (
     <Form
         name="employee_information"
         {...formItemLayout}
         fields={fields}
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
+            if(fields[1].value !== "" && fields[2].value !== "" && fields[4].value !== null && fields[6].value !== "" && fields[7].value !== ""){
+                setFilledInformationImportant(true);
+            }else{
+                setFilledInformationImportant(false);
+            }
         }}
         onFinish={onSubmit}
         onFinishFailed={onFailure}
-        initialValues={{
-            "name": fields.find(value => value?.value != null && value?.name == "name")?.value,
-            "gender": fields.find(value => value?.value != null && value?.name == "gender")?.value,
-            "mother_name": fields.find(value => value?.value != null && value?.name == "mother_name")?.value,
-            "dob": fields.find(value => value?.value != null && value?.name == "dob")?.value,
-            "pob": fields.find(value => value?.value != null && value?.name == "pob")?.value,
-            "ktp_no": fields.find(value => value?.value != null && value?.name == "ktp_no")?.value,
-            "nc_id": fields.find(value => value?.value != null && value?.name == "nc_id")?.value,
-            "home_address_1": fields.find(value => value?.value != null && value?.name == "home_address_1")?.value,
-            "home_address_2": fields.find(value => value?.value != null && value?.name == "home_address_2")?.value,
-            "mobile_no": fields.find(value => value?.value != null && value?.name == "mobile_no")?.value,
-            "tel_no": fields.find(value => value?.value != null && value?.name == "tel_no")?.value,
-            "marriage_id": fields.find(value => value?.value != null && value?.name == "marriage_id")?.value,
-            "card_number": fields.find(value => value?.value != null && value?.name == "card_number")?.value,
-            "bank_account_no": fields.find(value => value?.value != null && value?.name == "bank_account_no")?.value,
-            "bank_name": fields.find(value => value?.value != null && value?.name == "bank_name")?.value,
-            "family_card_number": fields.find(value => value?.value != null && value?.name == "family_card_number")?.value,
-            "safety_insurance_no": fields.find(value => value?.value != null && value?.name == "safety_insurance_no")?.value,
-            "health_insurance_no": fields.find(value => value?.value != null && value?.name == "health_insurance_no")?.value,
-        }}
         className={styles.formmain}
         autoComplete="off"
     >
         <Row justify={'space-between'} wrap>
             <Col span={11} className={styles.row_fix}>
+                <Form.Item
+                    labelAlign={'left'}
+                    name="nik"
+                    label={t("features.employee.features_add_new.employee_infomation.lable_input_nik")}
+                >
+                    <Input className="input_inside"/>
+                </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
                     name="name"

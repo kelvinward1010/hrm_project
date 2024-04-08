@@ -49,6 +49,7 @@
                     "title5": "Others"
                 },
                 "employee_infomation": {
+                    "lable_input_nik": "NIK",
                     "lable_input_name": "Name: ",
                     "lable_input_gender": "Gender: ",
                     "lable_input_mother_name": "Mother name: ",

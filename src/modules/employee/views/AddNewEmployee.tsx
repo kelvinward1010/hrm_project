@@ -2,7 +2,7 @@ import { Col, Row, Typography, Tabs } from "antd";
 import styles from "./Employee.module.scss";
 import { useTranslation } from "react-i18next";
 import type { TabsProps } from 'antd';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ButtonConfigAntd, TextLicense } from "@/components";
 import { 
     ContractInfomation, 
@@ -11,6 +11,10 @@ import {
     Others,
     SalaryAndWages
 } from "../components/add_new_employee";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { addEmployeeState, filledContractInfomation, filledEmployeeInfomation } from "../state/add_new_employee/add.state";
+import { InfoCircleOutlined } from "@ant-design/icons";
+import { isAddEmplyee } from "../state/add_new_employee/add.atom";
 
 const { Text } = Typography;
 
@@ -18,7 +22,11 @@ export function AddNewEmployee() {
 
     const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState<string>("1");
-
+    const [, setIsAddEmployee] = useRecoilState(isAddEmplyee);
+    const isAddEmployee: boolean = useRecoilValue(addEmployeeState);
+    const isEmployeeInfomation: boolean = useRecoilValue(filledEmployeeInfomation);
+    const isContractInfomation: boolean = useRecoilValue(filledContractInfomation);
+    
     const ConfigButtonTab = (label: string, key: string) => {
         return <ButtonConfigAntd
             label={label}
@@ -29,6 +37,7 @@ export function AddNewEmployee() {
             height={45}
             border="none"
             padding="5px 30px"
+            rightIcon={(isEmployeeInfomation === false && key == '1' || isContractInfomation === false && key == '2') ? <InfoCircleOutlined style={{color: "red", fontSize: "20px"}}/> : null}
         />
     }
 
@@ -64,6 +73,15 @@ export function AddNewEmployee() {
         setActiveTab(key);
     };
 
+    
+    useEffect(() => {
+        if(isContractInfomation === true && isEmployeeInfomation === true) {
+            setIsAddEmployee(false);
+        }else{
+            setIsAddEmployee(true);
+        }
+    },[isContractInfomation, isEmployeeInfomation])
+
     return (
         <div className={styles.container}>
             <Row justify={'space-between'} align={'middle'}>
@@ -73,11 +91,12 @@ export function AddNewEmployee() {
                 <Col span={2}>
                     <ButtonConfigAntd
                         label={t("features.employee.features_add_new.lable_add")}
-                        background="var(--button-color-dark-black)"
+                        background={isAddEmployee === true ? "var(--button-color-dark-black)" : "var(--button-color-dark-blue)"}
                         colorLabel="white"
                         height={40}
                         with="auto"
                         border="none"
+                        disabled={isAddEmployee}
                     />
                 </Col>
             </Row>

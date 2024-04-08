@@ -1,6 +1,14 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { addnewemployeeUrl, authUrl, changepasswordUrl, employeeUrl, forgotPasswordUrl, layoutUrl, signinUrl } from "./urls";
-import { AddNewEmployee, Auth, ChangePassword, Employee, ForgotPassword, Layout, SignIn } from "@/modules";
+import { 
+    AddNewEmployee, 
+    Auth, 
+    ChangePassword, 
+    Employee, 
+    ForgotPassword, 
+    Layout, 
+    SignIn 
+} from "@/modules";
 import { Error } from "@/components";
 
 

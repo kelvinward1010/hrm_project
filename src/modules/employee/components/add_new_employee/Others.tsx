@@ -1,9 +1,15 @@
 import { useTranslation } from "react-i18next";
 import styles from "./Others.module.scss";
 import { TitleAll } from "./TitleAll";
-import { Col, Form, Input, Row, Select } from "antd";
+import { Col, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upload, UploadProps } from "antd";
 import { useState } from "react";
 import { Notification } from "@/components/notification/Notification";
+import { ButtonConfigAntd } from "@/components";
+import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
+import { formatDate } from "@/utils/format";
+
+
+const { Text } = Typography;
 
 const formItemLayout = {
     labelCol: {
@@ -48,6 +54,24 @@ export function Others() {
         },
     ]);
 
+    const propsFile: UploadProps = {
+        name: 'file',
+        action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
+        headers: {
+            authorization: 'authorization-form',
+        },
+        onChange(info) {
+            if (info.file.status !== 'uploading') {
+                console.log(info.file, info.fileList);
+            }
+            if (info.file.status === 'done') {
+                console.log(`file uploaded successfully`);
+            } else if (info.file.status === 'error') {
+                console.log(`${info.file.name} file upload failed.`);
+            }
+        },
+    };
+
     const onFinish = (values: any) => {
         const data = {
             grade_id: values.grade_id,
@@ -60,6 +84,44 @@ export function Others() {
         console.log(data)
     }
 
+    const columns: TableColumnsType = [
+        {
+            title: "No",
+            dataIndex: 'No',
+            width: '10%',
+        },
+        {
+            title: "Document Name",
+            dataIndex: 'contract_name',
+            render: (text: any) => <Text className='line-clamp-1'>{text}</Text>,
+            width: '30%',
+        },
+        {
+            title: "Create At",
+            dataIndex: 'contract_date',
+            render: (text: any) => <Text className='line-clamp-1'>{formatDate(text)}</Text>,
+            width: '30%',
+        },
+        {
+            title: "Actions",
+            width: '30%',
+            align: 'center',
+            render: (_: any, record: any) => {
+                return (
+                    <ButtonConfigAntd
+                        background="var(--button-color-light-crimson)"
+                        colorLabel="var(--button-color-dark-crimson)"
+                        border="none"
+                        fontSizeLabel={14}
+                        fontWeightLabel={500}
+                        height={40}
+                        leftIcon={<DeleteOutlined style={{ color: "var(--button-color-dark-crimson)" }} />}
+                    />
+                )
+            },
+        }
+    ];
+
     return (
         <div className={styles.container}>
             <TitleAll title={t("features.employee.features_add_new.titleall.title5")}/>
@@ -71,6 +133,39 @@ export function Others() {
                 onSubmit={(values: any) => onFinish(values)}
                 t={t}
             />
+            <div className={styles.table_main}>
+                <Row align={'middle'}>
+                    <Col span={4}>
+                        Document:
+                    </Col>
+                    <Col span={4}>
+                        <Upload {...propsFile}>
+                            <ButtonConfigAntd
+                                label={t("features.employee.features_add_new.contract_infomation.contract.lable_button_upload")}
+                                background="white"
+                                colorLabel="var(--button-color-dark-blue)"
+                                border="1px dashed var(--button-color-dark-blue)"
+                                fontSizeLabel={14}
+                                fontWeightLabel={500}
+                                height={40}
+                                minWidth="210px"
+                                m="0 0 0 -33px"
+                                leftIcon={<UploadOutlined style={{ color: "var(--button-color-dark-blue)" }} />}
+                            />
+                        </Upload>
+                    </Col>
+                </Row>
+                <Table
+                    columns={columns}
+                    sticky
+                    size={'small'}
+                    className="table_all"
+                    scroll={{
+                        y: 400,
+                        x: "auto"
+                    }}
+                />
+            </div>
         </div>
     )
 }

@@ -7,13 +7,16 @@ import { MantineProvider } from '@mantine/core';
 import { RouterProvider } from 'react-router-dom';
 import { routerConfig } from './routes/index.tsx';
 import "@/assets/scss/main.scss";
+import { RecoilRoot } from 'recoil';
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <MantineProvider>
-      <RouterProvider router={routerConfig} />
-    </MantineProvider>
+    <RecoilRoot>
+      <MantineProvider>
+        <RouterProvider router={routerConfig} />
+      </MantineProvider>
+    </RecoilRoot>
   </React.StrictMode>,
 )
 
