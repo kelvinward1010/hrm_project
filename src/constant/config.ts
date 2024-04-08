@@ -1,1 +1,1 @@
-export const BASE_URL = "https://api-training.hrm.div4.pgtest.co/api"
+export const BASE_URL = "https://api-training.hrm.div4.pgtest.co/api/v1"

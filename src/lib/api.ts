@@ -27,17 +27,17 @@ apiClient.interceptors.response.use(
     if (error.response) {
       switch (error.response.status) {
         case 400:
-          return Promise.reject(error.response.message)
+          return Promise.reject(error)
         case 401:
-          return Promise.reject(error.response.message)
+          return Promise.reject(error)
         case 403:
-          return Promise.reject(error.response.message)
+          return Promise.reject(error)
         case 404:
-          return Promise.reject(error.response.message)
+          return Promise.reject(error)
         case 500:
-          return Promise.reject(error.response.message)
+          return Promise.reject(error)
         default:
-          return Promise.reject(error.response.message)
+          return Promise.reject(error)
       }
     } else if (error.request) {
       console.error('No response received:', error.request);

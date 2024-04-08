@@ -7,6 +7,9 @@ import { LabelConfig } from "../conponents/LabelConfig";
 import { Notification } from "@/components/notification/Notification";
 import { ButtonConfigAntd } from "@/components";
 import { employeeUrl, forgotPasswordUrl } from "@/routes/urls";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { login } from "@/redux/actions/authAction";
 
 const { Title, Text } = Typography;
 
@@ -19,6 +22,8 @@ type FieldType = {
 export function SignIn() {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const dispatch: AppDispatch = useDispatch();
+    const loading: boolean = useSelector((state: RootState) => state.auth.isLoading)
 
     const onFinish = (values: FieldType) => {
         const data = {
@@ -26,11 +31,20 @@ export function SignIn() {
             password: values.password,
             company_id: values.factory,
         }
-        Notification({
-            message: "okkkk",
-            type: "success",
+        dispatch(login(data)).then((response: any) => {
+            if(response.payload?.token){
+                Notification({
+                    message: "Login successful",
+                    type: "success",
+                })
+                navigate(employeeUrl);
+            }else{
+                Notification({
+                    message: response.payload?.message,
+                    type: "error",
+                })
+            }
         })
-        navigate(employeeUrl)
     };
 
     return (
@@ -53,7 +67,7 @@ export function SignIn() {
                         rules={[
                             { required: true, message: 'Please input your username!' }, 
                             {max: 30, message: "Username must be at maximuns 30 characters"},
-                            {pattern: new RegExp("^(?!.*@)[A-Za-z0-9]+$"), message: "Wrong format!"}
+                            {pattern: new RegExp("^(?!.*@)[A-Za-z0-9_]+$"), message: "Wrong format!"}
                         ]}
                     >
                         <Input className={"input_auth"}/>
@@ -95,6 +109,7 @@ export function SignIn() {
                             fontWeightLabel={500}
                             height={40}
                             htmlType={"submit"}
+                            disabled={loading}
                         />
                     </Form.Item>
                     <div className={styles.forgot}>

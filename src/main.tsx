@@ -8,13 +8,20 @@ import { RouterProvider } from 'react-router-dom';
 import { routerConfig } from './routes/index.tsx';
 import "@/assets/scss/main.scss";
 import { RecoilRoot } from 'recoil';
+import { Provider } from 'react-redux';
+import { persistor, store } from './redux/store.ts';
+import { PersistGate } from 'redux-persist/integration/react';
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <RecoilRoot>
       <MantineProvider>
-        <RouterProvider router={routerConfig} />
+        <Provider store={store}>  
+          <PersistGate loading={null} persistor={persistor}>
+            <RouterProvider router={routerConfig} />
+          </PersistGate>
+        </Provider>
       </MantineProvider>
     </RecoilRoot>
   </React.StrictMode>,
