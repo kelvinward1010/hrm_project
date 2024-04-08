@@ -75,38 +75,38 @@
                     "contract": {
                         "lable": "Contract:",
                         "des_contract": "Please upload pdf, png, xlsx, docx file format!",
-                        "contract_date": "Contract Date",
-                        "contract_name": "Contract Name",
-                        "lable_button_upload": "Upload file",
-                        "lable_button_add": "Add",
+                        "contract_date": "Tgl Kontrak",
+                        "contract_name": "Nama Karyawan",
+                        "lable_button_upload": "Upload Data",
+                        "lable_button_add": "Tambah Data",
                         "table": {
-                            "lable1": "No",
-                            "lable2": "Contract Name",
-                            "lable3": "Contract Date",
+                            "lable1": "Tidak",
+                            "lable2": "Nama Karyawan",
+                            "lable3": "Tgl ditanda tangani",
                             "lable4": "Actions"
                         }
                     }
                 },
                 "eploymentdetails": {
                     "lable_input_department": "Department",
-                    "lable_input_position": "Position",
+                    "lable_input_position": "Jabatan",
                     "lable_input_shift": "Shift",
-                    "lable_input_entitle_ot": "Entitle OT",
-                    "lable_input_meal_allowance_paid": "Meal Allowance Paid",
-                    "lable_input_operational_allowance_paid": "Operational Allowance Paid",
-                    "lable_input_attendance_allowance_paid": "Attendance Allowance Paid"
+                    "lable_input_entitle_ot": "Dapat upah Lembur",
+                    "lable_input_meal_allowance_paid": "Dapat Uang Makan",
+                    "lable_input_operational_allowance_paid": "Dapat Tunjangan operational",
+                    "lable_input_attendance_allowance_paid": "Dapat tunjangan kehadiran"
                 },
                 "salaryandwages": {
-                    "lable_input_basic_salary": "Basic Salary",
-                    "lable_input_audit_salary": "Audit Salary",
-                    "lable_input_safety_insurance": "Safety Insurance",
-                    "lable_input_health_insurance": "Health Insurance",
-                    "lable_input_meal_allowance": "Meal Allowance"
+                    "lable_input_basic_salary": "Gaji Poko",
+                    "lable_input_audit_salary": "Gaji Poko (Audit)",
+                    "lable_input_safety_insurance": "Jumlah BPJS Ketenagakerjaan",
+                    "lable_input_health_insurance": "Jumlah BPJS Keseharan",
+                    "lable_input_meal_allowance": "Tunjangan uang makan"
                 },
                 "others": {
-                    "lable_input_grade": "Grade",
-                    "lable_input_remark": "Remark",
-                    "lable_input_benefits": "Benefits",
+                    "lable_input_grade": "Grade karyawan",
+                    "lable_input_remark": "Pasilitas",
+                    "lable_input_benefits": "Keterangan",
                     "lable_input_hrm_user_account": "HRM User Account"
                 }
             }

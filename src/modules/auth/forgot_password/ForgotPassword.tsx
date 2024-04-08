@@ -44,7 +44,7 @@ export function ForgotPassword() {
                         name="email"
                         rules={[
                             { required: true, message: 'Please input your email!' }, 
-                            {max: 30, message: "Email must be at maximuns 30 characters"}
+                            {pattern: new RegExp("^.+@.+\..+$"), message: "Email format is invalid"}
                         ]}
                     >
                         <Input className={"input_auth"}/>

@@ -44,9 +44,6 @@ export function EmployeeInfomation() {
     const [, setFilledInformationImportant] = useRecoilState(isFilledEmployeeInfomation);
     const [fields, setFields] = useState<FieldData[]>([
         {
-            name: ['nik'], value: "",
-        },
-        {
             name: ['name'], value: "",
         },
         {
@@ -146,7 +143,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
         fields={fields}
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
-            if(fields[1].value !== "" && fields[2].value !== "" && fields[4].value !== null && fields[6].value !== "" && fields[7].value !== ""){
+            if(fields[0].value !== "" && fields[1].value !== "" && fields[3].value !== null && fields[5].value !== "" && fields[6].value !== ""){
                 setFilledInformationImportant(true);
             }else{
                 setFilledInformationImportant(false);
@@ -159,13 +156,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
     >
         <Row justify={'space-between'} wrap>
             <Col span={11} className={styles.row_fix}>
-                <Form.Item
-                    labelAlign={'left'}
-                    name="nik"
-                    label={t("features.employee.features_add_new.employee_infomation.lable_input_nik")}
-                >
-                    <Input className="input_inside"/>
-                </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
                     name="name"

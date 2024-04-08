@@ -6,7 +6,7 @@ import { FACTORY_CONFIG } from "./types";
 import { LabelConfig } from "../conponents/LabelConfig";
 import { Notification } from "@/components/notification/Notification";
 import { ButtonConfigAntd } from "@/components";
-import { forgotPasswordUrl } from "@/routes/urls";
+import { employeeUrl, forgotPasswordUrl } from "@/routes/urls";
 
 const { Title, Text } = Typography;
 
@@ -26,11 +26,11 @@ export function SignIn() {
             password: values.password,
             company_id: values.factory,
         }
-        console.log(data)
         Notification({
             message: "okkkk",
-            type: "export",
+            type: "success",
         })
+        navigate(employeeUrl)
     };
 
     return (
@@ -52,7 +52,8 @@ export function SignIn() {
                         name="username"
                         rules={[
                             { required: true, message: 'Please input your username!' }, 
-                            {max: 30, message: "Username must be at maximuns 30 characters"}
+                            {max: 30, message: "Username must be at maximuns 30 characters"},
+                            {pattern: new RegExp("^(?!.*@)[A-Za-z0-9]+$"), message: "Wrong format!"}
                         ]}
                     >
                         <Input className={"input_auth"}/>
@@ -62,7 +63,9 @@ export function SignIn() {
                         label={<LabelConfig label={t("auth.label.password")} />}
                         name="password"
                         rules={[
-                            { required: true, message: 'Please input your password!' }
+                            { required: true, message: 'Please input your password!' },
+                            { min: 8, message: "Password must have at least 8 characters"},
+                            { max: 16, message: "Password must have at most 16 characters"}
                         ]}
                     >
                         <Input.Password className={"input_auth"}/>
