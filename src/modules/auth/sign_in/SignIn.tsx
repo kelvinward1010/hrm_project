@@ -10,6 +10,10 @@ import { employeeUrl, forgotPasswordUrl } from "@/routes/urls";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { login } from "@/redux/actions/authAction";
+import { URL_DETAIL_USER } from "@/constant/config";
+import { apiClient } from "@/lib/api";
+import { IUserInfo } from "@/types/user";
+import { updateUser } from "@/redux/slices/authSlice";
 
 const { Title, Text } = Typography;
 
@@ -23,7 +27,7 @@ export function SignIn() {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
-    const loading: boolean = useSelector((state: RootState) => state.auth.isLoading)
+    const loading: boolean = useSelector((state: RootState) => state.auth.isLoading);
 
     const onFinish = (values: FieldType) => {
         const data = {
@@ -37,6 +41,15 @@ export function SignIn() {
                     message: "Login successful",
                     type: "success",
                 })
+                apiClient.get(URL_DETAIL_USER).then((response: any) => {
+                    const userinfo: IUserInfo = {
+                        id: response.data?.id,
+                        username: response.data?.username,
+                        email: response.data?.email,
+                        level: response.data?.level,
+                    }
+                    dispatch(updateUser(userinfo))
+                });
                 navigate(employeeUrl);
             }else{
                 Notification({

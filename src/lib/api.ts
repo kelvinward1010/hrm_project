@@ -29,11 +29,13 @@ apiClient.interceptors.response.use(
         case 400:
           return Promise.reject(error)
         case 401:
-          return Promise.reject(error)
+          storage.clearToken();
+          window.location.reload();
+          return Promise.reject(error.response)
         case 403:
-          return Promise.reject(error)
+          return Promise.reject(error.response)
         case 404:
-          return Promise.reject(error)
+          return Promise.reject(error.response)
         case 500:
           return Promise.reject(error)
         default:

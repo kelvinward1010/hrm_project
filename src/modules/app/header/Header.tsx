@@ -5,16 +5,18 @@ import { ActionAcc } from "./components/ActionAcc";
 import { Logo } from "@/assets/svg";
 import { cutString } from "@/utils/string";
 import { COLOR_AVATAR_CONFIG, OPTIONS_LANGUAGES } from "./types";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const { Text } = Typography;
 
 function Header() {
     const { t, i18n } = useTranslation();
-    const username = "kelvinward"
+    const user: any = useSelector((state: RootState) => state.auth.user);
 
     const items = [
         {
-            label: <ActionAcc />,
+            label: <ActionAcc user={user}/>,
             key: '0',
         },
     ]
@@ -46,8 +48,8 @@ function Header() {
                         trigger={['click']}
                         className={"head"}
                     >
-                        <Avatar style={{ cursor: "pointer", background: `${COLOR_AVATAR_CONFIG[username?.length % 8]}` }}>
-                            {cutString(username)}
+                        <Avatar style={{ cursor: "pointer", background: `${COLOR_AVATAR_CONFIG[user?.username?.length % 8]}` }}>
+                            {cutString(user?.username)}
                         </Avatar>
                     </Dropdown>
                 </Flex>

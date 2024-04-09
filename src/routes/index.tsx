@@ -10,6 +10,7 @@ import {
     SignIn 
 } from "@/modules";
 import { Error } from "@/components";
+import storage from "@/utils/storage";
 
 
 interface RouteProps {
@@ -17,7 +18,7 @@ interface RouteProps {
 }
 
 const ProtectedRoute: React.FC<RouteProps> = ({ children }) => {
-    const isAuthenticated = true;
+    const isAuthenticated = storage.getToken();
     return isAuthenticated ? <>{children}</> : <Navigate to={signinUrl} replace />;
 };
 

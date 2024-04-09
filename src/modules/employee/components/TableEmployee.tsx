@@ -1,39 +1,20 @@
 import styles from "./TableEmployee.module.scss";
 import { Button, Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { isDeleteItemAtom } from "../state/table.atom";
+import { useSearchParams } from "react-router-dom";
+import { useGetEmployee } from "../api/getEmployee";
+import { IEmployee } from "@/types/employee";
+import { handleMapEmployee } from "@/utils/data";
 
 type TableRowSelection<T> = TableProps<T>['rowSelection'];
 
-interface DataType {
-    key: React.Key;
-    nik: string;
-    name: string;
-    gender: string;
-    marriage_id: string;
-    mother_name: string;
-    card_number: string;
-    nc_id: string;
-    date_start: string;
-    bank_account_no: string;
-    department_id: string;
-    position_id: string;
-    ktp_no: string;
-    mobile_no: string;
-    tel_no: string;
-}
-const originData = [];
-
-interface TableEmployeeProps {
-    data?: any[];
-}
-
-const columns: TableColumnsType<DataType> = [
+const columns: TableColumnsType<IEmployee> = [
     {
         title: 'NIK',
-        dataIndex: 'nik',
+        dataIndex: 'staff_id',
     },
     {
         title: 'Name',
@@ -44,12 +25,12 @@ const columns: TableColumnsType<DataType> = [
         dataIndex: 'gender',
     },
     {
-        title: 'Card Number',
-        dataIndex: 'card_number',
-    },
-    {
         title: 'Account Number',
         dataIndex: 'bank_account_no',
+    },
+    {
+        title: 'Bank Name',
+        dataIndex: 'bank_name',
     },
     {
         title: 'Marriage Status',
@@ -60,20 +41,16 @@ const columns: TableColumnsType<DataType> = [
         dataIndex: 'mother_name',
     },
     {
-        title: 'Tax ID',
-        dataIndex: 'nc_id',
-    },
-    {
         title: "Date start",
-        dataIndex: "date_start",
+        dataIndex: "contract_start_date",
     },
     {
         title: "Department",
-        dataIndex: "department_id",
+        dataIndex: "department_name",
     },
     {
         title: "Position",
-        dataIndex: "position_id",
+        dataIndex: "pob",
     },
     {
         title: "KTP No",
@@ -89,35 +66,17 @@ const columns: TableColumnsType<DataType> = [
     },
 ];
 
-const datatest: DataType[] = [];
-for (let i = 0; i < 40; i++) {
-    datatest.push({
-        key: i,
-        nik: `ss- ${i}`,
-        name: `name - ${i}`,
-        gender: `gender - ${i}`,
-        marriage_id: `marriage - ${i}`,
-        card_number: `card_number - ${i}`,
-        mother_name: `mother_name - ${i}`,
-        nc_id: `tax id - ${i}`,
-        date_start: `date_start - ${i}`,
-        bank_account_no: `bank_account_no - ${i}`,
-        department_id: `department - ${i}`,
-        position_id: `position - ${i}`,
-        ktp_no: `ktp - ${i}`,
-        mobile_no: `mobile - ${i}`,
-        tel_no: `tel - ${i}`,
-    });
-}
-
-export const TableEmployee: React.FC<TableEmployeeProps> = ({
-    data
-}) => {
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-    const [loading, setLoading] = useState(false);
+export const TableEmployee: React.FC = () => {
     const [, setItemSelected] = useRecoilState(isDeleteItemAtom);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const pageIndex = Number(searchParams.get("pageIndex")) || 1;
+    const pageSize = Number(searchParams.get("pageSize")) || 20;
+    const searchContent = searchParams.get("searchContent") || "";
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState<IEmployee[]>([])
+    const [total, setTotal] = useState();
 
-    const rowSelection: TableRowSelection<DataType> = {
+    const rowSelection: TableRowSelection<IEmployee> = {
         onChange: (selectedRowKeys, selectedRows) => {
             if (selectedRows.length > 0) {
                 setItemSelected(false);
@@ -136,12 +95,31 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
         },
     };
 
+    const handleGetEmployee = useCallback(() => {
+        const data = {
+            page: pageIndex,
+            search: searchContent,
+        }
+        setLoading(true);
+        useGetEmployee(data).then((res) => {
+            console.log(res.data)
+            setData(handleMapEmployee(res.data?.data))
+            setTotal(res.data?.total)
+        }).finally(() => {
+            setLoading(false);
+        })
+    },[pageIndex, searchContent])
+
+    useEffect(() => {
+        handleGetEmployee()
+    },[pageIndex, searchContent])
+
     return (
         <div className={styles.container}>
             <Table
                 rowSelection={rowSelection}
                 columns={columns}
-                dataSource={datatest}
+                dataSource={data}
                 sticky
                 size={'small'}
                 scroll={{
@@ -149,13 +127,22 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
                     x: 1300
                 }}
                 className={"table_employyee table_all"}
+                
                 pagination={{
-                    total: originData.length,
+                    total: total,
                     showSizeChanger: true,
                     showQuickJumper: true,
                     showTotal: (total) => `Total ${total} items`,
                     position: ["none", "bottomLeft"],
+                    current: pageIndex,
+                    pageSize,
+                    onChange: (page, pageSize) => {
+                        searchParams.set("pageIndex", String(page));
+                        searchParams.set("pageSize", String(pageSize));
+                        setSearchParams(searchParams);
+                    },
                 }}
+                loading={loading}
             />
         </div>
     )

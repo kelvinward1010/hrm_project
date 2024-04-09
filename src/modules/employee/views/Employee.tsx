@@ -1,10 +1,10 @@
 import styles from "./Employee.module.scss";
 import { DeleteOutlined, FileAddOutlined, SearchOutlined } from "@ant-design/icons";
 import { Input } from "@mantine/core";
-import { Col, Row, Typography } from "antd";
+import { Col, Form, Row, Typography } from "antd";
 import { TableEmployee } from "../components/TableEmployee";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { addnewemployeeUrl } from "@/routes/urls";
 import { ButtonConfigAntd, TextLicense } from "@/components";
 import { ModalDelete } from "../components/ModalDelete";
@@ -19,6 +19,14 @@ export function Employee() {
     const navigate = useNavigate();
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const isSelectedItem: boolean = useRecoilValue(deleteItemState);
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const handleChangeSearch = (value: string) => {
+        setSearchParams(searchParams);
+        searchParams.set("searchContent", value.trim());
+        searchParams.delete("pageIndex");
+        searchParams.delete("pageSize");
+    };
 
     return (
         <>
@@ -28,7 +36,15 @@ export function Employee() {
                         <Text className={styles.label_main}>{t("features.name")}</Text>
                     </Col>
                     <Col span={4}>
-                        <Input placeholder="Search" leftSection={<SearchOutlined size={16} />} />
+                        <Form>
+                            <Input
+                                onChange={(e) => {
+                                    handleChangeSearch(e.target.value)
+                                }} 
+                                placeholder="Search" 
+                                leftSection={<SearchOutlined size={16} />} 
+                            />
+                        </Form>
                     </Col>
                 </Row>
                 <div className={styles.table_wrapper}>
@@ -49,9 +65,9 @@ export function Employee() {
                             <ButtonConfigAntd
                                 label={t("features.employee.lable_delete")}
                                 with="130px"
-                                background={isSelectedItem === true ? "var(--button-color-light-black)" : "var(--button-color-light-crimson)"}
-                                colorLabel={isSelectedItem === true ? "var(--button-color-dark-black)" : "var(--button-color-dark-crimson)"}
-                                color={isSelectedItem === true ? "var(--button-color-dark-black)" : "var(--button-color-dark-crimson)"}
+                                background={isSelectedItem ? "var(--button-color-light-black)" : "var(--button-color-light-crimson)"}
+                                colorLabel={isSelectedItem ? "var(--button-color-dark-black)" : "var(--button-color-dark-crimson)"}
+                                color={isSelectedItem ? "var(--button-color-dark-black)" : "var(--button-color-dark-crimson)"}
                                 border="none"
                                 fontSizeLabel={14}
                                 fontWeightLabel={500}

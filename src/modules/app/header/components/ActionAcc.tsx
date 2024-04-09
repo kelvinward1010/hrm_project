@@ -8,9 +8,14 @@ import { COLOR_AVATAR_CONFIG } from "../types";
 
 const { Text, Title } = Typography;
 
-export function ActionAcc() {
+interface ActionAccProps {
+    user?: any;
+}
+
+export const ActionAcc: React.FC<ActionAccProps> = ({
+    user
+}) => {
     const [isOpenSignOut, setIsOpenSignOut] = useState(false);
-    const username = "kelvinward";
 
     const handleOpen = () => {
         setIsOpenSignOut(true);
@@ -24,10 +29,10 @@ export function ActionAcc() {
             />
             <div className={styles.card_main}>
                 <Flex justify={'flex-start'} align={'center'} gap={10}>
-                    <Avatar style={{ cursor: "pointer", background: `${COLOR_AVATAR_CONFIG[username?.length % 8]}` }}>
-                            {cutString(username)}
+                    <Avatar style={{ cursor: "pointer", background: `${COLOR_AVATAR_CONFIG[user?.username?.length % 8]}` }}>
+                            {cutString(user?.username)}
                         </Avatar>
-                    <Text className={styles.name_acc}>Kelvin Ward</Text>
+                    <Text className={styles.name_acc}>{user?.username}</Text>
                 </Flex>
                 <span className={styles.cv_name}>Line Manager</span>
                 <Title level={4} className={styles.sew}>Sew Department</Title>

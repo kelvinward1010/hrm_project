@@ -1,8 +1,9 @@
 import { BASE_URL } from "@/constant/config";
 import { apiClient } from "@/lib/api";
 import storage from "@/utils/storage";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, Dispatch } from "@reduxjs/toolkit";
 import { AxiosRequestConfig } from "axios";
+import { logout } from "../slices/authSlice";
 
 
 
@@ -35,11 +36,17 @@ export const login = createAsyncThunk<AuthResponse, LoginValues, { rejectValue: 
 
             const response = await apiClient(config);
             const data: AuthResponse = await response.data;
-            console.log(data)
             storage.setToken(data?.token)
             return data;
         } catch (error: any) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.data);
         }
     }
 );
+
+export const signOut = async (dispatch: Dispatch) => {
+    const res = await apiClient.post(`/logout`);
+    dispatch(logout())
+    storage.clearToken();
+    return res
+}

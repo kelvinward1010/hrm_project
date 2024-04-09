@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { LabelConfig } from "../conponents/LabelConfig";
 import { ButtonConfigAntd } from "@/components";
-import { changepasswordUrl, signinUrl } from "@/routes/urls";
+import { signinUrl } from "@/routes/urls";
+import { useForgotPassword } from "../api/forgot_password";
+import { Notification } from "@/components/notification/Notification";
 
 const { Title, Text } = Typography;
 
@@ -16,13 +18,20 @@ export function ForgotPassword() {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-
     const onFinish = (values: FieldType) => {
-        const data = {
-            email: values.email,
-        }
-        console.log(data)
-        navigate(changepasswordUrl)
+        useForgotPassword({email: values.email}).then((res) => {
+            if(res?.result === true) {
+                Notification({
+                    message: "Send success",
+                    type: "success",
+                })
+            }
+        }).catch((err) => {
+            Notification({
+                message: err.data?.message,
+                type: "error",
+            })
+        })
     };
 
     return (
