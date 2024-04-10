@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next";
 import { Col, DatePicker, Form, Input, Row, Select } from "antd";
 import { useState } from "react";
 import { Notification } from "@/components/notification/Notification";
-import { GENDER_CONFIG } from "../../types";
 import { isFilledEmployeeInfomation } from "../../state/add_new_employee/add.atom";
 import { useRecoilState } from "recoil";
+import { GENDER_CONFIG } from "../../config";
 
 
 const dateFormat = 'YYYY/MM/DD';

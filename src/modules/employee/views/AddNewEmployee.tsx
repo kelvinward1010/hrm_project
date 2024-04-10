@@ -10,7 +10,7 @@ import {
     EmploymentDetails,
     Others,
     SalaryAndWages
-} from "../components/add_new_employee";
+} from "../components/add-new-employee";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { addEmployeeState, filledContractInfomation, filledEmployeeInfomation } from "../state/add_new_employee/add.state";
 import { InfoCircleOutlined } from "@ant-design/icons";

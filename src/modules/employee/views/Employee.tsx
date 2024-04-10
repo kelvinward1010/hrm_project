@@ -11,6 +11,8 @@ import { ModalDelete } from "../components/ModalDelete";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { deleteItemState } from "../state/table.state";
+import { IEmployee } from "@/types/employee";
+import { getIdsItemsEmployee } from "@/utils/data";
 
 const { Text } = Typography;
 
@@ -20,6 +22,7 @@ export function Employee() {
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const isSelectedItem: boolean = useRecoilValue(deleteItemState);
     const [searchParams, setSearchParams] = useSearchParams();
+    const [itemsSelected, setItemsSelected] = useState<IEmployee[]>([]);
 
     const handleChangeSearch = (value: string) => {
         setSearchParams(searchParams);
@@ -27,7 +30,8 @@ export function Employee() {
         searchParams.delete("pageIndex");
         searchParams.delete("pageSize");
     };
-
+    console.log(getIdsItemsEmployee(itemsSelected))
+    
     return (
         <>
             <div className={styles.container}>
@@ -78,7 +82,7 @@ export function Employee() {
                         </Col>
                     </Row>
                     <div className={styles.row_1} />
-                    <TableEmployee />
+                    <TableEmployee setItemsSelected={setItemsSelected}/>
                 </div>
                 <TextLicense />
             </div>

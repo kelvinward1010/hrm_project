@@ -1,15 +1,19 @@
 import styles from "./TableEmployee.module.scss";
-import { Button, Table } from 'antd';
+import { Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
 import { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { isDeleteItemAtom } from "../state/table.atom";
 import { useSearchParams } from "react-router-dom";
-import { useGetEmployee } from "../api/getEmployee";
 import { IEmployee } from "@/types/employee";
 import { handleMapEmployee } from "@/utils/data";
+import { useGetEmployees } from "../api/getEmployees";
 
 type TableRowSelection<T> = TableProps<T>['rowSelection'];
+
+interface TableEmployeeProps{
+    setItemsSelected: any;
+}
 
 const columns: TableColumnsType<IEmployee> = [
     {
@@ -66,8 +70,10 @@ const columns: TableColumnsType<IEmployee> = [
     },
 ];
 
-export const TableEmployee: React.FC = () => {
-    const [, setItemSelected] = useRecoilState(isDeleteItemAtom);
+export const TableEmployee: React.FC<TableEmployeeProps> = ({
+    setItemsSelected
+}) => {
+    const [, setIsItemSelected] = useRecoilState(isDeleteItemAtom);
     const [searchParams, setSearchParams] = useSearchParams();
     const pageIndex = Number(searchParams.get("pageIndex")) || 1;
     const pageSize = Number(searchParams.get("pageSize")) || 20;
@@ -79,18 +85,17 @@ export const TableEmployee: React.FC = () => {
     const rowSelection: TableRowSelection<IEmployee> = {
         onChange: (selectedRowKeys, selectedRows) => {
             if (selectedRows.length > 0) {
-                setItemSelected(false);
+                setIsItemSelected(false);
             } else {
-                setItemSelected(true);
+                setIsItemSelected(true);
             }
-        },
-        onSelect: (record, selected, selectedRows) => {
+            setItemsSelected(selectedRows);
         },
         onSelectAll: (selected, selectedRows, changeRows) => {
             if (selectedRows.length > 0) {
-                setItemSelected(false);
+                setIsItemSelected(false);
             } else {
-                setItemSelected(true);
+                setIsItemSelected(true);
             }
         },
     };
@@ -101,8 +106,7 @@ export const TableEmployee: React.FC = () => {
             search: searchContent,
         }
         setLoading(true);
-        useGetEmployee(data).then((res) => {
-            console.log(res.data)
+        useGetEmployees(data).then((res) => {
             setData(handleMapEmployee(res.data?.data))
             setTotal(res.data?.total)
         }).finally(() => {

@@ -22,3 +22,11 @@ export const handleMapEmployee = (data: any[]) => {
 
     return dataMap ?? []
 }
+
+export const getIdsItemsEmployee = (data: IEmployee[]) => {
+    let listIds: string[] = [];
+    data.forEach((item: IEmployee) => {
+        listIds.push(item.key)
+    })
+    return listIds || [];
+}

@@ -2,8 +2,10 @@ import { ButtonConfigAntd } from "@/components";
 import { Notification } from "@/components/notification/Notification";
 import { signOut } from "@/redux/actions/authAction";
 import { AppDispatch } from "@/redux/store";
+import { signinUrl } from "@/routes/urls";
 import { Col, Modal, Row } from "antd";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 interface ModalSignOutProps {
     isOpen?: boolean;
@@ -12,6 +14,7 @@ interface ModalSignOutProps {
 
 export function ModalSignOut(props: ModalSignOutProps) {
     
+    const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
 
     const handleLogout = () => {
@@ -21,6 +24,7 @@ export function ModalSignOut(props: ModalSignOutProps) {
                 message: "Logged out",
                 type: "success"
             })
+            navigate(signinUrl);
         }).catch((err) => {
             Notification({
                 message: err.data?.message,
