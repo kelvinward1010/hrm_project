@@ -14,3 +14,11 @@ export interface FieldData {
     validating?: boolean;
     errors?: string[];
 }
+
+export interface ICreateEmployee {
+    name: string;
+}
+
+export interface IEditEmployee {
+    name: string;
+}
