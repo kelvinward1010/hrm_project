@@ -9,7 +9,7 @@ export const handleMapEmployee = (data: any[]) => {
             mother_name: String(item.mother_name),
             bank_account_no: String(item.bank_account_no),
             bank_name: String(item.bank_name),
-            marriage_id: Number(item.marriage_id),
+            marriage_code: String(item.marriage_code),
             contract_start_date: String(item.contract_start_date),
             department_name: String(item.department_name),
             pob: String(item.pob),

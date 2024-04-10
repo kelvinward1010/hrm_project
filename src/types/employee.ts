@@ -4,7 +4,7 @@ export interface IEmployee{
     name: string;
     gender: string;
     mother_name: string;
-    marriage_id: number;
+    marriage_code: string;
     bank_account_no: string;
     bank_name: string;
     department_name: string;

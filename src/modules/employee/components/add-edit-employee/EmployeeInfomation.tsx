@@ -3,7 +3,7 @@ import styles from "./EmployeeInfomation.module.scss";
 import { useTranslation } from "react-i18next";
 import { Col, DatePicker, Form, Input, Row, Select } from "antd";
 import { Notification } from "@/components/notification/Notification";
-import { isFilledEmployeeInfomation } from "../../state/add-new-employee/add.atom";
+import { isFilledEmployeeInfomation } from "../../state/add-edit-employee/add.atom";
 import { useRecoilState } from "recoil";
 import { GENDER_CONFIG } from "../../config";
 import { FieldData } from "../../types";
@@ -68,7 +68,13 @@ export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
             <CustomizedForm
                 fields={fields}
                 onChange={(newFields) => {
-                    setFields(newFields);
+                    newFields.forEach((i: FieldData) => {
+                        const index = fields.findIndex((f: FieldData) => f.name == i.name)
+                        if(index !== -1){
+                            fields[index].value = i.value;
+                        }
+                    })
+                    setFields(fields);
                 }}
                 onFailure={(error: any) => onFinishFailed(error)}
                 onSubmit={(values: any) => onFinish(values)}

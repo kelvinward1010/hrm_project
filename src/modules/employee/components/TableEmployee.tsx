@@ -38,7 +38,7 @@ const columns: TableColumnsType<IEmployee> = [
     },
     {
         title: 'Marriage Status',
-        dataIndex: 'marriage_id',
+        dataIndex: 'marriage_code',
     },
     {
         title: 'Mother Name',

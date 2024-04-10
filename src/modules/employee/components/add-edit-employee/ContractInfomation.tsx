@@ -9,8 +9,9 @@ import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { formatDate } from "@/utils/format";
 import { LableInput } from "./LableInput";
 import { useRecoilState } from "recoil";
-import { isFilledContractInfomation } from "../../state/add-new-employee/add.atom";
+import { isFilledContractInfomation } from "../../state/add-edit-employee/add.atom";
 import { EMPLOYEE_TYPE_CONGIG } from "../../config";
+import { FieldData } from "../../types";
 
 const dateFormat = 'YYYY/MM/DD';
 const { Text } = Typography;
@@ -26,37 +27,30 @@ const formItemLayout = {
     },
 };
 
+interface ContractInfomationProps{
+    fields: FieldData[];
+    setFields: any;
+}
+
 type FieldType = {
     contract_date: string;
     contract_name: string;
 };
-
-interface FieldData {
-    name: string | number | (string | number)[];
-    value?: any;
-    touched?: boolean;
-    validating?: boolean;
-    errors?: string[];
-}
 
 interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
     fields: FieldData[];
     onSubmit: (data: any) => void;
     t?: any;
+    setFilledInformationImportant: any;
 }
 
-export function ContractInfomation() {
+export const ContractInfomation: React.FC<ContractInfomationProps> = ({
+    fields,
+    setFields
+}) => {
     const { t } = useTranslation();
     const [, setFilledInformationImportant] = useRecoilState(isFilledContractInfomation);
-    const [fields, setFields] = useState<FieldData[]>([
-        {
-            name: ['contract_start_date'], value: "",
-        },
-        {
-            name: ['type'], value: "",
-        },
-    ]);
 
     const onFinish = (values: any) => {
         const data = {
@@ -69,7 +63,6 @@ export function ContractInfomation() {
         })
         console.log(data)
     }
-
 
     const propsFile: UploadProps = {
         name: 'file',
@@ -138,15 +131,17 @@ export function ContractInfomation() {
             <CustomizedForm
                 fields={fields}
                 onChange={(newFields) => {
-                    setFields(newFields);
-                    if(fields[0].value !== null && fields[1].value !== ""){
-                        setFilledInformationImportant(true);
-                    }else{
-                        setFilledInformationImportant(false);
-                    }
+                    newFields.forEach((i: FieldData) => {
+                        const index = fields.findIndex((f: FieldData) => f.name == i.name)
+                        if(index !== -1){
+                            fields[index].value = i.value;
+                        }
+                    })
+                    setFields(fields);
                 }}
                 onSubmit={(values: any) => onFinish(values)}
                 t={t}
+                setFilledInformationImportant={setFilledInformationImportant}
             />
             <div className={styles.contract}>
                 <Row className={styles.lable_cntrct}>
@@ -236,13 +231,18 @@ export function ContractInfomation() {
     )
 }
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSubmit, t }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSubmit, t, setFilledInformationImportant }) => (
     <Form
         name="contract_information"
         {...formItemLayout}
         fields={fields}
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
+            if(allFields[0].value !== null && allFields[1].value !== ""){
+                setFilledInformationImportant(true);
+            }else{
+                setFilledInformationImportant(false);
+            }
         }}
         onFinish={onSubmit}
         initialValues={{

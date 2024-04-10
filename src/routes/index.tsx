@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { addnewemployeeUrl, authUrl, changepasswordUrl, employeeUrl, forgotPasswordUrl, layoutUrl, signinUrl } from "./urls";
 import { 
-    AddNewEmployee, 
+    AddEditEmployee, 
     Auth, 
     ChangePassword, 
     Employee, 
@@ -39,7 +39,7 @@ export const routerConfig = createBrowserRouter([
             },
             {
                 path: addnewemployeeUrl,
-                element: <AddNewEmployee />
+                element: <AddEditEmployee />
             }
         ]
     },

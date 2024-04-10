@@ -25,10 +25,10 @@ export function Employee() {
     const [itemsSelected, setItemsSelected] = useState<IEmployee[]>([]);
 
     const handleChangeSearch = (value: string) => {
-        setSearchParams(searchParams);
         searchParams.set("searchContent", value.trim());
         searchParams.delete("pageIndex");
         searchParams.delete("pageSize");
+        setSearchParams(searchParams);
     };
     
     return (
@@ -41,9 +41,7 @@ export function Employee() {
                     <Col span={4}>
                         <Form>
                             <Input
-                                onChange={(e) => {
-                                    handleChangeSearch(e.target.value)
-                                }} 
+                                onChange={(e) => handleChangeSearch(e.target.value)} 
                                 placeholder="Search" 
                                 leftSection={<SearchOutlined size={16} />} 
                             />

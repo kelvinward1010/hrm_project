@@ -10,16 +10,16 @@ import {
     EmploymentDetails,
     Others,
     SalaryAndWages
-} from "../components/add-new-employee";
+} from "../components/add-edit-employee";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { addEmployeeState, filledContractInfomation, filledEmployeeInfomation } from "../state/add-new-employee/add.state";
+import { addEmployeeState, filledContractInfomation, filledEmployeeInfomation } from "../state/add-edit-employee/add.state";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { isAddEmplyee } from "../state/add-new-employee/add.atom";
+import { isAddEmplyee } from "../state/add-edit-employee/add.atom";
 import { FieldData } from "../types";
 
 const { Text } = Typography;
 
-export function AddNewEmployee() {
+export function AddEditEmployee() {
 
     const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState<string>("1");
@@ -28,24 +28,26 @@ export function AddNewEmployee() {
     const isEmployeeInfomation: boolean = useRecoilValue(filledEmployeeInfomation);
     const isContractInfomation: boolean = useRecoilValue(filledContractInfomation);
     const [fields, setFields] = useState<FieldData[]>([
-        {name: ['name'], value: "",},
-        {name: ['gender'], value: "",},
-        {name: ['mother_name'], value: "",},
-        {name: ['dob'], value: "",},
-        {name: ['pob'], value: "",},
-        {name: ['ktp_no'], value: "",},
-        {name: ['nc_id'], value: "",},
-        {name: ['home_address_1'], value: "",},
-        {name: ['home_address_2'], value: "",},
-        {name: ['mobile_no'],value: "",},
-        {name: ['tel_no'],value: "",},
-        {name: ['marriage_id'],value: "",},
-        {name: ['card_number'],value: "",},
-        {name: ['bank_account_no'],value: "",},
-        {name: ['bank_name'],value: "",},
-        {name: ['family_card_number'],value: "",},
-        {name: ['safety_insurance_no'],value: "",},
-        {name: ['health_insurance_no'],value: "",},
+        {name: 'name', value: "",},
+        {name: 'gender', value: "",},
+        {name: 'mother_name', value: "",},
+        {name: 'dob', value: "",},
+        {name: 'pob', value: "",},
+        {name: 'ktp_no', value: "",},
+        {name: 'nc_id', value: "",},
+        {name: 'home_address_1', value: "",},
+        {name: 'home_address_2', value: "",},
+        {name: 'mobile_no',value: "",},
+        {name: 'tel_no',value: "",},
+        {name: 'marriage_id',value: "",},
+        {name: 'card_number',value: "",},
+        {name: 'bank_account_no',value: "",},
+        {name: 'bank_name',value: "",},
+        {name: 'family_card_number',value: "",},
+        {name: 'safety_insurance_no',value: "",},
+        {name: 'health_insurance_no',value: "",},
+        {name: 'contract_start_date', value: "",},
+        {name: 'type', value: "",},
     ]);
     
     const ConfigButtonTab = (label: string, key: string) => {
@@ -71,7 +73,7 @@ export function AddNewEmployee() {
         {
           key: '2',
           label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab2"), "2"),
-          children: <ContractInfomation />,
+          children: <ContractInfomation fields={fields} setFields={setFields} />,
         },
         {
           key: '3',

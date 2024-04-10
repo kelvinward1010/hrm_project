@@ -20,7 +20,7 @@ export const Employee = lazyLoad(
     (module) => module.Employee,
 )
 
-export const AddNewEmployee = lazyLoad(
-    () => import("./employee/views/AddNewEmployee"),
-    (module) => module.AddNewEmployee,
+export const AddEditEmployee = lazyLoad(
+    () => import("./employee/views/AddEditEmployee"),
+    (module) => module.AddEditEmployee,
 )
