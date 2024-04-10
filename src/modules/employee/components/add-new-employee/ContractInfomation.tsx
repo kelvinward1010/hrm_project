@@ -9,7 +9,7 @@ import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { formatDate } from "@/utils/format";
 import { LableInput } from "./LableInput";
 import { useRecoilState } from "recoil";
-import { isFilledContractInfomation } from "../../state/add_new_employee/add.atom";
+import { isFilledContractInfomation } from "../../state/add-new-employee/add.atom";
 import { EMPLOYEE_TYPE_CONGIG } from "../../config";
 
 const dateFormat = 'YYYY/MM/DD';

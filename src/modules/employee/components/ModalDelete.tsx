@@ -1,18 +1,41 @@
 import { ButtonConfigAntd } from "@/components";
+import { IEmployee } from "@/types/employee";
 import { Col, Modal, Row, Typography } from "antd";
+import { useCallback } from "react";
+import { useDeleteMultipleEmployees } from "../api/deleteMultipleEmployees";
+import { getIdsItemsEmployee } from "@/utils/data";
+import { Notification } from "@/components/notification/Notification";
 
 interface ModalDeleteProps {
     isOpen?: boolean;
     setIsOpen?: any;
+    itemsSelected: IEmployee[];
 }
 
 const { Text } = Typography;
 
 export function ModalDelete(props: ModalDeleteProps) {
 
-    const handleLogout = () => {
-        props.setIsOpen(false);
-    }
+    const handleMultipleDeleteEmployees = useCallback(() => {
+        const data = {
+            record_ids: getIdsItemsEmployee(props.itemsSelected)
+        }
+        useDeleteMultipleEmployees(data).then((res: any) => {
+            if(res?.result === true) {
+                Notification({
+                    message: "Successfully deleted",
+                    type: "success",
+                })
+            }
+            props.setIsOpen(false);
+        }).catch((err: any) =>{
+            Notification({
+                message: err.data?.message,
+                type: "error",
+            })
+        })
+    },[props.itemsSelected])
+    
     return (
         <Modal
             title={`Delete`}
@@ -38,7 +61,7 @@ export function ModalDelete(props: ModalDeleteProps) {
                 <Col span={11}>
                     <ButtonConfigAntd
                         label={"Yes"}
-                        onClick={handleLogout}
+                        onClick={handleMultipleDeleteEmployees}
                         background="var(--button-color-dark-blue)"
                         colorLabel="white"
                         border="none"

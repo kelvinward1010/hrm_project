@@ -2,11 +2,11 @@ import { TitleAll } from "./TitleAll";
 import styles from "./EmployeeInfomation.module.scss";
 import { useTranslation } from "react-i18next";
 import { Col, DatePicker, Form, Input, Row, Select } from "antd";
-import { useState } from "react";
 import { Notification } from "@/components/notification/Notification";
-import { isFilledEmployeeInfomation } from "../../state/add_new_employee/add.atom";
+import { isFilledEmployeeInfomation } from "../../state/add-new-employee/add.atom";
 import { useRecoilState } from "recoil";
 import { GENDER_CONFIG } from "../../config";
+import { FieldData } from "../../types";
 
 
 const dateFormat = 'YYYY/MM/DD';
@@ -22,12 +22,9 @@ const formItemLayout = {
     },
 };
 
-interface FieldData {
-    name: string | number | (string | number)[];
-    value?: any;
-    touched?: boolean;
-    validating?: boolean;
-    errors?: string[];
+interface EmployeeInfomationProps{
+    fields: FieldData[];
+    setFields: any;
 }
 
 interface CustomizedFormProps {
@@ -39,65 +36,12 @@ interface CustomizedFormProps {
     setFilledInformationImportant?: any;
 }
 
-export function EmployeeInfomation() {
+export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
+    fields,
+    setFields
+}) => {
     const { t } = useTranslation();
     const [, setFilledInformationImportant] = useRecoilState(isFilledEmployeeInfomation);
-    const [fields, setFields] = useState<FieldData[]>([
-        {
-            name: ['name'], value: "",
-        },
-        {
-            name: ['gender'], value: "",
-        },
-        {
-            name: ['mother_name'], value: "",
-        },
-        {
-            name: ['dob'], value: "",
-        },
-        {
-            name: ['pob'], value: "",
-        },
-        {
-            name: ['ktp_no'], value: "",
-        },
-        {
-            name: ['nc_id'], value: "",
-        },
-        {
-            name: ['home_address_1'], value: "",
-        },
-        {
-            name: ['home_address_2'], value: "",
-        },
-        {
-            name: ['mobile_no'],value: "",
-        },
-        {
-            name: ['tel_no'],value: "",
-        },
-        {
-            name: ['marriage_id'],value: "",
-        },
-        {
-            name: ['card_number'],value: "",
-        },
-        {
-            name: ['bank_account_no'],value: "",
-        },
-        {
-            name: ['bank_name'],value: "",
-        },
-        {
-            name: ['family_card_number'],value: "",
-        },
-        {
-            name: ['safety_insurance_no'],value: "",
-        },
-        {
-            name: ['health_insurance_no'],value: "",
-        },
-    ]);
 
     const onFinish = (values: any) => {
         const data = {

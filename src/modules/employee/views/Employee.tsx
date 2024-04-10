@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { deleteItemState } from "../state/table.state";
 import { IEmployee } from "@/types/employee";
-import { getIdsItemsEmployee } from "@/utils/data";
+
 
 const { Text } = Typography;
 
@@ -30,7 +30,6 @@ export function Employee() {
         searchParams.delete("pageIndex");
         searchParams.delete("pageSize");
     };
-    console.log(getIdsItemsEmployee(itemsSelected))
     
     return (
         <>
@@ -89,6 +88,7 @@ export function Employee() {
             <ModalDelete
                 isOpen={isOpenDelete}
                 setIsOpen={setIsOpenDelete}
+                itemsSelected={itemsSelected}
             />
         </>
     )

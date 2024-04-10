@@ -12,9 +12,10 @@ import {
     SalaryAndWages
 } from "../components/add-new-employee";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { addEmployeeState, filledContractInfomation, filledEmployeeInfomation } from "../state/add_new_employee/add.state";
+import { addEmployeeState, filledContractInfomation, filledEmployeeInfomation } from "../state/add-new-employee/add.state";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { isAddEmplyee } from "../state/add_new_employee/add.atom";
+import { isAddEmplyee } from "../state/add-new-employee/add.atom";
+import { FieldData } from "../types";
 
 const { Text } = Typography;
 
@@ -26,6 +27,26 @@ export function AddNewEmployee() {
     const isAddEmployee: boolean = useRecoilValue(addEmployeeState);
     const isEmployeeInfomation: boolean = useRecoilValue(filledEmployeeInfomation);
     const isContractInfomation: boolean = useRecoilValue(filledContractInfomation);
+    const [fields, setFields] = useState<FieldData[]>([
+        {name: ['name'], value: "",},
+        {name: ['gender'], value: "",},
+        {name: ['mother_name'], value: "",},
+        {name: ['dob'], value: "",},
+        {name: ['pob'], value: "",},
+        {name: ['ktp_no'], value: "",},
+        {name: ['nc_id'], value: "",},
+        {name: ['home_address_1'], value: "",},
+        {name: ['home_address_2'], value: "",},
+        {name: ['mobile_no'],value: "",},
+        {name: ['tel_no'],value: "",},
+        {name: ['marriage_id'],value: "",},
+        {name: ['card_number'],value: "",},
+        {name: ['bank_account_no'],value: "",},
+        {name: ['bank_name'],value: "",},
+        {name: ['family_card_number'],value: "",},
+        {name: ['safety_insurance_no'],value: "",},
+        {name: ['health_insurance_no'],value: "",},
+    ]);
     
     const ConfigButtonTab = (label: string, key: string) => {
         return <ButtonConfigAntd
@@ -45,7 +66,7 @@ export function AddNewEmployee() {
         {
           key: '1',
           label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab1"), "1"),
-          children: <EmployeeInfomation />,
+          children: <EmployeeInfomation fields={fields} setFields={setFields}/>,
         },
         {
           key: '2',
@@ -75,7 +96,7 @@ export function AddNewEmployee() {
 
     
     useEffect(() => {
-        if(isContractInfomation === true && isEmployeeInfomation === true) {
+        if(isContractInfomation && isEmployeeInfomation) {
             setIsAddEmployee(false);
         }else{
             setIsAddEmployee(true);
@@ -91,7 +112,7 @@ export function AddNewEmployee() {
                 <Col span={2}>
                     <ButtonConfigAntd
                         label={t("features.employee.features_add_new.lable_add")}
-                        background={isAddEmployee === true ? "var(--button-color-dark-black)" : "var(--button-color-dark-blue)"}
+                        background={isAddEmployee ? "var(--button-color-dark-black)" : "var(--button-color-dark-blue)"}
                         colorLabel="white"
                         height={40}
                         with="auto"
