@@ -30,3 +30,24 @@ export const getIdsItemsEmployee = (data: IEmployee[]) => {
     })
     return listIds || [];
 }
+
+
+export function mapDataCreate(data: any[]) {
+    const mappedObject: Record<string, any> = {};
+
+    data?.forEach((item) => {
+        if (item.value !== undefined) {
+            if (item.name === "contract_start_date") {
+                const date = new Date(item.value);
+                const formattedDate = date?.toISOString().split("T")[0];
+                mappedObject[item.name] = formattedDate;
+            } else {
+                mappedObject[item.name] = item.value;
+            }
+        } else {
+            mappedObject[item.name] = "";
+        }
+    });
+
+    return mappedObject;
+}

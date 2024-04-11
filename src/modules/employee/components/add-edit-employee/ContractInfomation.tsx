@@ -2,8 +2,6 @@ import { TitleAll } from "./TitleAll";
 import styles from "./ContractInfomation.module.scss";
 import { useTranslation } from "react-i18next";
 import { Col, DatePicker, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upload, UploadProps } from "antd";
-import { useState } from "react";
-import { Notification } from "@/components/notification/Notification";
 import { ButtonConfigAntd } from "@/components";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { formatDate } from "@/utils/format";
@@ -40,7 +38,6 @@ type FieldType = {
 interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
     fields: FieldData[];
-    onSubmit: (data: any) => void;
     t?: any;
     setFilledInformationImportant: any;
 }
@@ -51,18 +48,6 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
 }) => {
     const { t } = useTranslation();
     const [, setFilledInformationImportant] = useRecoilState(isFilledContractInfomation);
-
-    const onFinish = (values: any) => {
-        const data = {
-            contract_start_date: values.contract_start_date,
-            type: values.type,
-        }
-        Notification({
-            message: "Created OK",
-            type: "success",
-        })
-        console.log(data)
-    }
 
     const propsFile: UploadProps = {
         name: 'file',
@@ -139,7 +124,6 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
                     })
                     setFields(fields);
                 }}
-                onSubmit={(values: any) => onFinish(values)}
                 t={t}
                 setFilledInformationImportant={setFilledInformationImportant}
             />
@@ -231,7 +215,7 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     )
 }
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSubmit, t, setFilledInformationImportant }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, setFilledInformationImportant }) => (
     <Form
         name="contract_information"
         {...formItemLayout}
@@ -244,7 +228,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSub
                 setFilledInformationImportant(false);
             }
         }}
-        onFinish={onSubmit}
         initialValues={{
             "contract_start_date": fields.find(value => value?.value != null && value?.name == "contract_start_date")?.value,
             "type": fields.find(value => value?.value != null && value?.name == "type")?.value,

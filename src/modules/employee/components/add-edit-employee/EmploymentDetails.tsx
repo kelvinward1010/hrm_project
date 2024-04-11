@@ -2,9 +2,9 @@ import { useTranslation } from "react-i18next";
 import styles from "./EmploymentDetails.module.scss";
 import { TitleAll } from "./TitleAll";
 import { Checkbox, CheckboxProps, Col, Form, Row, Select } from "antd";
-import { useState } from "react";
-import { Notification } from "@/components/notification/Notification";
+import React, { useState } from "react";
 import { LableInput } from "./LableInput";
+import { FieldData } from "../../types";
 
 const formItemLayout = {
     labelCol: {
@@ -17,34 +17,22 @@ const formItemLayout = {
     },
 };
 
-interface FieldData {
-    name: string | number | (string | number)[];
-    value?: any;
-    touched?: boolean;
-    validating?: boolean;
-    errors?: string[];
+interface EmploymentDetailsProps{
+    fields: FieldData[];
+    setFields: any;
 }
 
 interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
     fields: FieldData[];
-    onSubmit: (data: any) => void;
     t?: any;
 }
 
-export function EmploymentDetails() {
+export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
+    fields,
+    setFields
+}) => {
     const { t } = useTranslation();
-    const [fields, setFields] = useState<FieldData[]>([
-        {
-            name: ['department_id'], value: "",
-        },
-        {
-            name: ['position_id'], value: "",
-        },
-        {
-            name: ['shift'], value: "",
-        },
-    ]);
 
     const [formCheck, setFormCheck] = useState<any>({
         entitle_ot: 0,
@@ -52,18 +40,6 @@ export function EmploymentDetails() {
         operational_allowance_paid: 0,
         attendance_allowance_paid: 0,
     })
-
-    const onFinish = (values: any) => {
-        const data = {
-            department_id: values.department_id,
-            position_id: values.position_id,
-        }
-        Notification({
-            message: "Created OK",
-            type: "success",
-        })
-        console.log(data)
-    }
 
     const handleChange: CheckboxProps['onChange'] = (e: any) => {
         setFormCheck({ ...formCheck, [e.target.name]: e.target.checked == true ? 1 : 0});
@@ -75,9 +51,14 @@ export function EmploymentDetails() {
             <CustomizedForm
                 fields={fields}
                 onChange={(newFields) => {
-                    setFields(newFields);
+                    newFields.forEach((i: FieldData) => {
+                        const index = fields.findIndex((f: FieldData) => f.name == i.name)
+                        if(index !== -1){
+                            fields[index].value = i.value;
+                        }
+                    })
+                    setFields(fields);
                 }}
-                onSubmit={(values: any) => onFinish(values)}
                 t={t}
             />
             <Row>
@@ -107,7 +88,7 @@ export function EmploymentDetails() {
 }
 
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSubmit, t }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) => (
     <Form
         name="employee_details"
         {...formItemLayout}
@@ -115,7 +96,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSub
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
         }}
-        onFinish={onSubmit}
         className={styles.formmain}
         autoComplete="off"
     >
@@ -129,7 +109,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSub
                     <Select
                         options={[
                             {
-                                value: "1",
+                                value: 1,
                                 label: "Quanlity Control"
                             }
                         ]}
@@ -145,7 +125,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSub
                     <Select
                         options={[
                             {
-                                value: "1",
+                                value: 1,
                                 label: "Sew Staff"
                             }
                         ]}

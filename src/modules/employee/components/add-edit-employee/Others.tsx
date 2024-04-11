@@ -2,11 +2,10 @@ import { useTranslation } from "react-i18next";
 import styles from "./Others.module.scss";
 import { TitleAll } from "./TitleAll";
 import { Col, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upload, UploadProps } from "antd";
-import { useState } from "react";
-import { Notification } from "@/components/notification/Notification";
 import { ButtonConfigAntd } from "@/components";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { formatDate } from "@/utils/format";
+import { FieldData } from "../../types";
 
 
 const { Text } = Typography;
@@ -22,37 +21,22 @@ const formItemLayout = {
     },
 };
 
-interface FieldData {
-    name: string | number | (string | number)[];
-    value?: any;
-    touched?: boolean;
-    validating?: boolean;
-    errors?: string[];
+interface OthersProps{
+    fields: FieldData[];
+    setFields: any;
 }
 
 interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
     fields: FieldData[];
-    onSubmit: (data: any) => void;
     t?: any;
 }
 
-export function Others() {
+export const Others: React.FC<OthersProps> = ({
+    fields,
+    setFields
+}) => {
     const { t } = useTranslation();
-    const [fields, setFields] = useState<FieldData[]>([
-        {
-            name: ['grade_id'], value: "",
-        },
-        {
-            name: ['remark'], value: [],
-        },
-        {
-            name: ['benefits'], value: "",
-        },
-        {
-            name: ['account_user_id'], value: "",
-        },
-    ]);
 
     const propsFile: UploadProps = {
         name: 'file',
@@ -71,18 +55,6 @@ export function Others() {
             }
         },
     };
-
-    const onFinish = (values: any) => {
-        const data = {
-            grade_id: values.grade_id,
-            remark: values.remark,
-        }
-        Notification({
-            message: "Created OK",
-            type: "success",
-        })
-        console.log(data)
-    }
 
     const columns: TableColumnsType = [
         {
@@ -130,7 +102,6 @@ export function Others() {
                 onChange={(newFields) => {
                     setFields(newFields);
                 }}
-                onSubmit={(values: any) => onFinish(values)}
                 t={t}
             />
             <div className={styles.table_main}>
@@ -171,7 +142,7 @@ export function Others() {
 }
 
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSubmit, t }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) => (
     <Form
         name="others"
         {...formItemLayout}
@@ -179,7 +150,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSub
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
         }}
-        onFinish={onSubmit}
         className={styles.formmain}
         autoComplete="off"
     >
@@ -203,7 +173,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSub
                 </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
-                    name="remark"
+                    name="benefits"
                     label={t("features.employee.features_add_new.others.lable_input_remark")}
                 >
                     <Select
@@ -225,7 +195,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSub
                 </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
-                    name="benefits"
+                    name="remark"
                     label={t("features.employee.features_add_new.others.lable_input_benefits")}
                 >
                     <Input.TextArea className="input_inside"/>

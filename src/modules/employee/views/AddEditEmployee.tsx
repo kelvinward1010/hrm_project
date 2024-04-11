@@ -2,7 +2,7 @@ import { Col, Row, Typography, Tabs } from "antd";
 import styles from "./Employee.module.scss";
 import { useTranslation } from "react-i18next";
 import type { TabsProps } from 'antd';
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ButtonConfigAntd, TextLicense } from "@/components";
 import { 
     ContractInfomation, 
@@ -16,6 +16,8 @@ import { addEmployeeState, filledContractInfomation, filledEmployeeInfomation } 
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { isAddEmplyee } from "../state/add-edit-employee/add.atom";
 import { FieldData } from "../types";
+import { useCreateEmployee } from "../api/createEmployee";
+import { mapDataCreate } from "@/utils/data";
 
 const { Text } = Typography;
 
@@ -48,7 +50,27 @@ export function AddEditEmployee() {
         {name: 'health_insurance_no',value: "",},
         {name: 'contract_start_date', value: "",},
         {name: 'type', value: "",},
+        {name: 'department_id', value: "",},
+        {name: 'position_id', value: "",},
+        {name: 'shift', value: "",},
+        {name: 'basic_salary', value: "",},
+        {name: 'audit_salary', value: "",},
+        {name: 'safety_insurance', value: "",},
+        {name: 'health_insurance', value: "",},
+        {name: 'meal_allowance', value: "",},
+        {name: 'grade_id', value: "",},
+        {name: 'benefits', value: [],},
+        {name: 'remark', value: "",},
+        {name: 'account_user_id', value: "",}
     ]);
+    
+    const handleCreateEmployee = useCallback(() => {
+        const data: any = mapDataCreate(fields);
+        console.log(data)
+        useCreateEmployee(data).then((res) => {
+            console.log(res)
+        });
+    },[fields])
     
     const ConfigButtonTab = (label: string, key: string) => {
         return <ButtonConfigAntd
@@ -78,17 +100,17 @@ export function AddEditEmployee() {
         {
           key: '3',
           label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab3"), "3"),
-          children: <EmploymentDetails />,
+          children: <EmploymentDetails fields={fields} setFields={setFields}/>,
         },
         {
             key: '4',
             label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab4"), "4"),
-            children: <SalaryAndWages />,
+            children: <SalaryAndWages fields={fields} setFields={setFields}/>,
         },
         {
             key: '5',
             label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab5"), "5"),
-            children: <Others />,
+            children: <Others fields={fields} setFields={setFields}/>,
         }
     ];
 
@@ -96,13 +118,8 @@ export function AddEditEmployee() {
         setActiveTab(key);
     };
 
-    
     useEffect(() => {
-        if(isContractInfomation && isEmployeeInfomation) {
-            setIsAddEmployee(false);
-        }else{
-            setIsAddEmployee(true);
-        }
+        (isContractInfomation && isEmployeeInfomation) ? setIsAddEmployee(false) : setIsAddEmployee(true);
     },[isContractInfomation, isEmployeeInfomation])
 
     return (
@@ -120,6 +137,7 @@ export function AddEditEmployee() {
                         with="auto"
                         border="none"
                         disabled={isAddEmployee}
+                        onClick={handleCreateEmployee}
                     />
                 </Col>
             </Row>

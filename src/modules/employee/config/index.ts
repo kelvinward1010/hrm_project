@@ -19,7 +19,7 @@ export const EMPLOYEE_TYPE_CONGIG = [
         label: "Part-time worker",
     },
     {
-        value: 3,
+        value: 2,
         label: "Contract worker",
     },
 ]

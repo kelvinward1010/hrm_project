@@ -23,6 +23,7 @@ export function Employee() {
     const isSelectedItem: boolean = useRecoilValue(deleteItemState);
     const [searchParams, setSearchParams] = useSearchParams();
     const [itemsSelected, setItemsSelected] = useState<IEmployee[]>([]);
+    const contentSearchParams = searchParams.get("searchContent");
 
     const handleChangeSearch = (value: string) => {
         searchParams.set("searchContent", value.trim());
@@ -30,6 +31,7 @@ export function Employee() {
         searchParams.delete("pageSize");
         setSearchParams(searchParams);
     };
+
     
     return (
         <>
@@ -44,6 +46,7 @@ export function Employee() {
                                 onChange={(e) => handleChangeSearch(e.target.value)} 
                                 placeholder="Search" 
                                 leftSection={<SearchOutlined size={16} />} 
+                                defaultValue={String(contentSearchParams)}
                             />
                         </Form>
                     </Col>

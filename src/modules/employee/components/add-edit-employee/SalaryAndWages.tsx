@@ -2,8 +2,7 @@ import { useTranslation } from "react-i18next";
 import styles from "./SalaryAndWages.module.scss";
 import { TitleAll } from "./TitleAll";
 import { Col, Form, InputNumber, Row, Typography } from "antd";
-import { useState } from "react";
-import { Notification } from "@/components/notification/Notification";
+import { FieldData } from "../../types";
 
 const { Text } = Typography;
 
@@ -18,52 +17,21 @@ const formItemLayout = {
     },
 };
 
-interface FieldData {
-    name: string | number | (string | number)[];
-    value?: any;
-    touched?: boolean;
-    validating?: boolean;
-    errors?: string[];
+interface SalaryAndWagesProps{
+    fields: FieldData[];
+    setFields: any;
 }
-
 interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
     fields: FieldData[];
-    onSubmit: (data: any) => void;
     t?: any;
 }
 
-export function SalaryAndWages() {
+export const SalaryAndWages: React.FC<SalaryAndWagesProps> = ({
+    fields,
+    setFields
+}) => {
     const { t } = useTranslation();
-    const [fields, setFields] = useState<FieldData[]>([
-        {
-            name: ['basic_salary'], value: "",
-        },
-        {
-            name: ['audit_salary'], value: "",
-        },
-        {
-            name: ['safety_insurance'], value: "",
-        },
-        {
-            name: ['health_insurance'], value: "",
-        },
-        {
-            name: ['meal_allowance'], value: "",
-        },
-    ]);
-
-    const onFinish = (values: any) => {
-        const data = {
-            basic_salary: values.basic_salary,
-            audit_salary: values.audit_salary,
-        }
-        Notification({
-            message: "Created OK",
-            type: "success",
-        })
-        console.log(data)
-    }
 
     return (
         <div className={styles.container}>
@@ -73,7 +41,6 @@ export function SalaryAndWages() {
                 onChange={(newFields) => {
                     setFields(newFields);
                 }}
-                onSubmit={(values: any) => onFinish(values)}
                 t={t}
             />
         </div>
@@ -84,7 +51,7 @@ const configPrefix = () => {
     return <Text style={{color: "var(--text-color-blue)"}}>Rp</Text>
 }
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSubmit, t }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) => (
     <Form
         name="Salaryandwages"
         {...formItemLayout}
@@ -92,7 +59,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onSub
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
         }}
-        onFinish={onSubmit}
         initialValues={{
             "basic_salary": fields.find(value => value?.value != null && value?.name == "basic_salary")?.value,
             "audit_salary": fields.find(value => value?.value != null && value?.name == "audit_salary")?.value,

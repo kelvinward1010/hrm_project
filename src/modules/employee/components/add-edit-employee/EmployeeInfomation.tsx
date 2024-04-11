@@ -2,7 +2,6 @@ import { TitleAll } from "./TitleAll";
 import styles from "./EmployeeInfomation.module.scss";
 import { useTranslation } from "react-i18next";
 import { Col, DatePicker, Form, Input, Row, Select } from "antd";
-import { Notification } from "@/components/notification/Notification";
 import { isFilledEmployeeInfomation } from "../../state/add-edit-employee/add.atom";
 import { useRecoilState } from "recoil";
 import { GENDER_CONFIG } from "../../config";
@@ -30,8 +29,6 @@ interface EmployeeInfomationProps{
 interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
     fields: FieldData[];
-    onSubmit: (data: any) => void;
-    onFailure: (data: any) => void;
     t?: any;
     setFilledInformationImportant?: any;
 }
@@ -42,25 +39,6 @@ export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
 }) => {
     const { t } = useTranslation();
     const [, setFilledInformationImportant] = useRecoilState(isFilledEmployeeInfomation);
-
-    const onFinish = (values: any) => {
-        const data = {
-            name: values.name,
-            gender: values.gender,
-        }
-        Notification({
-            message: "Created OK",
-            type: "success",
-        })
-        console.log(data)
-    }
-
-    const onFinishFailed = (errorInfo: any) => {
-        Notification({
-            message: errorInfo,
-            type: "error",
-        })
-    };
 
     return (
         <div className={styles.container}>
@@ -76,8 +54,6 @@ export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
                     })
                     setFields(fields);
                 }}
-                onFailure={(error: any) => onFinishFailed(error)}
-                onSubmit={(values: any) => onFinish(values)}
                 t={t}
                 setFilledInformationImportant={setFilledInformationImportant}
             />
@@ -86,7 +62,7 @@ export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
 }
 
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFailure, onSubmit, t, setFilledInformationImportant }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, setFilledInformationImportant }) => (
     <Form
         name="employee_information"
         {...formItemLayout}
@@ -99,8 +75,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
                 setFilledInformationImportant(false);
             }
         }}
-        onFinish={onSubmit}
-        onFinishFailed={onFailure}
         className={styles.formmain}
         autoComplete="off"
     >
