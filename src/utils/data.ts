@@ -51,3 +51,21 @@ export function mapDataCreate(data: any[]) {
 
     return mappedObject;
 }
+
+export function validateFields(fields: any[]): boolean {
+    let isValid = true;
+    fields.forEach((field) => {
+        if (field.name === 'name' 
+            || field.name === 'gender' 
+            || field.name === 'dob' 
+            || field.name === 'ktp_no'
+            || field.name === 'nc_id'
+            || field.name === 'contract_start_date'
+            || field.name === 'type') {
+            if (field.value === "") {
+                isValid = false;
+            }
+        }
+    });
+    return isValid;
+}

@@ -17,13 +17,17 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { isAddEmplyee } from "../state/add-edit-employee/add.atom";
 import { FieldData } from "../types";
 import { useCreateEmployee } from "../api/createEmployee";
-import { mapDataCreate } from "@/utils/data";
+import { mapDataCreate, validateFields } from "@/utils/data";
+import { Notification } from "@/components/notification/Notification";
+import { useNavigate } from "react-router-dom";
+import { employeeUrl } from "@/routes/urls";
 
 const { Text } = Typography;
 
 export function AddEditEmployee() {
 
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState<string>("1");
     const [, setIsAddEmployee] = useRecoilState(isAddEmplyee);
     const isAddEmployee: boolean = useRecoilValue(addEmployeeState);
@@ -61,14 +65,35 @@ export function AddEditEmployee() {
         {name: 'grade_id', value: "",},
         {name: 'benefits', value: [],},
         {name: 'remark', value: "",},
-        {name: 'account_user_id', value: "",}
+        {name: 'account_user_id', value: "",},
     ]);
+
+    const [formCheck, setFormCheck] = useState<any>({
+        hidden_on_payroll: 0,
+        entitle_ot: 0,
+        meal_allowance_paid: 0,
+        operational_allowance_paid: 0,
+        attendance_allowance_paid: 0,
+    })
+
+    const checkValueImportant = validateFields(fields)
     
     const handleCreateEmployee = useCallback(() => {
         const data: any = mapDataCreate(fields);
-        console.log(data)
-        useCreateEmployee(data).then((res) => {
-            console.log(res)
+        const finalData = {...data, ...formCheck};
+        useCreateEmployee(finalData).then((res) => {
+            if(res?.result === true) {
+                Notification({
+                    message: "Successfully created employee",
+                    type: "success",
+                })
+            }
+            navigate(employeeUrl);
+        }).catch((err) => {
+            Notification({
+                message: err.data?.message,
+                type: "error",
+            })
         });
     },[fields])
     
@@ -82,7 +107,7 @@ export function AddEditEmployee() {
             height={45}
             border="none"
             padding="5px 30px"
-            rightIcon={(isEmployeeInfomation === false && key == '1' || isContractInfomation === false && key == '2') ? <InfoCircleOutlined style={{color: "red", fontSize: "20px"}}/> : null}
+            rightIcon={((!isEmployeeInfomation || !checkValueImportant) && key == '1' || (!isContractInfomation || !checkValueImportant) && key == '2') ? <InfoCircleOutlined style={{color: "red", fontSize: "20px"}}/> : null}
         />
     }
 
@@ -100,7 +125,7 @@ export function AddEditEmployee() {
         {
           key: '3',
           label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab3"), "3"),
-          children: <EmploymentDetails fields={fields} setFields={setFields}/>,
+          children: <EmploymentDetails fields={fields} setFields={setFields} formCheck={formCheck} setFormCheck={setFormCheck}/>,
         },
         {
             key: '4',
@@ -119,7 +144,7 @@ export function AddEditEmployee() {
     };
 
     useEffect(() => {
-        (isContractInfomation && isEmployeeInfomation) ? setIsAddEmployee(false) : setIsAddEmployee(true);
+        (isContractInfomation && isEmployeeInfomation && checkValueImportant) ? setIsAddEmployee(false) : setIsAddEmployee(true);
     },[isContractInfomation, isEmployeeInfomation])
 
     return (

@@ -20,6 +20,8 @@ const formItemLayout = {
 interface EmploymentDetailsProps{
     fields: FieldData[];
     setFields: any;
+    formCheck: any;
+    setFormCheck: any;
 }
 
 interface CustomizedFormProps {
@@ -30,16 +32,11 @@ interface CustomizedFormProps {
 
 export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
     fields,
-    setFields
+    setFields,
+    setFormCheck,
+    formCheck
 }) => {
     const { t } = useTranslation();
-
-    const [formCheck, setFormCheck] = useState<any>({
-        entitle_ot: 0,
-        meal_allowance_paid: 0,
-        operational_allowance_paid: 0,
-        attendance_allowance_paid: 0,
-    })
 
     const handleChange: CheckboxProps['onChange'] = (e: any) => {
         setFormCheck({ ...formCheck, [e.target.name]: e.target.checked == true ? 1 : 0});
@@ -62,6 +59,11 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
                 t={t}
             />
             <Row>
+                <Col span={24}>
+                    <Checkbox name="hidden_on_payroll" onChange={handleChange} className={styles.check}>
+                        {t("features.employee.features_add_new.eploymentdetails.lable_input_hidden_on_payroll")}
+                    </Checkbox>
+                </Col>
                 <Col span={24}>
                     <Checkbox name="entitle_ot" onChange={handleChange} className={styles.check}>
                         {t("features.employee.features_add_new.eploymentdetails.lable_input_entitle_ot")}

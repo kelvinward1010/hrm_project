@@ -23,7 +23,7 @@ export function Employee() {
     const isSelectedItem: boolean = useRecoilValue(deleteItemState);
     const [searchParams, setSearchParams] = useSearchParams();
     const [itemsSelected, setItemsSelected] = useState<IEmployee[]>([]);
-    const contentSearchParams = searchParams.get("searchContent");
+    // const contentSearchParams = searchParams.get("searchContent");
 
     const handleChangeSearch = (value: string) => {
         searchParams.set("searchContent", value.trim());
@@ -32,7 +32,6 @@ export function Employee() {
         setSearchParams(searchParams);
     };
 
-    
     return (
         <>
             <div className={styles.container}>
@@ -45,8 +44,7 @@ export function Employee() {
                             <Input
                                 onChange={(e) => handleChangeSearch(e.target.value)} 
                                 placeholder="Search" 
-                                leftSection={<SearchOutlined size={16} />} 
-                                defaultValue={String(contentSearchParams)}
+                                leftSection={<SearchOutlined size={16} />}
                             />
                         </Form>
                     </Col>

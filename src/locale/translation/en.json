@@ -91,6 +91,7 @@
                     "lable_input_department": "Department",
                     "lable_input_position": "Position",
                     "lable_input_shift": "Shift",
+                    "lable_input_hidden_on_payroll": "Hidden on Payroll",
                     "lable_input_entitle_ot": "Entitle OT",
                     "lable_input_meal_allowance_paid": "Meal Allowance Paid",
                     "lable_input_operational_allowance_paid": "Operational Allowance Paid",
