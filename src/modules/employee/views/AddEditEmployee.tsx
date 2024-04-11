@@ -12,14 +12,14 @@ import {
     SalaryAndWages
 } from "../components/add-edit-employee";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { addEmployeeState, filledContractInfomation, filledEmployeeInfomation } from "../state/add-edit-employee/add.state";
+import { addEmployeeState, DataEmployeeDetail, filledContractInfomation, filledEmployeeInfomation } from "../state/add-edit-employee/add.state";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { isAddEmplyee } from "../state/add-edit-employee/add.atom";
 import { FieldData } from "../types";
 import { useCreateEmployee } from "../api/createEmployee";
 import { mapDataCreate, validateFields } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { employeeUrl } from "@/routes/urls";
 
 const { Text } = Typography;
@@ -28,13 +28,16 @@ export function AddEditEmployee() {
 
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const idParams = useParams();
     const [activeTab, setActiveTab] = useState<string>("1");
     const [, setIsAddEmployee] = useRecoilState(isAddEmplyee);
     const isAddEmployee: boolean = useRecoilValue(addEmployeeState);
     const isEmployeeInfomation: boolean = useRecoilValue(filledEmployeeInfomation);
     const isContractInfomation: boolean = useRecoilValue(filledContractInfomation);
+    const dataDetailEmployee: any = useRecoilState(DataEmployeeDetail);
+
     const [fields, setFields] = useState<FieldData[]>([
-        {name: 'name', value: "",},
+        {name: 'name', value: idParams ? dataDetailEmployee[0]?.name : "" ,},
         {name: 'gender', value: "",},
         {name: 'mother_name', value: "",},
         {name: 'dob', value: "",},
@@ -74,9 +77,9 @@ export function AddEditEmployee() {
         meal_allowance_paid: 0,
         operational_allowance_paid: 0,
         attendance_allowance_paid: 0,
-    })
+    });
 
-    const checkValueImportant = validateFields(fields)
+    const checkValueImportant = validateFields(fields);
     
     const handleCreateEmployee = useCallback(() => {
         const data: any = mapDataCreate(fields);
@@ -107,7 +110,7 @@ export function AddEditEmployee() {
             height={45}
             border="none"
             padding="5px 30px"
-            rightIcon={((!isEmployeeInfomation || !checkValueImportant) && key == '1' || (!isContractInfomation || !checkValueImportant) && key == '2') ? <InfoCircleOutlined style={{color: "red", fontSize: "20px"}}/> : null}
+            rightIcon={((!isEmployeeInfomation && !checkValueImportant) && key == '1' || (!isContractInfomation && !checkValueImportant) && key == '2') ? <InfoCircleOutlined style={{color: "red", fontSize: "20px"}}/> : null}
         />
     }
 

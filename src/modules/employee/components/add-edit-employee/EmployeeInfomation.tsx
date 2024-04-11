@@ -75,6 +75,9 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                 setFilledInformationImportant(false);
             }
         }}
+        initialValues={{
+            "name": fields.find(value => value?.value != null && value?.name == "name")?.value,
+        }}
         className={styles.formmain}
         autoComplete="off"
     >

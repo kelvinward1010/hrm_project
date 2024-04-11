@@ -14,3 +14,9 @@ export const isFilledContractInfomation = atom({
     key: "isFilledContractInfomation",
     default: false,
 })
+
+
+export const employeeDetail = atom({
+    key: "employeeDetail",
+    default: {},
+})

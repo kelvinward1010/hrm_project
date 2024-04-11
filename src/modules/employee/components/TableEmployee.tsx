@@ -4,10 +4,13 @@ import type { TableColumnsType, TableProps } from 'antd';
 import { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { isDeleteItemAtom } from "../state/table.atom";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { IEmployee } from "@/types/employee";
 import { handleMapEmployee } from "@/utils/data";
 import { useGetEmployees } from "../api/getEmployees";
+import { editemployeeUrl } from "@/routes/urls";
+import { useGetDetailEmployee } from "../api/getDetailEmployee";
+import { employeeDetail } from "../state/add-edit-employee/add.atom";
 
 type TableRowSelection<T> = TableProps<T>['rowSelection'];
 
@@ -73,6 +76,8 @@ const columns: TableColumnsType<IEmployee> = [
 export const TableEmployee: React.FC<TableEmployeeProps> = ({
     setItemsSelected
 }) => {
+
+    const navigate = useNavigate();
     const [, setIsItemSelected] = useRecoilState(isDeleteItemAtom);
     const [searchParams, setSearchParams] = useSearchParams();
     const pageIndex = Number(searchParams.get("pageIndex")) || 1;
@@ -81,6 +86,7 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState<IEmployee[]>([])
     const [total, setTotal] = useState();
+    const [, setDetailEmployee] = useRecoilState(employeeDetail);
 
     const rowSelection: TableRowSelection<IEmployee> = {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -112,7 +118,13 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
         }).finally(() => {
             setLoading(false);
         })
-    },[pageIndex, searchContent])
+    },[pageIndex, searchContent]);
+
+    const handleDetailEmployee = (id: string) => {
+        useGetDetailEmployee(id).then((res) => {
+            setDetailEmployee(res?.data);
+        }).finally(() => navigate(`/employee/add-edit-employee/${id}`))
+    }
 
     useEffect(() => {
         handleGetEmployee()
@@ -123,6 +135,9 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
             <Table
                 rowSelection={rowSelection}
                 columns={columns}
+                onRow={(record) => ({
+                    onDoubleClick: () => handleDetailEmployee(record?.key),
+                })}
                 dataSource={data}
                 sticky
                 size={'small'}

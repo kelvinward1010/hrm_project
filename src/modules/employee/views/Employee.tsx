@@ -5,13 +5,13 @@ import { Col, Form, Row, Typography } from "antd";
 import { TableEmployee } from "../components/TableEmployee";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { addnewemployeeUrl } from "@/routes/urls";
 import { ButtonConfigAntd, TextLicense } from "@/components";
 import { ModalDelete } from "../components/ModalDelete";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { deleteItemState } from "../state/table.state";
 import { IEmployee } from "@/types/employee";
+import { addemployeeUrl } from "@/routes/urls";
 
 
 const { Text } = Typography;
@@ -62,7 +62,7 @@ export function Employee() {
                                 fontSizeLabel={14}
                                 fontWeightLabel={500}
                                 leftIcon={<FileAddOutlined />}
-                                onClick={() => navigate(addnewemployeeUrl)}
+                                onClick={() => navigate(addemployeeUrl)}
                             />
                             <ButtonConfigAntd
                                 label={t("features.employee.lable_delete")}
