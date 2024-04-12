@@ -34,6 +34,7 @@
             "lable_delete": "Hapus",
             "features_add_new": {
                 "lable_add": "Tambah Data",
+                "lable_save_change": "Save Change",
                 "tabs": {
                     "tab1": "Infomasi Karyawan",
                     "tab2": "Infomasi Kontrak Kerja",

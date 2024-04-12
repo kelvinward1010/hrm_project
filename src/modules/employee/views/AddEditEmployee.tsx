@@ -12,15 +12,19 @@ import {
     SalaryAndWages
 } from "../components/add-edit-employee";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { addEmployeeState, DataEmployeeDetail, filledContractInfomation, filledEmployeeInfomation } from "../state/add-edit-employee/add.state";
+import { addEmployeeState, filledContractInfomation, filledEmployeeInfomation } from "../state/add-edit-employee/add.state";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { isAddEmplyee } from "../state/add-edit-employee/add.atom";
+import { isAddEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
 import { FieldData } from "../types";
 import { useCreateEmployee } from "../api/createEmployee";
-import { mapDataCreate, validateFields } from "@/utils/data";
+import { mapDataCreate, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
 import { useNavigate, useParams } from "react-router-dom";
 import { employeeUrl } from "@/routes/urls";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import dayjs from "dayjs";
+import { useEditEmployee } from "../api/editEmployee";
 
 const { Text } = Typography;
 
@@ -28,58 +32,61 @@ export function AddEditEmployee() {
 
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const idParams = useParams();
+    const idParams = useParams()?.id;
     const [activeTab, setActiveTab] = useState<string>("1");
     const [, setIsAddEmployee] = useRecoilState(isAddEmplyee);
     const isAddEmployee: boolean = useRecoilValue(addEmployeeState);
     const isEmployeeInfomation: boolean = useRecoilValue(filledEmployeeInfomation);
     const isContractInfomation: boolean = useRecoilValue(filledContractInfomation);
-    const dataDetailEmployee: any = useRecoilState(DataEmployeeDetail);
-
+    const dataDetailEmployee: any = useSelector((state: RootState) => state.employee.employee);
+    const [, setFilledInformationImportant] = useRecoilState(isFilledEmployeeInfomation);
+    const [, setFilledContractImportant] = useRecoilState(isFilledContractInfomation);
+    
     const [fields, setFields] = useState<FieldData[]>([
-        {name: 'name', value: idParams ? dataDetailEmployee[0]?.name : "" ,},
-        {name: 'gender', value: "",},
-        {name: 'mother_name', value: "",},
-        {name: 'dob', value: "",},
-        {name: 'pob', value: "",},
-        {name: 'ktp_no', value: "",},
-        {name: 'nc_id', value: "",},
-        {name: 'home_address_1', value: "",},
-        {name: 'home_address_2', value: "",},
-        {name: 'mobile_no',value: "",},
-        {name: 'tel_no',value: "",},
-        {name: 'marriage_id',value: "",},
-        {name: 'card_number',value: "",},
-        {name: 'bank_account_no',value: "",},
-        {name: 'bank_name',value: "",},
-        {name: 'family_card_number',value: "",},
-        {name: 'safety_insurance_no',value: "",},
-        {name: 'health_insurance_no',value: "",},
-        {name: 'contract_start_date', value: "",},
-        {name: 'type', value: "",},
-        {name: 'department_id', value: "",},
-        {name: 'position_id', value: "",},
-        {name: 'shift', value: "",},
-        {name: 'basic_salary', value: "",},
-        {name: 'audit_salary', value: "",},
-        {name: 'safety_insurance', value: "",},
-        {name: 'health_insurance', value: "",},
-        {name: 'meal_allowance', value: "",},
-        {name: 'grade_id', value: "",},
+        {name: 'name', value: idParams ? dataDetailEmployee?.name : "" ,},
+        {name: 'gender', value: idParams ? dataDetailEmployee?.gender : "",},
+        {name: 'mother_name', value: idParams ? dataDetailEmployee?.mother_name : "",},
+        {name: 'dob', value: idParams ? dayjs(dataDetailEmployee?.dob, 'YYYY-MM-DD') : "",},
+        {name: 'pob', value: idParams ? dataDetailEmployee?.pob : "",},
+        {name: 'ktp_no', value: idParams ? dataDetailEmployee?.ktp_no : "",},
+        {name: 'nc_id', value: idParams ? dataDetailEmployee?.nc_id : "",},
+        {name: 'home_address_1', value: idParams ? dataDetailEmployee?.home_address_1 : "",},
+        {name: 'home_address_2', value: idParams ? dataDetailEmployee?.home_address_2 : "",},
+        {name: 'mobile_no',value: idParams ? dataDetailEmployee?.mobile_no : "",},
+        {name: 'tel_no',value: idParams ? dataDetailEmployee?.tel_no : "",},
+        {name: 'marriage_id',value: idParams ? dataDetailEmployee?.marriage_id : "",},
+        {name: 'card_number',value: idParams ? dataDetailEmployee?.card_number : "",},
+        {name: 'bank_account_no',value: idParams ? dataDetailEmployee?.bank_account_no : "",},
+        {name: 'bank_name',value: idParams ? dataDetailEmployee?.bank_name : "",},
+        {name: 'family_card_number',value: idParams ? dataDetailEmployee?.family_card_number : "",},
+        {name: 'safety_insurance_no',value: idParams ? dataDetailEmployee?.safety_insurance_no : "",},
+        {name: 'health_insurance_no',value: idParams ? dataDetailEmployee?.health_insurance_no : "",},
+        {name: 'contract_start_date', value: idParams ? dayjs(dataDetailEmployee?.contract_start_date, 'YYYY-MM-DD') : "",},
+        {name: 'type', value: idParams ? dataDetailEmployee?.type : "",},
+        {name: 'department_id', value: idParams ? dataDetailEmployee?.department_id : "",},
+        {name: 'position_id', value: idParams ? dataDetailEmployee?.position_id : "",},
+        {name: 'shift', value: idParams ? dataDetailEmployee?.shift : "",},
+        {name: 'basic_salary', value: idParams ? dataDetailEmployee?.basic_salary : "",},
+        {name: 'audit_salary', value: idParams ? dataDetailEmployee?.audit_salary : "",},
+        {name: 'safety_insurance', value: idParams ? dataDetailEmployee?.safety_insurance : "",},
+        {name: 'health_insurance', value: idParams ? dataDetailEmployee?.health_insurance : "",},
+        {name: 'meal_allowance', value: idParams ? dataDetailEmployee?.meal_allowance : "",},
+        {name: 'grade_id', value: idParams ? dataDetailEmployee?.grade_id : "",},
         {name: 'benefits', value: [],},
-        {name: 'remark', value: "",},
-        {name: 'account_user_id', value: "",},
+        {name: 'remark', value: idParams ? dataDetailEmployee?.remark : "",},
+        {name: 'account_user_id', value: idParams ? dataDetailEmployee?.account_user_id : "",},
     ]);
 
     const [formCheck, setFormCheck] = useState<any>({
-        hidden_on_payroll: 0,
-        entitle_ot: 0,
-        meal_allowance_paid: 0,
-        operational_allowance_paid: 0,
-        attendance_allowance_paid: 0,
+        hidden_on_payroll: idParams ? dataDetailEmployee?.hidden_on_payroll : 0,
+        entitle_ot: idParams ? dataDetailEmployee?.entitle_ot : 0,
+        meal_allowance_paid: idParams ? dataDetailEmployee?.meal_allowance_paid : 0,
+        operational_allowance_paid: idParams ? dataDetailEmployee?.operational_allowance_paid : 0,
+        attendance_allowance_paid: idParams ? dataDetailEmployee?.attendance_allowance_paid : 0,
     });
 
-    const checkValueImportant = validateFields(fields);
+    const checkValueImportantEmployeeInfomation = validateFieldsEmployeeInfomation(fields);
+    const checkValueImportantContractInfomation = validateFieldsContractInfomation(fields);
     
     const handleCreateEmployee = useCallback(() => {
         const data: any = mapDataCreate(fields);
@@ -88,6 +95,25 @@ export function AddEditEmployee() {
             if(res?.result === true) {
                 Notification({
                     message: "Successfully created employee",
+                    type: "success",
+                })
+            }
+            navigate(employeeUrl);
+        }).catch((err) => {
+            Notification({
+                message: err.data?.message,
+                type: "error",
+            })
+        });
+    },[fields])
+
+    const handleEditEmployee = useCallback(() => {
+        const data: any = mapDataCreate(fields);
+        const finalData = {...data, ...formCheck};
+        useEditEmployee(finalData, idParams as string).then((res) => {
+            if(res?.result === true) {
+                Notification({
+                    message: "Successfully update employee",
                     type: "success",
                 })
             }
@@ -110,10 +136,10 @@ export function AddEditEmployee() {
             height={45}
             border="none"
             padding="5px 30px"
-            rightIcon={((!isEmployeeInfomation && !checkValueImportant) && key == '1' || (!isContractInfomation && !checkValueImportant) && key == '2') ? <InfoCircleOutlined style={{color: "red", fontSize: "20px"}}/> : null}
+            rightIcon={((!isEmployeeInfomation || !checkValueImportantEmployeeInfomation) && key == '1' || (!isContractInfomation || !checkValueImportantContractInfomation) && key == '2') ? <InfoCircleOutlined style={{color: "red", fontSize: "20px"}}/> : null}
         />
     }
-
+    
     const items: TabsProps['items'] = [
         {
           key: '1',
@@ -147,8 +173,18 @@ export function AddEditEmployee() {
     };
 
     useEffect(() => {
-        (isContractInfomation && isEmployeeInfomation && checkValueImportant) ? setIsAddEmployee(false) : setIsAddEmployee(true);
-    },[isContractInfomation, isEmployeeInfomation])
+        (isContractInfomation && isEmployeeInfomation && checkValueImportantEmployeeInfomation && checkValueImportantContractInfomation) ? setIsAddEmployee(false) : setIsAddEmployee(true);
+    },[isContractInfomation, isEmployeeInfomation, fields]);
+
+    useEffect(() => {
+        if(!idParams){
+            setFilledContractImportant(false);
+            setFilledInformationImportant(false);
+        }else{
+            setFilledContractImportant(true);
+            setFilledInformationImportant(true);
+        }
+    },[dataDetailEmployee, idParams])
 
     return (
         <div className={styles.container}>
@@ -158,14 +194,14 @@ export function AddEditEmployee() {
                 </Col>
                 <Col span={2}>
                     <ButtonConfigAntd
-                        label={t("features.employee.features_add_new.lable_add")}
+                        label={idParams ? t("features.employee.features_add_new.lable_save_change") : t("features.employee.features_add_new.lable_add")}
                         background={isAddEmployee ? "var(--button-color-dark-black)" : "var(--button-color-dark-blue)"}
                         colorLabel="white"
                         height={40}
                         with="auto"
                         border="none"
-                        disabled={isAddEmployee}
-                        onClick={handleCreateEmployee}
+                        disabled={idParams ? false : isAddEmployee}
+                        onClick={idParams ? handleEditEmployee : handleCreateEmployee}
                     />
                 </Col>
             </Row>

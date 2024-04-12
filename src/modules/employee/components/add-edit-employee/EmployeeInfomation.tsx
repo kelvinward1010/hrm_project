@@ -69,7 +69,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
         fields={fields}
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
-            if(fields[0].value !== "" && fields[1].value !== "" && fields[3].value !== null && fields[5].value !== "" && fields[6].value !== ""){
+            if(fields[0].value !== "" && fields[1].value !== "" && fields[3].value !== null && fields[5].value !== ""){
                 setFilledInformationImportant(true);
             }else{
                 setFilledInformationImportant(false);
@@ -142,7 +142,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                     labelAlign={'left'}
                     name="nc_id"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_national_card_id")}
-                    rules={[{required: true, message: 'National Card ID is required!' }]}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>

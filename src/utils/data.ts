@@ -1,7 +1,8 @@
-import { IEmployee } from "@/types/employee"
+import { IEmployeeTable } from "@/modules/employee/types"
+
 
 export const handleMapEmployee = (data: any[]) => {
-    const dataMap: IEmployee[] = data?.map((item: any) => {
+    const dataMap: IEmployeeTable[] = data?.map((item: any) => {
         return({
             key: item.id,
             name: String(item.name),
@@ -23,9 +24,9 @@ export const handleMapEmployee = (data: any[]) => {
     return dataMap ?? []
 }
 
-export const getIdsItemsEmployee = (data: IEmployee[]) => {
+export const getIdsItemsEmployee = (data: IEmployeeTable[]) => {
     let listIds: string[] = [];
-    data.forEach((item: IEmployee) => {
+    data.forEach((item: IEmployeeTable) => {
         listIds.push(item.key)
     })
     return listIds || [];
@@ -52,15 +53,25 @@ export function mapDataCreate(data: any[]) {
     return mappedObject;
 }
 
-export function validateFields(fields: any[]): boolean {
+export function validateFieldsEmployeeInfomation(fields: any[]): boolean {
     let isValid = true;
     fields.forEach((field) => {
         if (field.name === 'name' 
             || field.name === 'gender' 
             || field.name === 'dob' 
-            || field.name === 'ktp_no'
-            || field.name === 'nc_id'
-            || field.name === 'contract_start_date'
+            || field.name === 'ktp_no') {
+            if (field.value === "") {
+                isValid = false;
+            }
+        }
+    });
+    return isValid;
+}
+
+export function validateFieldsContractInfomation(fields: any[]): boolean {
+    let isValid = true;
+    fields.forEach((field) => {
+        if (field.name === 'contract_start_date'
             || field.name === 'type') {
             if (field.value === "") {
                 isValid = false;

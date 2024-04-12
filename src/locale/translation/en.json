@@ -34,6 +34,7 @@
             "lable_delete": "Delete",
             "features_add_new": {
                 "lable_add": "Add",
+                "lable_save_change": "Save Change",
                 "tabs": {
                     "tab1": "Employee Information",
                     "tab2": "Contract Information",

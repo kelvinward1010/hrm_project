@@ -39,7 +39,7 @@ interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
     fields: FieldData[];
     t?: any;
-    setFilledInformationImportant: any;
+    setFilledContractImportant: any;
 }
 
 export const ContractInfomation: React.FC<ContractInfomationProps> = ({
@@ -47,7 +47,7 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     setFields
 }) => {
     const { t } = useTranslation();
-    const [, setFilledInformationImportant] = useRecoilState(isFilledContractInfomation);
+    const [, setFilledContractImportant] = useRecoilState(isFilledContractInfomation);
 
     const propsFile: UploadProps = {
         name: 'file',
@@ -125,7 +125,7 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
                     setFields(fields);
                 }}
                 t={t}
-                setFilledInformationImportant={setFilledInformationImportant}
+                setFilledContractImportant={setFilledContractImportant}
             />
             <div className={styles.contract}>
                 <Row className={styles.lable_cntrct}>
@@ -215,7 +215,7 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     )
 }
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, setFilledInformationImportant }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, setFilledContractImportant }) => (
     <Form
         name="contract_information"
         {...formItemLayout}
@@ -223,9 +223,9 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
             if(allFields[0].value !== null && allFields[1].value !== ""){
-                setFilledInformationImportant(true);
+                setFilledContractImportant(true);
             }else{
-                setFilledInformationImportant(false);
+                setFilledContractImportant(false);
             }
         }}
         initialValues={{
