@@ -3,4 +3,5 @@ export interface IUserInfo{
     username: string;
     email: string;
     level: number;
+    company_id: number;
 }

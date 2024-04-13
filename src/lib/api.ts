@@ -36,6 +36,8 @@ apiClient.interceptors.response.use(
           return Promise.reject(error.response)
         case 404:
           return Promise.reject(error.response)
+        case 422:
+          return Promise.reject(error.response)
         case 500:
           return Promise.reject(error)
         default:

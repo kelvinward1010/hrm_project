@@ -10,8 +10,8 @@ import { ModalDelete } from "../components/ModalDelete";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { deleteItemState } from "../state/table.state";
-import { IEmployee } from "@/types/employee";
 import { addemployeeUrl } from "@/routes/urls";
+import { IEmployeeTable } from "../types";
 
 
 const { Text } = Typography;
@@ -22,7 +22,7 @@ export function Employee() {
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const isSelectedItem: boolean = useRecoilValue(deleteItemState);
     const [searchParams, setSearchParams] = useSearchParams();
-    const [itemsSelected, setItemsSelected] = useState<IEmployee[]>([]);
+    const [itemsSelected, setItemsSelected] = useState<IEmployeeTable[]>([]);
     // const contentSearchParams = searchParams.get("searchContent");
 
     const handleChangeSearch = (value: string) => {

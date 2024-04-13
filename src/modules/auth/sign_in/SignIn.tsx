@@ -47,6 +47,7 @@ export function SignIn() {
                         username: response.data?.username,
                         email: response.data?.email,
                         level: response.data?.level,
+                        company_id: response.data?.company_id,
                     }
                     dispatch(updateUser(userinfo))
                 });

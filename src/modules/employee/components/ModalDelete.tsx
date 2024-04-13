@@ -1,15 +1,15 @@
 import { ButtonConfigAntd } from "@/components";
-import { IEmployee } from "@/types/employee";
 import { Col, Modal, Row, Typography } from "antd";
 import { useCallback } from "react";
 import { useDeleteMultipleEmployees } from "../api/deleteMultipleEmployees";
 import { getIdsItemsEmployee } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
+import { IEmployeeTable } from "../types";
 
 interface ModalDeleteProps {
     isOpen?: boolean;
     setIsOpen?: any;
-    itemsSelected: IEmployee[];
+    itemsSelected: IEmployeeTable[];
 }
 
 const { Text } = Typography;

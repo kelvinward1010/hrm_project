@@ -1,29 +1,46 @@
-import { Form, Input, notification, Typography } from "antd";
+import { Form, Input, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import styles from './ProfileChangePassword.module.scss';
 import { LabelConfig } from "@/modules/auth/conponents/LabelConfig";
 import { ButtonConfigAntd } from "@/components";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { IChangePassword } from "../type";
+import { useChangePassword } from "../api/changepassword";
+import { Notification } from "@/components/notification/Notification";
 
 
 const { Title } = Typography;
 
 type FieldType = {
-    newpassword: string;
-    confirmpassword: string;
+    password: string;
+    password_confirmation: string;
 };
 
 export function ProfileChangePassword() {
 
     const { t } = useTranslation();
+    const user: any = useSelector((state: RootState) => state.auth.user);
 
     const onFinish = (values: FieldType) => {
-        const data = {
-            newpassword: values.newpassword,
-            confirmpassword: values.confirmpassword,
+        const data: IChangePassword = {
+            email: user?.email,
+            company_id: user?.company_id,
+            password: values.password,
+            password_confirmation: values.password_confirmation,
         }
-        console.log(data)
-        notification.info({
-            message: "Ok",
+        useChangePassword(data).then((res: any) => {
+            if(res?.result === true) {
+                Notification({
+                    message: "Successfully change password",
+                    type: "success",
+                })
+            }
+        }).catch((err: any) =>{
+            Notification({
+                message: err.data?.message,
+                type: "error",
+            })
         })
     };
 
@@ -32,7 +49,7 @@ export function ProfileChangePassword() {
             <Title>{t("settings.lable_settings")}</Title>
             <div className={styles.center}>
                 <Form
-                    name="signin"
+                    name="change_password"
                     labelCol={{ span: 15, push: 1 }}
                     wrapperCol={{ span: 22, offset: 1 }}
                     className={styles.form_signin}
@@ -44,9 +61,11 @@ export function ProfileChangePassword() {
                     <Title level={3}>{t("settings.lable_change_password")}</Title>
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.newpassword")} />}
-                        name="newpassword"
+                        name="password"
                         rules={[
                             { required: true, message: 'Please input your password!' },
+                            { min: 8, message: "Password must have at least 8 characters"},
+                            { max: 16, message: "Password must have at most 16 characters"}
                         ]}
                     >
                         <Input.Password className={"input_auth"}/>
@@ -54,7 +73,7 @@ export function ProfileChangePassword() {
 
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.confirmpassword")} />}
-                        name="confirmpassword"
+                        name="password_confirmation"
                         rules={[
                             {
                                 required: true,
@@ -62,7 +81,7 @@ export function ProfileChangePassword() {
                             },
                             ({ getFieldValue }) => ({
                                 validator(_, value) {
-                                    if (!value || getFieldValue('newpassword') === value) {
+                                    if (!value || getFieldValue('password') === value) {
                                         return Promise.resolve();
                                     }
                                     return Promise.reject(new Error('The new password that you entered do not match!'));
