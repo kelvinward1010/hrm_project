@@ -5,6 +5,8 @@ import { useState } from "react";
 import { ModalSignOut } from "./ModalSignOut";
 import { cutString } from "@/utils/string";
 import { COLOR_AVATAR_CONFIG } from "../types";
+import { useNavigate } from "react-router-dom";
+import { settingsUrl } from "@/routes/urls";
 
 const { Text, Title } = Typography;
 
@@ -15,11 +17,15 @@ interface ActionAccProps {
 export const ActionAcc: React.FC<ActionAccProps> = ({
     user
 }) => {
+
+    const navigate = useNavigate();
     const [isOpenSignOut, setIsOpenSignOut] = useState(false);
 
     const handleOpen = () => {
         setIsOpenSignOut(true);
     }
+
+    const handleGoProfileChangePassword = () => navigate(settingsUrl);
 
     return (
         <>
@@ -46,7 +52,7 @@ export const ActionAcc: React.FC<ActionAccProps> = ({
                     m="20px 0 15px 0"
                     onClick={handleOpen}
                 />
-                <Text className={styles.resetpass}>Reset password</Text>
+                <Text className={styles.resetpass} onClick={handleGoProfileChangePassword}>Reset password</Text>
             </div>
         </>
     )

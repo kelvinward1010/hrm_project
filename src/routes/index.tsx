@@ -1,16 +1,19 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { addemployeeUrl, authUrl, changepasswordUrl, editemployeeUrl, employeeUrl, forgotPasswordUrl, layoutUrl, signinUrl } from "./urls";
-import { 
-    AddEditEmployee, 
+import { addemployeeUrl, authUrl, changepasswordUrl, editemployeeUrl, employeeUrl, forgotPasswordUrl, layoutUrl, settingsUrl, signinUrl } from "./urls";
+import {
     Auth, 
     ChangePassword, 
-    Employee, 
     ForgotPassword, 
     Layout, 
     SignIn 
 } from "@/modules";
 import { Error } from "@/components";
 import storage from "@/utils/storage";
+import { 
+    AddEditEmployee, 
+    Employee 
+} from "@/modules/employee";
+import { ProfileChangePassword } from "@/modules/settings";
 
 
 interface RouteProps {
@@ -44,6 +47,10 @@ export const routerConfig = createBrowserRouter([
             {
                 path: editemployeeUrl,
                 element: <AddEditEmployee />
+            },
+            {
+                path: settingsUrl,
+                element: <ProfileChangePassword />
             },
         ]
     },

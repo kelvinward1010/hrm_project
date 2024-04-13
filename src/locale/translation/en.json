@@ -24,6 +24,10 @@
         },
         "cs": "Copyright © 2022. All Rights Reserved"
     },
+    "settings": {
+        "lable_settings": "Settings",
+        "lable_change_password": "Change Password"
+    },
     "nav": {
         "lable_main": "General"
     },
