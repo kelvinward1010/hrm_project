@@ -3,6 +3,11 @@ export interface IGetEmployees {
     search: string;
 }
 
+export interface IOptionsConfig{
+    value: string | number;
+    label: string,
+}
+
 export interface IDeleteMultipleEmployees {
     record_ids: string[];
 }

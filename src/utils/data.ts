@@ -80,3 +80,14 @@ export function validateFieldsContractInfomation(fields: any[]): boolean {
     });
     return isValid;
 }
+
+export const configValuesSelect = (data: any[]) => {
+    let dataFinal: any[] = [];
+    data?.forEach((field) => {
+        dataFinal.push({
+            value: field?.id,
+            label: field?.name
+        })
+    })
+    return dataFinal ?? [];
+}

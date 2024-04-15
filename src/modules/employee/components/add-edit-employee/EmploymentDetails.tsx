@@ -2,9 +2,12 @@ import { useTranslation } from "react-i18next";
 import styles from "./EmploymentDetails.module.scss";
 import { TitleAll } from "./TitleAll";
 import { Checkbox, CheckboxProps, Col, Form, Row, Select } from "antd";
-import React, { useState } from "react";
 import { LableInput } from "./LableInput";
-import { FieldData } from "../../types";
+import { FieldData, IOptionsConfig } from "../../types";
+import { useQuery } from "react-query";
+import { useGetDepartments } from "../../api/getDepartments";
+import { configValuesSelect } from "@/utils/data";
+import { useGetPositions } from "../../api/getPositions";
 
 const formItemLayout = {
     labelCol: {
@@ -28,6 +31,8 @@ interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
     fields: FieldData[];
     t?: any;
+    configDepartment: IOptionsConfig[];
+    configPosition: IOptionsConfig[];
 }
 
 export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
@@ -41,6 +46,19 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
     const handleChange: CheckboxProps['onChange'] = (e: any) => {
         setFormCheck({ ...formCheck, [e.target.name]: e.target.checked == true ? 1 : 0});
     };
+
+    const {data: department} = useQuery({
+        queryKey: 'department',
+        queryFn: () => useGetDepartments()
+    })
+
+    const {data: position} = useQuery({
+        queryKey: 'position',
+        queryFn: () => useGetPositions()
+    })
+
+    const configDepartment = configValuesSelect(department);
+    const configPosition = configValuesSelect(position);
 
     return (
         <div className={styles.container}>
@@ -57,6 +75,8 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
                     setFields(fields);
                 }}
                 t={t}
+                configDepartment={configDepartment}
+                configPosition={configPosition}
             />
             <Row>
                 <Col span={24}>
@@ -90,7 +110,7 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
 }
 
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, configDepartment, configPosition }) => (
     <Form
         name="employee_details"
         {...formItemLayout}
@@ -109,12 +129,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
                     label={LableInput({label: t("features.employee.features_add_new.eploymentdetails.lable_input_department")})}
                 >
                     <Select
-                        options={[
-                            {
-                                value: 1,
-                                label: "Quanlity Control"
-                            }
-                        ]}
+                        options={configDepartment}
                         placeholder="Select department"
                         className="select_fix"
                     />
@@ -125,12 +140,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
                     label={LableInput({label: t("features.employee.features_add_new.eploymentdetails.lable_input_position")})}
                 >
                     <Select
-                        options={[
-                            {
-                                value: 1,
-                                label: "Sew Staff"
-                            }
-                        ]}
+                        options={configPosition}
                         placeholder="Select position"
                         className="select_fix"
                     />

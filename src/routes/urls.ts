@@ -1,12 +1,12 @@
 export const authUrl = "/auth";
-export const signinUrl = "/auth/sign-in";
-export const forgotPasswordUrl = "/auth/forgot-password";
-export const changepasswordUrl = "/auth/change-password";
+export const signinUrl = `${authUrl}/sign-in`;
+export const forgotPasswordUrl = `${authUrl}/forgot-password`;
+export const changepasswordUrl = `${authUrl}/change-password`;
 
 export const layoutUrl = "/";
 export const employeeUrl = "/employee";
-export const addemployeeUrl = "/employee/add-edit-employee";
-export const editemployeeUrl = "/employee/add-edit-employee/:id";
+export const addemployeeUrl = `${employeeUrl}/add-edit-employee`;
+export const editemployeeUrl = `${employeeUrl}/add-edit-employee/:id`;
 
 export const settingsUrl = "/settings";
 

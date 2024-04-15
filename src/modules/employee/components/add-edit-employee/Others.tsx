@@ -5,7 +5,11 @@ import { Col, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upl
 import { ButtonConfigAntd } from "@/components";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { formatDate } from "@/utils/format";
-import { FieldData } from "../../types";
+import { FieldData, IOptionsConfig } from "../../types";
+import { useQuery } from "react-query";
+import { useGetBenefits } from "../../api/getBenefits";
+import { configValuesSelect } from "@/utils/data";
+import { useGetGrades } from "../../api/getGrades";
 
 
 const { Text } = Typography;
@@ -30,6 +34,8 @@ interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
     fields: FieldData[];
     t?: any;
+    configBenefit: IOptionsConfig[];
+    configGrade: IOptionsConfig[];
 }
 
 export const Others: React.FC<OthersProps> = ({
@@ -37,6 +43,19 @@ export const Others: React.FC<OthersProps> = ({
     setFields
 }) => {
     const { t } = useTranslation();
+
+    const {data: benefit} = useQuery({
+        queryKey: 'benefit',
+        queryFn: () => useGetBenefits()
+    })
+
+    const {data: grade} = useQuery({
+        queryKey: 'grade',
+        queryFn: () => useGetGrades()
+    })
+
+    const configBenefit = configValuesSelect(benefit);
+    const configGrade = configValuesSelect(grade);
 
     const propsFile: UploadProps = {
         name: 'file',
@@ -103,6 +122,8 @@ export const Others: React.FC<OthersProps> = ({
                     setFields(newFields);
                 }}
                 t={t}
+                configBenefit={configBenefit}
+                configGrade={configGrade}
             />
             <div className={styles.table_main}>
                 <Row align={'middle'}>
@@ -142,7 +163,7 @@ export const Others: React.FC<OthersProps> = ({
 }
 
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, configBenefit, configGrade }) => (
     <Form
         name="others"
         {...formItemLayout}
@@ -161,12 +182,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
                     label={t("features.employee.features_add_new.others.lable_input_grade")}
                 >
                     <Select
-                        options={[
-                            {
-                                value: "1",
-                                label: "Grade A"
-                            }
-                        ]}
+                        options={configGrade}
                         placeholder="Select grade"
                         className="select_fix"
                     />
@@ -179,16 +195,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
                     <Select
                         mode="multiple"
                         allowClear
-                        options={[
-                            {
-                                value: "1",
-                                label: "Canteen Service 1"
-                            },
-                            {
-                                value: "2",
-                                label: "Canteen Service 2"
-                            },
-                        ]}
+                        options={configBenefit}
                         placeholder="Select remark"
                         className="select_muti"
                     />

@@ -35,7 +35,7 @@ function Header() {
                 align={'center'}
             >
                 <img src={icon} alt="" />
-                <Text style={{margin: "-2px 0 0 3px"}}>{lable}</Text>
+                <Text style={{margin: "-1px 0 0 3px"}}>{lable}</Text>
             </Flex>
         )
     }

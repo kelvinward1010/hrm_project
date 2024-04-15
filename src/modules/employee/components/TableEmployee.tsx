@@ -112,7 +112,7 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
         search: searchContent,
     }
 
-    const {data: employee} = useQuery({
+    const {data: employee, isLoading} = useQuery({
         queryKey: ['employee',  queryFn],
         queryFn: ()  => useGetEmployees(queryFn),
     });
@@ -161,7 +161,7 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
                         setSearchParams(searchParams);
                     },
                 }}
-                loading={data?.length == 0 ? true : false}
+                loading={isLoading}
             />
         </div>
     )
