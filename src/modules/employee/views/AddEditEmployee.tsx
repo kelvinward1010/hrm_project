@@ -110,6 +110,7 @@ export function AddEditEmployee() {
     const handleEditEmployee = useCallback(() => {
         const data: any = mapDataCreate(fields);
         const finalData = {...data, ...formCheck};
+        console.log(finalData)
         useEditEmployee(finalData, idParams as string).then((res) => {
             if(res?.result === true) {
                 Notification({

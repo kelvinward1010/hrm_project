@@ -5,7 +5,10 @@ import { Col, DatePicker, Form, Input, Row, Select } from "antd";
 import { isFilledEmployeeInfomation } from "../../state/add-edit-employee/add.atom";
 import { useRecoilState } from "recoil";
 import { GENDER_CONFIG } from "../../config";
-import { FieldData } from "../../types";
+import { FieldData, IOptionsConfig } from "../../types";
+import { useQuery } from "react-query";
+import { useGetMarriages } from "../../api/getMarriages";
+import { configValuesSelect } from "@/utils/data";
 
 
 const dateFormat = 'YYYY/MM/DD';
@@ -31,6 +34,7 @@ interface CustomizedFormProps {
     fields: FieldData[];
     t?: any;
     setFilledInformationImportant?: any;
+    configMarriage: IOptionsConfig[];
 }
 
 export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
@@ -39,6 +43,13 @@ export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
 }) => {
     const { t } = useTranslation();
     const [, setFilledInformationImportant] = useRecoilState(isFilledEmployeeInfomation);
+
+    const {data: marriage} = useQuery({
+        queryKey: 'marriage',
+        queryFn: () => useGetMarriages()
+    })
+
+    const configMarriage = configValuesSelect(marriage);
 
     return (
         <div className={styles.container}>
@@ -56,20 +67,21 @@ export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
                 }}
                 t={t}
                 setFilledInformationImportant={setFilledInformationImportant}
+                configMarriage={configMarriage}
             />
         </div>
     )
 }
 
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, setFilledInformationImportant }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, setFilledInformationImportant, configMarriage }) => (
     <Form
         name="employee_information"
         {...formItemLayout}
         fields={fields}
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
-            if(fields[0].value !== "" && fields[1].value !== "" && fields[3].value !== null && fields[5].value !== ""){
+            if(fields[0]?.value !== "" && fields[1]?.value !== "" && fields[3]?.value !== null && fields[5]?.value !== ""){
                 setFilledInformationImportant(true);
             }else{
                 setFilledInformationImportant(false);
@@ -180,7 +192,11 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                     name="marriage_id"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_marriage_status")}
                 >
-                    <Input className="input_inside"/>
+                    <Select
+                        options={configMarriage}
+                        placeholder="Select Marriage Status"
+                        className="select_fix"
+                    />
                 </Form.Item>
                 <Form.Item
                     labelAlign={'left'}

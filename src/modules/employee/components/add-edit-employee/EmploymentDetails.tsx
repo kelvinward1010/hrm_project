@@ -44,7 +44,9 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
     const { t } = useTranslation();
 
     const handleChange: CheckboxProps['onChange'] = (e: any) => {
-        setFormCheck({ ...formCheck, [e.target.name]: e.target.checked == true ? 1 : 0});
+        let result = e.target.checked == true ? 1 : 0
+        setFormCheck({ ...formCheck, [e.target.name]: result});
+        console.log(formCheck)
     };
 
     const {data: department} = useQuery({
@@ -59,6 +61,8 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
 
     const configDepartment = configValuesSelect(department);
     const configPosition = configValuesSelect(position);
+
+    const checkpicked = formCheck?.entitle_ot == 1 ? false : true;
 
     return (
         <div className={styles.container}>
@@ -80,27 +84,27 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
             />
             <Row>
                 <Col span={24}>
-                    <Checkbox name="hidden_on_payroll" onChange={handleChange} className={styles.check}>
+                    <Checkbox checked={formCheck?.hidden_on_payroll == 1 ? true : false} name="hidden_on_payroll" onChange={handleChange} className={styles.check}>
                         {t("features.employee.features_add_new.eploymentdetails.lable_input_hidden_on_payroll")}
                     </Checkbox>
                 </Col>
                 <Col span={24}>
-                    <Checkbox name="entitle_ot" onChange={handleChange} className={styles.check}>
+                    <Checkbox checked={formCheck?.entitle_ot == 1 ? true : false} name="entitle_ot" onChange={handleChange} className={styles.check}>
                         {t("features.employee.features_add_new.eploymentdetails.lable_input_entitle_ot")}
                     </Checkbox>
                 </Col>
                 <Col span={24}>
-                    <Checkbox name="meal_allowance_paid" onChange={handleChange} className={styles.check}>
+                    <Checkbox  checked={formCheck?.meal_allowance_paid == 1 ? true : false} name="meal_allowance_paid" onChange={handleChange} className={styles.check}>
                         {t("features.employee.features_add_new.eploymentdetails.lable_input_meal_allowance_paid")}
                     </Checkbox>
                 </Col>
                 <Col span={24}>
-                    <Checkbox name="operational_allowance_paid" onChange={handleChange} className={styles.check}>
+                    <Checkbox checked={formCheck?.operational_allowance_paid == 1 ? true : false} disabled={checkpicked} name="operational_allowance_paid" onChange={handleChange} className={styles.check}>
                         {t("features.employee.features_add_new.eploymentdetails.lable_input_operational_allowance_paid")}
                     </Checkbox>
                 </Col>
                 <Col span={24}>
-                    <Checkbox name="attendance_allowance_paid" onChange={handleChange} className={styles.check}>
+                    <Checkbox checked={formCheck?.attendance_allowance_paid == 1 ? true : false} disabled={checkpicked}  name="attendance_allowance_paid" onChange={handleChange} className={styles.check}>
                     {t("features.employee.features_add_new.eploymentdetails.lable_input_attendance_allowance_paid")}
                     </Checkbox>
                 </Col>

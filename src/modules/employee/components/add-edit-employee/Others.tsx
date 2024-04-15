@@ -119,7 +119,13 @@ export const Others: React.FC<OthersProps> = ({
             <CustomizedForm
                 fields={fields}
                 onChange={(newFields) => {
-                    setFields(newFields);
+                    newFields.forEach((i: FieldData) => {
+                        const index = fields.findIndex((f: FieldData) => f.name == i.name)
+                        if(index !== -1){
+                            fields[index].value = i.value;
+                        }
+                    })
+                    setFields(fields);
                 }}
                 t={t}
                 configBenefit={configBenefit}

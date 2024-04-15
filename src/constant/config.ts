@@ -10,3 +10,4 @@ export const URL_DEPARTMENT = "/department";
 export const URL_POSITION = "/position";
 export const URL_BENEFIT = "/benefit";
 export const URL_GRADE = "/grade";
+export const URL_MARRIAGE = "/marriage";
