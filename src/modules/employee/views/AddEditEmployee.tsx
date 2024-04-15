@@ -17,7 +17,7 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { isAddEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
 import { FieldData } from "../types";
 import { useCreateEmployee } from "../api/createEmployee";
-import { mapDataCreate, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "@/utils/data";
+import { mapDataCreate, transformValues, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
 import { useNavigate, useParams } from "react-router-dom";
 import { employeeUrl } from "@/routes/urls";
@@ -75,22 +75,20 @@ export function AddEditEmployee() {
         {name: 'benefits', value: [],},
         {name: 'remark', value: idParams ? dataDetailEmployee?.remark : "",},
         {name: 'account_user_id', value: idParams ? dataDetailEmployee?.account_user_id : "",},
+        {name: 'hidden_on_payroll', value: idParams ? dataDetailEmployee?.hidden_on_payroll : ""},
+        {name: 'entitle_ot', value: idParams ? dataDetailEmployee?.entitle_ot : ""},
+        {name: 'meal_allowance_paid', value: idParams ? dataDetailEmployee?.meal_allowance_paid : ""},
+        {name: 'operational_allowance_paid', value: idParams ? dataDetailEmployee?.operational_allowance_paid : ""},
+        {name: 'attendance_allowance_paid', value: idParams ? dataDetailEmployee?.attendance_allowance_paid : ""}
     ]);
-
-    const [formCheck, setFormCheck] = useState<any>({
-        hidden_on_payroll: idParams ? dataDetailEmployee?.hidden_on_payroll : 0,
-        entitle_ot: idParams ? dataDetailEmployee?.entitle_ot : 0,
-        meal_allowance_paid: idParams ? dataDetailEmployee?.meal_allowance_paid : 0,
-        operational_allowance_paid: idParams ? dataDetailEmployee?.operational_allowance_paid : 0,
-        attendance_allowance_paid: idParams ? dataDetailEmployee?.attendance_allowance_paid : 0,
-    });
 
     const checkValueImportantEmployeeInfomation = validateFieldsEmployeeInfomation(fields);
     const checkValueImportantContractInfomation = validateFieldsContractInfomation(fields);
     
     const handleCreateEmployee = useCallback(() => {
+        transformValues(fields)
         const data: any = mapDataCreate(fields);
-        const finalData = {...data, ...formCheck};
+        const finalData = {...data};
         useCreateEmployee(finalData).then((res) => {
             if(res?.result === true) {
                 Notification({
@@ -109,7 +107,7 @@ export function AddEditEmployee() {
 
     const handleEditEmployee = useCallback(() => {
         const data: any = mapDataCreate(fields);
-        const finalData = {...data, ...formCheck};
+        const finalData = {...data};
         console.log(finalData)
         useEditEmployee(finalData, idParams as string).then((res) => {
             if(res?.result === true) {
@@ -155,7 +153,7 @@ export function AddEditEmployee() {
         {
           key: '3',
           label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab3"), "3"),
-          children: <EmploymentDetails fields={fields} setFields={setFields} formCheck={formCheck} setFormCheck={setFormCheck}/>,
+          children: <EmploymentDetails fields={fields} setFields={setFields}/>,
         },
         {
             key: '4',

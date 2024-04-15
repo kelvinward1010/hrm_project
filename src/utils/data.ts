@@ -92,3 +92,12 @@ export const configValuesSelect = (data: any[]) => {
     return dataFinal ?? [];
 }
 
+export function transformValues(data: any) {
+    return data.map((item: any) => {
+      if (['hidden_on_payroll', 'entitle_ot', 'meal_allowance_paid', 'operational_allowance_paid', 'attendance_allowance_paid'].includes(item.name)) {
+        return { ...item, value: item.value === true ? 1 : item.value === false ? 0 : item.value };
+      } else {
+        return item;
+      }
+    });
+}
