@@ -49,3 +49,15 @@ apiClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export const filterEmptyString = (params: Record<string, any>) => {
+  const result: Record<string, any> = {};
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== "") {
+      result[key] = value;
+    }
+  });
+
+  return result;
+};

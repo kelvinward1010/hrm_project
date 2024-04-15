@@ -4,7 +4,7 @@ import { ButtonConfigAntd } from "@/components";
 import { useState } from "react";
 import { ModalSignOut } from "./ModalSignOut";
 import { cutString } from "@/utils/string";
-import { COLOR_AVATAR_CONFIG } from "../types";
+import { COLOR_AVATAR_CONFIG } from "../config";
 import { useNavigate } from "react-router-dom";
 import { settingsUrl } from "@/routes/urls";
 

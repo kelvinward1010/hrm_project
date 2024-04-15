@@ -1,7 +1,7 @@
 import styles from "./TableEmployee.module.scss";
 import { Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { isDeleteItemAtom } from "../state/table.atom";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -12,6 +12,7 @@ import { IEmployeeTable } from "../types";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { employeeDetail } from "@/redux/slices/employeeSlice";
+import { useQuery } from "react-query";
 
 type TableRowSelection<T> = TableProps<T>['rowSelection'];
 
@@ -85,7 +86,6 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
     const pageIndex = Number(searchParams.get("pageIndex")) || 1;
     const pageSize = Number(searchParams.get("pageSize")) || 20;
     const searchContent = searchParams.get("searchContent") || "";
-    const [loading, setLoading] = useState(false);
     const [data, setData] = useState<IEmployeeTable[]>([])
     const [total, setTotal] = useState();
 
@@ -107,20 +107,16 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
         },
     };
 
-    const handleGetEmployee = useCallback(() => {
-        const data = {
-            page: pageIndex,
-            search: searchContent,
-        }
-        setLoading(true);
-        useGetEmployees(data).then((res) => {
-            setData(handleMapEmployee(res.data?.data))
-            setTotal(res.data?.total)
-        }).finally(() => {
-            setLoading(false);
-        })
-    },[pageIndex, searchContent]);
+    const queryFn = {
+        page: pageIndex,
+        search: searchContent,
+    }
 
+    const {data: employee} = useQuery({
+        queryKey: ['employee',  queryFn],
+        queryFn: ()  => useGetEmployees(queryFn),
+    });
+    
     const handleDetailEmployee = (id: string) => {
         useGetDetailEmployee(id).then((res) => {
             dispatch(employeeDetail(res?.data));
@@ -128,8 +124,11 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
     }
 
     useEffect(() => {
-        handleGetEmployee()
-    },[pageIndex, searchContent])
+        if(employee?.data){
+            setData(handleMapEmployee(employee?.data?.data))
+            setTotal(employee?.data?.total)
+        }
+    },[pageIndex, searchContent, employee])
 
     return (
         <div className={styles.container}>
@@ -162,7 +161,7 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
                         setSearchParams(searchParams);
                     },
                 }}
-                loading={loading}
+                loading={data?.length == 0 ? true : false}
             />
         </div>
     )

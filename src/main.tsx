@@ -11,18 +11,22 @@ import { RecoilRoot } from 'recoil';
 import { Provider } from 'react-redux';
 import { persistor, store } from './redux/store.ts';
 import { PersistGate } from 'redux-persist/integration/react';
+import { QueryClientProvider } from 'react-query';
+import { queryClient } from './lib/react-query.ts';
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <RecoilRoot>
-      <MantineProvider>
-        <Provider store={store}>  
-          <PersistGate loading={null} persistor={persistor}>
-            <RouterProvider router={routerConfig} />
-          </PersistGate>
-        </Provider>
-      </MantineProvider>
+      <QueryClientProvider client={queryClient}>
+        <MantineProvider>
+          <Provider store={store}>  
+            <PersistGate loading={null} persistor={persistor}>
+              <RouterProvider router={routerConfig} />
+            </PersistGate>
+          </Provider>
+        </MantineProvider>
+      </QueryClientProvider>
     </RecoilRoot>
   </React.StrictMode>,
 )

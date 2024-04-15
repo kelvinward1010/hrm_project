@@ -1,10 +1,13 @@
 import { ButtonConfigAntd } from "@/components";
 import { Col, Modal, Row, Typography } from "antd";
-import { useCallback } from "react";
 import { useDeleteMultipleEmployees } from "../api/deleteMultipleEmployees";
 import { getIdsItemsEmployee } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
 import { IEmployeeTable } from "../types";
+import { useMutation } from "react-query";
+import { queryClient } from "@/lib/react-query";
+import { useRecoilState } from "recoil";
+import { isDeleteItemAtom } from "../state/table.atom";
 
 interface ModalDeleteProps {
     isOpen?: boolean;
@@ -16,25 +19,34 @@ const { Text } = Typography;
 
 export function ModalDelete(props: ModalDeleteProps) {
 
-    const handleMultipleDeleteEmployees = useCallback(() => {
-        const data = {
-            record_ids: getIdsItemsEmployee(props.itemsSelected)
+    const [, setIsItemSelected] = useRecoilState(isDeleteItemAtom);
+    const queryFn = {
+        record_ids: getIdsItemsEmployee(props.itemsSelected)
+    }
+
+    const deletePostMutation = useMutation(useDeleteMultipleEmployees, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(['employee'])
         }
-        useDeleteMultipleEmployees(data).then((res: any) => {
-            if(res?.result === true) {
+    });
+
+    const handleDeleteEmployee = async () => {
+        try {
+            await deletePostMutation.mutateAsync(queryFn).then(() => {
                 Notification({
                     message: "Successfully deleted",
                     type: "success",
                 })
-            }
-            props.setIsOpen(false);
-        }).catch((err: any) =>{
+                props.setIsOpen(false);
+                setIsItemSelected(true);
+            });
+        } catch (error) {
             Notification({
-                message: err.data?.message,
+                message: error as string,
                 type: "error",
             })
-        })
-    },[props.itemsSelected])
+        }
+    };
     
     return (
         <Modal
@@ -61,7 +73,7 @@ export function ModalDelete(props: ModalDeleteProps) {
                 <Col span={11}>
                     <ButtonConfigAntd
                         label={"Yes"}
-                        onClick={handleMultipleDeleteEmployees}
+                        onClick={handleDeleteEmployee}
                         background="var(--button-color-dark-blue)"
                         colorLabel="white"
                         border="none"
