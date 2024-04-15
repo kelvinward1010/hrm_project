@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ButtonConfigAntd, TextLicense } from "@/components";
 import { ModalDelete } from "../components/ModalDelete";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { deleteItemState } from "../state/table.state";
 import { addemployeeUrl } from "@/routes/urls";
@@ -23,13 +23,20 @@ export function Employee() {
     const isSelectedItem: boolean = useRecoilValue(deleteItemState);
     const [searchParams, setSearchParams] = useSearchParams();
     const [itemsSelected, setItemsSelected] = useState<IEmployeeTable[]>([]);
-    // const contentSearchParams = searchParams.get("searchContent");
+    const timeRef = useRef<NodeJS.Timeout | null>(null)
 
     const handleChangeSearch = (value: string) => {
-        searchParams.set("searchContent", value.trim());
-        searchParams.delete("pageIndex");
-        searchParams.delete("pageSize");
-        setSearchParams(searchParams);
+
+        if(timeRef.current){
+            clearTimeout(timeRef.current);
+        }
+
+        timeRef.current = setTimeout(() => {
+            searchParams.set("searchContent", value.trim());
+            searchParams.delete("pageIndex");
+            searchParams.delete("pageSize");
+            setSearchParams(searchParams);
+        },1000)
     };
 
     return (
