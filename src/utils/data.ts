@@ -1,9 +1,10 @@
 import { IEmployeeTable } from "@/modules/employee/types"
+import { IBaseOption, IBaseOtherItem } from "@/types"
 
 
 export const handleMapEmployee = (data: any[]) => {
     const dataMap: IEmployeeTable[] = data?.map((item: any) => {
-        return({
+        return ({
             key: item.id,
             name: String(item.name),
             gender: item.gender == 0 ? 'Male' : item.gender ? 'Female' : "",
@@ -56,9 +57,9 @@ export function mapDataCreate(data: any[]) {
 export function validateFieldsEmployeeInfomation(fields: any[]): boolean {
     let isValid = true;
     fields.forEach((field) => {
-        if (field.name === 'name' 
-            || field.name === 'gender' 
-            || field.name === 'dob' 
+        if (field.name === 'name'
+            || field.name === 'gender'
+            || field.name === 'dob'
             || field.name === 'ktp_no') {
             if (field.value === "") {
                 isValid = false;
@@ -81,8 +82,8 @@ export function validateFieldsContractInfomation(fields: any[]): boolean {
     return isValid;
 }
 
-export const configValuesSelect = (data: any[]) => {
-    let dataFinal: any[] = [];
+export const configValuesSelect = (data: IBaseOtherItem[] | undefined) => {
+    let dataFinal: IBaseOption[] = [];
     data?.forEach((field) => {
         dataFinal.push({
             value: field?.id,
@@ -92,12 +93,12 @@ export const configValuesSelect = (data: any[]) => {
     return dataFinal ?? [];
 }
 
-export function transformValues(data: any) {
-    return data.map((item: any) => {
-      if (['hidden_on_payroll', 'entitle_ot', 'meal_allowance_paid', 'operational_allowance_paid', 'attendance_allowance_paid'].includes(item.name)) {
-        return { ...item, value: item.value === true ? 1 : item.value === false ? 0 : item.value };
-      } else {
-        return item;
-      }
+export function transformValues(data: any[]) {
+    return data?.map((item: any) => {
+        if (['hidden_on_payroll', 'entitle_ot', 'meal_allowance_paid', 'operational_allowance_paid', 'attendance_allowance_paid'].includes(item.name)) {
+            return { ...item, value: item.value === true ? 1 : item.value === false ? 0 : item.value };
+        } else {
+            return item;
+        }
     });
 }

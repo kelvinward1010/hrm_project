@@ -5,10 +5,10 @@ import { Col, DatePicker, Form, Input, Row, Select } from "antd";
 import { isFilledEmployeeInfomation } from "../../state/add-edit-employee/add.atom";
 import { useRecoilState } from "recoil";
 import { GENDER_CONFIG } from "../../config";
-import { FieldData, IOptionsConfig } from "../../types";
 import { useQuery } from "react-query";
 import { useGetMarriages } from "../../api/getMarriages";
 import { configValuesSelect } from "@/utils/data";
+import { FieldData, IBaseOption } from "@/types";
 
 
 const dateFormat = 'YYYY/MM/DD';
@@ -34,7 +34,7 @@ interface CustomizedFormProps {
     fields: FieldData[];
     t?: any;
     setFilledInformationImportant?: any;
-    configMarriage: IOptionsConfig[];
+    configMarriage: IBaseOption[];
 }
 
 export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({

@@ -3,11 +3,11 @@ import styles from "./EmploymentDetails.module.scss";
 import { TitleAll } from "./TitleAll";
 import { Checkbox, Col, Form, Row, Select } from "antd";
 import { LableInput } from "./LableInput";
-import { FieldData, IOptionsConfig } from "../../types";
 import { useQuery } from "react-query";
 import { useGetDepartments } from "../../api/getDepartments";
 import { configValuesSelect, transformValues } from "@/utils/data";
 import { useGetPositions } from "../../api/getPositions";
+import { FieldData, IBaseOption } from "@/types";
 
 const formItemLayout = {
     labelCol: {
@@ -29,8 +29,8 @@ interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
     fields: FieldData[];
     t?: any;
-    configDepartment: IOptionsConfig[];
-    configPosition: IOptionsConfig[];
+    configDepartment: IBaseOption[];
+    configPosition: IBaseOption[];
 }
 
 export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({

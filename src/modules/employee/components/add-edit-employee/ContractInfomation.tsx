@@ -9,7 +9,7 @@ import { LableInput } from "./LableInput";
 import { useRecoilState } from "recoil";
 import { isFilledContractInfomation } from "../../state/add-edit-employee/add.atom";
 import { EMPLOYEE_TYPE_CONGIG } from "../../config";
-import { FieldData } from "../../types";
+import { FieldData } from "@/types";
 
 const dateFormat = 'YYYY/MM/DD';
 const { Text } = Typography;

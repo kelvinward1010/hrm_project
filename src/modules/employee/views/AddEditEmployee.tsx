@@ -15,7 +15,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { addEmployeeState, filledContractInfomation, filledEmployeeInfomation } from "../state/add-edit-employee/add.state";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { isAddEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
-import { FieldData } from "../types";
+import { IEmployee } from "../types";
 import { useCreateEmployee } from "../api/createEmployee";
 import { mapDataCreate, transformValues, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
@@ -25,6 +25,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import dayjs from "dayjs";
 import { useEditEmployee } from "../api/editEmployee";
+import { FieldData } from "@/types";
 
 const { Text } = Typography;
 
@@ -75,20 +76,20 @@ export function AddEditEmployee() {
         {name: 'benefits', value: [],},
         {name: 'remark', value: idParams ? dataDetailEmployee?.remark : "",},
         {name: 'account_user_id', value: idParams ? dataDetailEmployee?.account_user_id : "",},
-        {name: 'hidden_on_payroll', value: idParams ? dataDetailEmployee?.hidden_on_payroll : ""},
-        {name: 'entitle_ot', value: idParams ? dataDetailEmployee?.entitle_ot : ""},
-        {name: 'meal_allowance_paid', value: idParams ? dataDetailEmployee?.meal_allowance_paid : ""},
-        {name: 'operational_allowance_paid', value: idParams ? dataDetailEmployee?.operational_allowance_paid : ""},
-        {name: 'attendance_allowance_paid', value: idParams ? dataDetailEmployee?.attendance_allowance_paid : ""}
+        {name: 'hidden_on_payroll', value: idParams ? dataDetailEmployee?.hidden_on_payroll : 0},
+        {name: 'entitle_ot', value: idParams ? dataDetailEmployee?.entitle_ot : 0},
+        {name: 'meal_allowance_paid', value: idParams ? dataDetailEmployee?.meal_allowance_paid : 0},
+        {name: 'operational_allowance_paid', value: idParams ? dataDetailEmployee?.operational_allowance_paid : 0},
+        {name: 'attendance_allowance_paid', value: idParams ? dataDetailEmployee?.attendance_allowance_paid : 0}
     ]);
 
     const checkValueImportantEmployeeInfomation = validateFieldsEmployeeInfomation(fields);
     const checkValueImportantContractInfomation = validateFieldsContractInfomation(fields);
-    
+
     const handleCreateEmployee = useCallback(() => {
-        transformValues(fields)
-        const data: any = mapDataCreate(fields);
-        const finalData = {...data};
+        const configdata = transformValues(fields);
+        const data: any = mapDataCreate(configdata);
+        const finalData: IEmployee = {...data};
         useCreateEmployee(finalData).then((res) => {
             if(res?.result === true) {
                 Notification({
@@ -106,9 +107,9 @@ export function AddEditEmployee() {
     },[fields])
 
     const handleEditEmployee = useCallback(() => {
-        const data: any = mapDataCreate(fields);
-        const finalData = {...data};
-        console.log(finalData)
+        const configdata = transformValues(fields);
+        const data: any = mapDataCreate(configdata);
+        const finalData: IEmployee = {...data};
         useEditEmployee(finalData, idParams as string).then((res) => {
             if(res?.result === true) {
                 Notification({

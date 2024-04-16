@@ -87,7 +87,7 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
     const pageSize = Number(searchParams.get("pageSize")) || 20;
     const searchContent = searchParams.get("searchContent") || "";
     const [data, setData] = useState<IEmployeeTable[]>([])
-    const [total, setTotal] = useState();
+    const [total, setTotal] = useState<number>();
 
     const rowSelection: TableRowSelection<IEmployeeTable> = {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -125,10 +125,10 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
 
     useEffect(() => {
         if(employee?.data){
-            setData(handleMapEmployee(employee?.data?.data))
-            setTotal(employee?.data?.total)
+            setData(handleMapEmployee(employee?.data))
+            setTotal(employee?.total)
         }
-    },[pageIndex, searchContent, employee])
+    },[pageIndex, searchContent, employee]);
 
     return (
         <div className={styles.container}>

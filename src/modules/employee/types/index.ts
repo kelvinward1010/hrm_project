@@ -3,21 +3,8 @@ export interface IGetEmployees {
     search: string;
 }
 
-export interface IOptionsConfig{
-    value: string | number;
-    label: string,
-}
-
 export interface IDeleteMultipleEmployees {
     record_ids: string[];
-}
-
-export interface FieldData {
-    name: string | number | (string | number)[];
-    value?: any;
-    touched?: boolean;
-    validating?: boolean;
-    errors?: string[];
 }
 
 export interface IEmployeeTable{
@@ -37,7 +24,7 @@ export interface IEmployeeTable{
     contract_start_date: string;
 }
 
-export interface ICreateEmployee {
+export interface IEmployee {
     name: string;
     gender: number;
     mother_name: string;
@@ -61,6 +48,7 @@ export interface ICreateEmployee {
     department_id: number;
     position_id: number;
     shift: string;
+    hidden_on_payroll: number;
     basic_salary: number;
     audit_salary: number;
     safety_insurance: number;

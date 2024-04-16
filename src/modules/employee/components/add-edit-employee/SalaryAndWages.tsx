@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import styles from "./SalaryAndWages.module.scss";
 import { TitleAll } from "./TitleAll";
 import { Col, Form, InputNumber, Row, Typography } from "antd";
-import { FieldData } from "../../types";
+import { FieldData } from "@/types";
 
 const { Text } = Typography;
 

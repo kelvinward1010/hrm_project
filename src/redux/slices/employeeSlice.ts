@@ -1,8 +1,8 @@
-import { IDetailEmployee } from "@/types/employee";
+import { IEmployee } from "@/modules/employee/types";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface AuthState {
-    employee: IDetailEmployee | null;
+    employee: IEmployee | null;
     isLoading: boolean;
 }
 

@@ -5,11 +5,11 @@ import { Col, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upl
 import { ButtonConfigAntd } from "@/components";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { formatDate } from "@/utils/format";
-import { FieldData, IOptionsConfig } from "../../types";
 import { useQuery } from "react-query";
 import { useGetBenefits } from "../../api/getBenefits";
 import { configValuesSelect } from "@/utils/data";
 import { useGetGrades } from "../../api/getGrades";
+import { FieldData, IBaseOption } from "@/types";
 
 
 const { Text } = Typography;
@@ -34,8 +34,8 @@ interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
     fields: FieldData[];
     t?: any;
-    configBenefit: IOptionsConfig[];
-    configGrade: IOptionsConfig[];
+    configBenefit: IBaseOption[];
+    configGrade: IBaseOption[];
 }
 
 export const Others: React.FC<OthersProps> = ({
