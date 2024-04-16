@@ -1,15 +1,19 @@
 import { TitleAll } from "./TitleAll";
 import styles from "./ContractInfomation.module.scss";
 import { useTranslation } from "react-i18next";
-import { Col, DatePicker, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upload, UploadProps } from "antd";
+import { Col, DatePicker, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upload, UploadFile, UploadProps } from "antd";
 import { ButtonConfigAntd } from "@/components";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
-import { formatDate } from "@/utils/format";
+import { convertDateToYYYYMMDD, formatDate } from "@/utils/format";
 import { LableInput } from "./LableInput";
 import { useRecoilState } from "recoil";
 import { isFilledContractInfomation } from "../../state/add-edit-employee/add.atom";
 import { EMPLOYEE_TYPE_CONGIG } from "../../config";
 import { FieldData } from "@/types";
+import { useEffect, useState } from "react";
+import { generateRandomNumberString } from "@/utils/string";
+import { handleMapContracts } from "@/utils/data";
+import { useParams } from "react-router-dom";
 
 const dateFormat = 'YYYY/MM/DD';
 const { Text } = Typography;
@@ -25,15 +29,10 @@ const formItemLayout = {
     },
 };
 
-interface ContractInfomationProps{
+interface ContractInfomationProps {
     fields: FieldData[];
     setFields: any;
 }
-
-type FieldType = {
-    contract_date: string;
-    contract_name: string;
-};
 
 interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
@@ -46,51 +45,90 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     fields,
     setFields
 }) => {
+    const [form] = Form.useForm();
+    const idParams = useParams()?.id;
     const { t } = useTranslation();
-    const [, setFilledContractImportant] = useRecoilState(isFilledContractInfomation);
+    const [,setFilledContractImportant] = useRecoilState(isFilledContractInfomation);
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const [data, setData] = useState<any[]>([]);
+    const [configField, setConfigField] = useState<FieldData[]>([
+        {name: 'contract_date', value: ''},
+        {name: 'name', value: ''},
+    ]);
 
     const propsFile: UploadProps = {
-        name: 'file',
-        action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-        headers: {
-            authorization: 'authorization-text',
+        onRemove: (file) => {
+            const index = fileList.indexOf(file);
+            const newFileList = fileList.slice();
+            newFileList.splice(index, 1);
+            setFileList(newFileList);
         },
-        onChange(info) {
-            if (info.file.status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
-            if (info.file.status === 'done') {
-                console.log(`file uploaded successfully`);
-            } else if (info.file.status === 'error') {
-                console.log(`${info.file.name} file upload failed.`);
-            }
+        beforeUpload: (file) => {
+            setFileList([...fileList, file]);
+            return false;
         },
+        fileList,
+    };
+    
+    const onUploadFiles = () => {
+        const dataconfig = [{
+            contract_date: convertDateToYYYYMMDD(configField[0].value),
+            name: configField[1].value,
+            action: 'add',
+            document_file: [fileList[0]],
+            id: generateRandomNumberString(),
+        }]
+        const index = fields.findIndex((f: FieldData) => f.name == "contracts");
+        if (index !== -1) {
+            const take = fields[index].value;
+            fields[index].value = [...take, ...dataconfig]
+        }
+        setFields(fields);
+        setData(fields[index].value);
+        setFileList([]);
+        form.resetFields()
     };
 
-    const onUploadFiles = (values: FieldType) => {
-        console.log(values)
-    }
+    function hanleDeleteItemById(idToDelete: string) {
+        const index = fields.findIndex((f: FieldData) => f.name == "contracts");
+        if(index !== -1){
+            const take = fields[index].value;
+            const updateData =  take?.filter((item: any) => item.id !== idToDelete);
+            fields[index].value = updateData
+        }
+        setFields(fields);
+        setData(fields[index].value);
+    };
+
+    useEffect(() => {
+        const contractItems: any = fields.find(item => item.name === 'contracts')?.value ?? [];
+        setData(contractItems)
+    },[idParams]);
 
     const columns: TableColumnsType = [
         {
-            title: LableInput({label: t("features.employee.features_add_new.contract_infomation.contract.table.lable1")}),
+            title: LableInput({ label: t("features.employee.features_add_new.contract_infomation.contract.table.lable1") }),
             dataIndex: 'No',
+            align: 'center',
             width: '10%',
+            render: (_, __, index) => (
+                <Text style={{ textAlign: "center" }}>{++index}</Text>
+            ),
         },
         {
-            title: LableInput({label: t("features.employee.features_add_new.contract_infomation.contract.table.lable2")}),
-            dataIndex: 'contract_name',
+            title: LableInput({ label: t("features.employee.features_add_new.contract_infomation.contract.table.lable2") }),
+            dataIndex: 'name',
             render: (text: any) => <Text className='line-clamp-1'>{text}</Text>,
             width: '30%',
         },
         {
-            title: LableInput({label: t("features.employee.features_add_new.contract_infomation.contract.table.lable3")}),
+            title: LableInput({ label: t("features.employee.features_add_new.contract_infomation.contract.table.lable3") }),
             dataIndex: 'contract_date',
             render: (text: any) => <Text className='line-clamp-1'>{formatDate(text)}</Text>,
             width: '30%',
         },
         {
-            title: LableInput({label: t("features.employee.features_add_new.contract_infomation.contract.table.lable4")}),
+            title: LableInput({ label: t("features.employee.features_add_new.contract_infomation.contract.table.lable4") }),
             width: '30%',
             align: 'center',
             render: (_: any, record: any) => {
@@ -103,6 +141,7 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
                         fontSizeLabel={14}
                         fontWeightLabel={500}
                         height={40}
+                        onClick={() => hanleDeleteItemById(record?.key)}
                         leftIcon={<DeleteOutlined style={{ color: "var(--button-color-dark-crimson)" }} />}
                     />
                 )
@@ -118,7 +157,7 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
                 onChange={(newFields) => {
                     newFields.forEach((i: FieldData) => {
                         const index = fields.findIndex((f: FieldData) => f.name == i.name)
-                        if(index !== -1){
+                        if (index !== -1) {
                             fields[index].value = i.value;
                         }
                     })
@@ -138,19 +177,22 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
                         {t("features.employee.features_add_new.contract_infomation.contract.des_contract")}
                     </Text>
                 </Row>
-                <Row justify={'space-between'} className={styles.contract_more}>
+                <Row justify={'space-between'} wrap className={styles.contract_more}>
                     <Col span={7}>
                         <Form
+                            form={form}
                             name="contract_information_actions"
                             {...formItemLayout}
-                            onFinish={onUploadFiles}
+                            onFieldsChange={(_, allFields) => {
+                                setConfigField(allFields);
+                            }}
                             className={styles.formmain}
                             autoComplete="off"
                         >
-                            <Form.Item<FieldType>
+                            <Form.Item
                                 labelAlign={'left'}
                                 name="contract_date"
-                                label={LableInput({label: t("features.employee.features_add_new.contract_infomation.contract.contract_date")})}
+                                label={LableInput({ label: t("features.employee.features_add_new.contract_infomation.contract.contract_date") })}
                             >
                                 <DatePicker
                                     format={dateFormat}
@@ -159,10 +201,10 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
                                     size={'large'}
                                 />
                             </Form.Item>
-                            <Form.Item<FieldType>
+                            <Form.Item
                                 labelAlign={'left'}
-                                name="contract_name"
-                                label={LableInput({label: t("features.employee.features_add_new.contract_infomation.contract.contract_name")})}
+                                name="name"
+                                label={LableInput({ label: t("features.employee.features_add_new.contract_infomation.contract.contract_name") })}
                             >
                                 <Input className="input_inside" />
                             </Form.Item>
@@ -191,15 +233,18 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
                                         fontSizeLabel={14}
                                         fontWeightLabel={500}
                                         height={40}
-                                        htmlType={'submit'}
+                                        onClick={() => {
+                                            onUploadFiles()
+                                        }}
                                     />
                                 </Col>
                             </Row>
                         </Form>
                     </Col>
-                    <Col span={16}>
+                    <Col span={16} style={{ minWidth: "400px" }}>
                         <Table
                             columns={columns}
+                            dataSource={handleMapContracts(data)}
                             sticky
                             size={'small'}
                             className="table_all"
@@ -222,9 +267,9 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
         fields={fields}
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
-            if(allFields[0].value !== null && allFields[1].value !== ""){
+            if (allFields[0].value !== null && allFields[1].value !== "") {
                 setFilledContractImportant(true);
-            }else{
+            } else {
                 setFilledContractImportant(false);
             }
         }}
@@ -240,7 +285,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                 <Form.Item
                     labelAlign={'left'}
                     name="contract_start_date"
-                    label={LableInput({label: t("features.employee.features_add_new.contract_infomation.lable_input_date_start")})}
+                    label={LableInput({ label: t("features.employee.features_add_new.contract_infomation.lable_input_date_start") })}
                     rules={[{ required: true, message: 'Date start is required!' }]}
                 >
                     <DatePicker
@@ -253,7 +298,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                 <Form.Item
                     labelAlign={'left'}
                     name="type"
-                    label={LableInput({label: t("features.employee.features_add_new.contract_infomation.lable_input_employee_type")})}
+                    label={LableInput({ label: t("features.employee.features_add_new.contract_infomation.lable_input_employee_type") })}
                     rules={[{ required: true, message: 'Employee Type is required!' }]}
                 >
                     <Select

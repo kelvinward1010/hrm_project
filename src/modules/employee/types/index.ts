@@ -45,6 +45,7 @@ export interface IEmployee {
     health_insurance_no: string;
     contract_start_date: string;
     type: number;
+    contracts: any[];
     department_id: number;
     position_id: number;
     shift: string;
@@ -62,4 +63,12 @@ export interface IEmployee {
 
 export interface IEditEmployee {
     name: string;
+}
+
+export interface IContracts{
+    key?: string;
+    id?: string;
+    name: string;
+    contract_date: string;
+    document_file: any[];
 }

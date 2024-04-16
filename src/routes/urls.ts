@@ -12,7 +12,7 @@ export const settingsUrl = "/settings";
 
 export const breadcrumbNameMap: Record<string, string> = {
     [employeeUrl]: 'Employee',
-    [addemployeeUrl]: 'Add Employee',
+    [addemployeeUrl]: 'Add and edit employee',
     [editemployeeUrl]: 'Edit Employee',
     [settingsUrl]: 'Settings',
 }

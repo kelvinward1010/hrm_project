@@ -1,4 +1,4 @@
-import { IEmployeeTable } from "@/modules/employee/types"
+import { IContracts, IEmployeeTable } from "@/modules/employee/types"
 import { IBaseOption, IBaseOtherItem } from "@/types"
 
 
@@ -19,6 +19,19 @@ export const handleMapEmployee = (data: any[]) => {
             mobile_no: String(item.mobile_no),
             tel_no: String(item.tel_no),
             staff_id: String(item.staff_id),
+        })
+    })
+
+    return dataMap ?? []
+}
+
+export const handleMapContracts = (data: any[]) => {
+    const dataMap: IContracts[] = data?.map((item: IContracts) => {
+        return ({
+            key: item.id,
+            document_file: item.document_file,
+            contract_date: item.contract_date,
+            name: item.name,
         })
     })
 
