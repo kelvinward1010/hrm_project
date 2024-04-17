@@ -102,7 +102,7 @@ export function AddEditEmployee() {
             const convertMutipleFile = {
                 employee_id: res?.data?.id,
                 names: [finalData.contracts[0]?.name],
-                deleted_contracts: 14,
+                deleted_contracts: [],
                 contract_dates: [finalData.contracts[0]?.contract_date],
                 documents: [finalData.contracts[0]?.document_file],
             }
@@ -133,7 +133,8 @@ export function AddEditEmployee() {
             const convertMutipleFile = {
                 employee_id: idParams,
                 names: [finalData.contracts[0]?.name],
-                deleted_contracts: 14,
+                deleted_contracts: [],
+                modified_contracts: [],
                 contract_dates: [finalData.contracts[0]?.contract_date],
                 documents: [finalData.contracts[0]?.document_file],
             }
