@@ -28,5 +28,15 @@
         .contract_more {
             padding: 5px 0 5px 5px;
         }
+
+        .button_upload_file{
+            background: white;
+            color: var(--button-color-dark-blue);
+            border: 1px dashed var(--button-color-dark-blue);
+            font-size: 14;
+            font-weight: 500;
+            height: 40px;
+            min-width: 210px;
+        }
     }
 }

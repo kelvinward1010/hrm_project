@@ -26,6 +26,7 @@ import { RootState } from "@/redux/store";
 import dayjs from "dayjs";
 import { useEditEmployee } from "../api/editEmployee";
 import { FieldData } from "@/types";
+import { useContractSaveMutiple } from "../api/createMutiplefile";
 
 const { Text } = Typography;
 
@@ -98,12 +99,23 @@ export function AddEditEmployee() {
                     type: "success",
                 })
             }
-            navigate(employeeUrl);
+            const convertMutipleFile = {
+                employee_id: res?.data?.id,
+                names: [finalData.contracts[0]?.name],
+                deleted_contracts: 14,
+                contract_dates: [finalData.contracts[0]?.contract_date],
+                documents: [finalData.contracts[0]?.document_file],
+            }
+            useContractSaveMutiple(convertMutipleFile).then((res) => {
+                console.log(res)
+            })
         }).catch((err) => {
             Notification({
                 message: err.data?.message,
                 type: "error",
             })
+        }).finally(() => {
+            navigate(employeeUrl);
         });
     },[fields])
 
@@ -118,6 +130,16 @@ export function AddEditEmployee() {
                     type: "success",
                 })
             }
+            const convertMutipleFile = {
+                employee_id: idParams,
+                names: [finalData.contracts[0]?.name],
+                deleted_contracts: 14,
+                contract_dates: [finalData.contracts[0]?.contract_date],
+                documents: [finalData.contracts[0]?.document_file],
+            }
+            useContractSaveMutiple(convertMutipleFile).then((res) => {
+                console.log(res)
+            })
             navigate(employeeUrl);
         }).catch((err) => {
             Notification({

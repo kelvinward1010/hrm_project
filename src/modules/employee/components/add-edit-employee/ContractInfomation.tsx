@@ -1,22 +1,24 @@
 import { TitleAll } from "./TitleAll";
 import styles from "./ContractInfomation.module.scss";
 import { useTranslation } from "react-i18next";
-import { Col, DatePicker, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upload, UploadFile, UploadProps } from "antd";
+import { Button, Col, DatePicker, Form, Input, message, Row, Select, Table, TableColumnsType, Typography, Upload, UploadFile, UploadProps } from "antd";
 import { ButtonConfigAntd } from "@/components";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
-import { convertDateToYYYYMMDD, formatDate } from "@/utils/format";
+import { convertDateToYYYYMMDD, dataURLtoBlob, formatDate } from "@/utils/format";
 import { LableInput } from "./LableInput";
 import { useRecoilState } from "recoil";
 import { isFilledContractInfomation } from "../../state/add-edit-employee/add.atom";
 import { EMPLOYEE_TYPE_CONGIG } from "../../config";
 import { FieldData } from "@/types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { generateRandomNumberString } from "@/utils/string";
 import { handleMapContracts } from "@/utils/data";
 import { useParams } from "react-router-dom";
 
 const dateFormat = 'YYYY/MM/DD';
 const { Text } = Typography;
+
+const allowedFileTypes = ['.jpg', '.png', '.gif', '.docx', '.xlsx', '.xls', '.doc', '.pdf'];
 
 const formItemLayout = {
     labelCol: {
@@ -48,12 +50,14 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     const [form] = Form.useForm();
     const idParams = useParams()?.id;
     const { t } = useTranslation();
-    const [,setFilledContractImportant] = useRecoilState(isFilledContractInfomation);
+    const [, setFilledContractImportant] = useRecoilState(isFilledContractInfomation);
     const [fileList, setFileList] = useState<UploadFile[]>([]);
+    // const [image, setImage] = useState<any>(null);
+    // const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [data, setData] = useState<any[]>([]);
     const [configField, setConfigField] = useState<FieldData[]>([
-        {name: 'contract_date', value: ''},
-        {name: 'name', value: ''},
+        { name: 'contract_date', value: '' },
+        { name: 'name', value: '' },
     ]);
 
     const propsFile: UploadProps = {
@@ -69,13 +73,49 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
         },
         fileList,
     };
-    
+
+    // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     e.preventDefault();
+    //     const files = e.target.files;
+    //     const reader = new FileReader();
+    //     reader.onload = () => {
+    //         setImage(reader.result as string);
+    //     };
+    //     if (files !== null && files.length) reader.readAsDataURL(files[0]);
+
+    //     const filteredFileList = Array.from(files || []).filter((file: File) => {
+    //         const fileExtension = file.name.toLowerCase().slice(file.name.lastIndexOf('.'));
+    //         return allowedFileTypes.includes(fileExtension);
+    //     });
+
+    //     const uploadFileList: UploadFile<any>[] = filteredFileList.map((file: File) => ({
+    //         uid: file.name,
+    //         name: file.name,
+    //         status: 'done',
+    //         url: URL.createObjectURL(file),
+    //     }));
+
+    //     setFileList(uploadFileList);
+
+    //     if (filteredFileList.length === 0) {
+    //         message.error('Please upload a valid file.');
+    //     }
+    // };
+
+    // const handleButtonClick = () => {
+    //     if (fileInputRef.current) {
+    //       fileInputRef.current.click();
+    //     }
+    // };
+
     const onUploadFiles = () => {
+        // const formData = new FormData();
+        // formData.append('file', image);
         const dataconfig = [{
             contract_date: convertDateToYYYYMMDD(configField[0].value),
             name: configField[1].value,
             action: 'add',
-            document_file: [fileList[0]],
+            document_file: fileList[0],
             id: generateRandomNumberString(),
         }]
         const index = fields.findIndex((f: FieldData) => f.name == "contracts");
@@ -91,9 +131,9 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
 
     function hanleDeleteItemById(idToDelete: string) {
         const index = fields.findIndex((f: FieldData) => f.name == "contracts");
-        if(index !== -1){
+        if (index !== -1) {
             const take = fields[index].value;
-            const updateData =  take?.filter((item: any) => item.id !== idToDelete);
+            const updateData = take?.filter((item: any) => item.id !== idToDelete);
             fields[index].value = updateData
         }
         setFields(fields);
@@ -103,7 +143,7 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     useEffect(() => {
         const contractItems: any = fields.find(item => item.name === 'contracts')?.value ?? [];
         setData(contractItems)
-    },[idParams]);
+    }, [idParams]);
 
     const columns: TableColumnsType = [
         {
@@ -223,6 +263,14 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
                                             leftIcon={<UploadOutlined style={{ color: "var(--button-color-dark-blue)" }} />}
                                         />
                                     </Upload>
+                                    {/* <Button 
+                                        className={styles.button_upload_file} 
+                                        onClick={handleButtonClick}
+                                        icon={<UploadOutlined style={{ color: "var(--button-color-dark-blue)" }} />}
+                                    >
+                                        <input style={{display: 'none'}} ref={fileInputRef} type="file" onChange={handleFileChange} />
+                                        {t("features.employee.features_add_new.contract_infomation.contract.lable_button_upload")}
+                                    </Button> */}
                                 </Col>
                                 <Col span={11} style={{ minWidth: "210px" }}>
                                     <ButtonConfigAntd
