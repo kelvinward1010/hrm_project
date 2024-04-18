@@ -26,7 +26,7 @@ import { RootState } from "@/redux/store";
 import dayjs from "dayjs";
 import { useEditEmployee } from "../api/editEmployee";
 import { FieldData } from "@/types";
-import { useContractSaveMutiple } from "../api/createMutiplefile";
+import { useContractSaveMutiple } from "../api/uploadMutiplefile";
 
 const { Text } = Typography;
 
@@ -78,6 +78,7 @@ export function AddEditEmployee() {
         {name: 'benefits', value: [],},
         {name: 'remark', value: idParams ? dataDetailEmployee?.remark : "",},
         {name: 'account_user_id', value: idParams ? dataDetailEmployee?.account_user_id : "",},
+        {name: 'documents', value: idParams ? dataDetailEmployee?.documents : []},
         {name: 'hidden_on_payroll', value: idParams ? (dataDetailEmployee?.hidden_on_payroll == '' ? 0 : dataDetailEmployee?.hidden_on_payroll) : 0},
         {name: 'entitle_ot', value: idParams ? dataDetailEmployee?.entitle_ot : 0},
         {name: 'meal_allowance_paid', value: idParams ? dataDetailEmployee?.meal_allowance_paid : 0},
@@ -138,6 +139,7 @@ export function AddEditEmployee() {
                 contract_dates: [finalData.contracts[0]?.contract_date],
                 documents: [finalData.contracts[0]?.document_file],
             }
+            console.log(convertMutipleFile)
             useContractSaveMutiple(convertMutipleFile).then((res) => {
                 console.log(res)
             })

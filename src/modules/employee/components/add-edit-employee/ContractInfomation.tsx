@@ -1,16 +1,16 @@
 import { TitleAll } from "./TitleAll";
 import styles from "./ContractInfomation.module.scss";
 import { useTranslation } from "react-i18next";
-import { Button, Col, DatePicker, Form, Input, message, Row, Select, Table, TableColumnsType, Typography, Upload, UploadFile, UploadProps } from "antd";
+import { Col, DatePicker, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upload, UploadFile, UploadProps } from "antd";
 import { ButtonConfigAntd } from "@/components";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
-import { convertDateToYYYYMMDD, dataURLtoBlob, formatDate } from "@/utils/format";
+import { convertDateToYYYYMMDD, formatDate } from "@/utils/format";
 import { LableInput } from "./LableInput";
 import { useRecoilState } from "recoil";
 import { isFilledContractInfomation } from "../../state/add-edit-employee/add.atom";
 import { EMPLOYEE_TYPE_CONGIG } from "../../config";
 import { FieldData } from "@/types";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { generateRandomNumberString } from "@/utils/string";
 import { handleMapContracts } from "@/utils/data";
 import { useParams } from "react-router-dom";
@@ -18,7 +18,7 @@ import { useParams } from "react-router-dom";
 const dateFormat = 'YYYY/MM/DD';
 const { Text } = Typography;
 
-const allowedFileTypes = ['.jpg', '.png', '.gif', '.docx', '.xlsx', '.xls', '.doc', '.pdf'];
+// const allowedFileTypes = ['.jpg', '.png', '.gif', '.docx', '.xlsx', '.xls', '.doc', '.pdf'];
 
 const formItemLayout = {
     labelCol: {
@@ -51,7 +51,7 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     const idParams = useParams()?.id;
     const { t } = useTranslation();
     const [, setFilledContractImportant] = useRecoilState(isFilledContractInfomation);
-    const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const [fileList, setFileList] = useState<UploadFile<Blob>[]>([]);
     // const [image, setImage] = useState<any>(null);
     // const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [data, setData] = useState<any[]>([]);
@@ -109,8 +109,15 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     // };
 
     const onUploadFiles = () => {
-        // const formData = new FormData();
         // formData.append('file', image);
+        // const formData = new FormData();
+        // fileList.forEach((file: any) => {
+        //     formData.append(
+        //         "files",
+        //         file as unknown as Blob,
+        //         file.name,
+        //     );
+        // });
         const dataconfig = [{
             contract_date: convertDateToYYYYMMDD(configField[0].value),
             name: configField[1].value,

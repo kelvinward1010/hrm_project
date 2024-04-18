@@ -12,3 +12,4 @@ export const URL_BENEFIT = "/benefit";
 export const URL_GRADE = "/grade";
 export const URL_MARRIAGE = "/marriage";
 export const URL_SAVE_MUTIPLE = "/contract/save-multiple";
+export const URL_UPLOAD_DOCUMENT = "/employee-document/upload";

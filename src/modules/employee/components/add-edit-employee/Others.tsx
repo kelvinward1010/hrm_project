@@ -1,15 +1,17 @@
 import { useTranslation } from "react-i18next";
 import styles from "./Others.module.scss";
 import { TitleAll } from "./TitleAll";
-import { Col, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upload, UploadProps } from "antd";
+import { Col, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upload, UploadFile, UploadProps } from "antd";
 import { ButtonConfigAntd } from "@/components";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
-import { formatDate } from "@/utils/format";
+import { convertDateToYYYYMMDD, formatDate } from "@/utils/format";
 import { useQuery } from "react-query";
 import { useGetBenefits } from "../../api/getBenefits";
-import { configValuesSelect } from "@/utils/data";
+import { configValuesSelect, handleMapDocuments } from "@/utils/data";
 import { useGetGrades } from "../../api/getGrades";
 import { FieldData, IBaseOption } from "@/types";
+import { useState } from "react";
+import { generateRandomNumberString } from "@/utils/string";
 
 
 const { Text } = Typography;
@@ -43,6 +45,8 @@ export const Others: React.FC<OthersProps> = ({
     setFields
 }) => {
     const { t } = useTranslation();
+    const [data, setData] = useState<any[]>([]);
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
 
     const {data: benefit} = useQuery({
         queryKey: 'benefit',
@@ -57,22 +61,46 @@ export const Others: React.FC<OthersProps> = ({
     const configBenefit = configValuesSelect(benefit);
     const configGrade = configValuesSelect(grade);
 
+    const onUploadFiles = () => {
+        const currentDate: Date = new Date();
+        const dataconfig = [{
+            date: convertDateToYYYYMMDD(String(currentDate)),
+            documents: fileList[0],
+            id: generateRandomNumberString(),
+        }]
+        const index = fields.findIndex((f: FieldData) => f.name == "documents");
+        if (index !== -1) {
+            const take = fields[index].value;
+            fields[index].value = [...take, ...dataconfig]
+        }
+        setFields(fields);
+        setData(fields[index].value);
+        setFileList([]);
+    };
+
     const propsFile: UploadProps = {
-        name: 'file',
-        action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-        headers: {
-            authorization: 'authorization-form',
+        onRemove: (file) => {
+            const index = fileList.indexOf(file);
+            const newFileList = fileList.slice();
+            newFileList.splice(index, 1);
+            setFileList(newFileList);
         },
-        onChange(info) {
-            if (info.file.status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
-            if (info.file.status === 'done') {
-                console.log(`file uploaded successfully`);
-            } else if (info.file.status === 'error') {
-                console.log(`${info.file.name} file upload failed.`);
-            }
+        beforeUpload: (file) => {
+            setFileList([...fileList, file]);
+            return false;
         },
+        fileList,
+    };
+
+    function hanleDeleteItemById(idToDelete: string) {
+        const index = fields.findIndex((f: FieldData) => f.name == "documents");
+        if (index !== -1) {
+            const take = fields[index].value;
+            const updateData = take?.filter((item: any) => item.id !== idToDelete);
+            fields[index].value = updateData
+        }
+        setFields(fields);
+        setData(fields[index].value);
     };
 
     const columns: TableColumnsType = [
@@ -80,16 +108,19 @@ export const Others: React.FC<OthersProps> = ({
             title: "No",
             dataIndex: 'No',
             width: '10%',
+            render: (_, __, index) => (
+                <Text style={{ textAlign: "center" }}>{++index}</Text>
+            ),
         },
         {
             title: "Document Name",
-            dataIndex: 'contract_name',
+            dataIndex: 'documents',
             render: (text: any) => <Text className='line-clamp-1'>{text}</Text>,
             width: '30%',
         },
         {
             title: "Create At",
-            dataIndex: 'contract_date',
+            dataIndex: 'date',
             render: (text: any) => <Text className='line-clamp-1'>{formatDate(text)}</Text>,
             width: '30%',
         },
@@ -106,6 +137,7 @@ export const Others: React.FC<OthersProps> = ({
                         fontSizeLabel={14}
                         fontWeightLabel={500}
                         height={40}
+                        onClick={() => hanleDeleteItemById(record?.key)}
                         leftIcon={<DeleteOutlined style={{ color: "var(--button-color-dark-crimson)" }} />}
                     />
                 )
@@ -155,6 +187,7 @@ export const Others: React.FC<OthersProps> = ({
                 </Row>
                 <Table
                     columns={columns}
+                    dataSource={handleMapDocuments(data)}
                     sticky
                     size={'small'}
                     className="table_all"

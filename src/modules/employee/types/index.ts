@@ -72,3 +72,10 @@ export interface IContracts{
     contract_date: string;
     document_file: any[];
 }
+
+export interface IDocuments{
+    key?: string;
+    id?: string;
+    date: string;
+    documents: any[];
+}
