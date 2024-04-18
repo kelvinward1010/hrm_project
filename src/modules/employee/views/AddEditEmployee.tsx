@@ -27,6 +27,7 @@ import dayjs from "dayjs";
 import { useEditEmployee } from "../api/editEmployee";
 import { FieldData } from "@/types";
 import { useContractSaveMutiple } from "../api/uploadMutiplefile";
+import { useEmployeeDocumentUpload } from "../api/uploadDocument";
 
 const { Text } = Typography;
 
@@ -131,16 +132,23 @@ export function AddEditEmployee() {
                     type: "success",
                 })
             }
-            const convertMutipleFile = {
+            // const convertMutipleFile = {
+            //     employee_id: idParams,
+            //     names: [finalData.contracts[0]?.name],
+            //     deleted_contracts: [],
+            //     modified_contracts: [],
+            //     contract_dates: [finalData.contracts[0]?.contract_date],
+            //     documents: [finalData.contracts[0]?.document_file],
+            // }
+            // useContractSaveMutiple(convertMutipleFile).then((res) => {
+            //     console.log(res)
+            // })
+
+            const convertDocumentsUpload = {
                 employee_id: idParams,
-                names: [finalData.contracts[0]?.name],
-                deleted_contracts: [],
-                modified_contracts: [],
-                contract_dates: [finalData.contracts[0]?.contract_date],
-                documents: [finalData.contracts[0]?.document_file],
+                documents: [finalData.documents[0]?.documents]
             }
-            console.log(convertMutipleFile)
-            useContractSaveMutiple(convertMutipleFile).then((res) => {
+            useEmployeeDocumentUpload(convertDocumentsUpload).then((res) => {
                 console.log(res)
             })
             navigate(employeeUrl);

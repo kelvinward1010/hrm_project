@@ -59,6 +59,7 @@ export interface IEmployee {
     benefits: Array<any>;
     remark: string;
     account_user_id: any;
+    documents: any[];
 }
 
 export interface IEditEmployee {

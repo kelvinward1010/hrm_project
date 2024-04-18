@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import styles from "./Others.module.scss";
 import { TitleAll } from "./TitleAll";
-import { Col, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upload, UploadFile, UploadProps } from "antd";
+import { Button, Col, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upload, UploadFile, UploadProps } from "antd";
 import { ButtonConfigAntd } from "@/components";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { convertDateToYYYYMMDD, formatDate } from "@/utils/format";
@@ -63,9 +63,17 @@ export const Others: React.FC<OthersProps> = ({
 
     const onUploadFiles = () => {
         const currentDate: Date = new Date();
+        const formData = new FormData();
+        fileList.forEach((file: any) => {
+            formData.append(
+                "documents",
+                file as unknown as Blob,
+                file.name,
+            );
+        });
         const dataconfig = [{
             date: convertDateToYYYYMMDD(String(currentDate)),
-            documents: fileList[0],
+            documents: fileList,
             id: generateRandomNumberString(),
         }]
         const index = fields.findIndex((f: FieldData) => f.name == "documents");
@@ -145,6 +153,8 @@ export const Others: React.FC<OthersProps> = ({
         }
     ];
 
+    console.log(fields)
+
     return (
         <div className={styles.container}>
             <TitleAll title={t("features.employee.features_add_new.titleall.title5")}/>
@@ -183,6 +193,7 @@ export const Others: React.FC<OthersProps> = ({
                                 leftIcon={<UploadOutlined style={{ color: "var(--button-color-dark-blue)" }} />}
                             />
                         </Upload>
+                        <Button onClick={onUploadFiles}>Add table</Button>
                     </Col>
                 </Row>
                 <Table
