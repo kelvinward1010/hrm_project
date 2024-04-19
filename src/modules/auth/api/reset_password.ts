@@ -1,19 +1,26 @@
-import { BASE_URL, URL_CHANGE_PASSWORD } from "@/constant/config";
+import { BASE_URL, URL_RESET_PASSWORD } from "@/constant/config";
 import { apiClient } from "@/lib/api";
-import { IChangePassword } from "../type";
 import { FormRule } from "antd";
 
-export const useChangePassword = async (data: IChangePassword): Promise<any> => {
-    const res = await apiClient.post(`${BASE_URL}${URL_CHANGE_PASSWORD}`, data)
+
+export interface ResetPasswordProps {
+    email: string;
+    company_id: string;
+    token: string;
+    password: string;
+    password_confirmation: string;
+}
+
+export const useForgotPassword = async (data: ResetPasswordProps): Promise<any> => {
+    const res = await apiClient.post(`${BASE_URL}${URL_RESET_PASSWORD}`, data)
     return res;
 }
 
-
-export const RULES_CHANGE_PASSWORD: Record<keyof IChangePassword, FormRule[]> = {
+export const RULES_RESET_PASSWORD: Record<keyof ResetPasswordProps, FormRule[]> ={
+    email: [],
+    company_id: [],
     password: [
         { required: true, message: 'Please input your password!' },
-        { min: 8, message: "Password must have at least 8 characters" },
-        { max: 16, message: "Password must have at most 16 characters" }
     ],
     password_confirmation: [
         {
@@ -29,6 +36,5 @@ export const RULES_CHANGE_PASSWORD: Record<keyof IChangePassword, FormRule[]> = 
             },
         }),
     ],
-    email: [],
-    company_id: []
+    token: []
 }

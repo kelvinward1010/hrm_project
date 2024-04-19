@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { addemployeeUrl, authUrl, changepasswordUrl, editemployeeUrl, employeeUrl, forgotPasswordUrl, layoutUrl, settingsUrl, signinUrl } from "./urls";
+import { addemployeeUrl, authUrl, editemployeeUrl, employeeUrl, forgotPasswordUrl, layoutUrl, resetpasswordUrl, settingsUrl, signinUrl } from "./urls";
 import {
     Auth, 
     ChangePassword, 
@@ -68,7 +68,7 @@ export const routerConfig = createBrowserRouter([
                 element:<ForgotPassword />
             },
             {
-                path: changepasswordUrl,
+                path: resetpasswordUrl,
                 element: <ChangePassword />
             }
         ]

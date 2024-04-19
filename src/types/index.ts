@@ -28,6 +28,16 @@ export type IBaseOtherItem = {
 }
 
 export type IBaseOption = {
+    key?: string | number;
     value: string | number;
     label: string | number;
+}
+
+export interface Document {
+    id?: number | string;
+    employee_id?: number;
+    document?: string;
+    created_at?: string;
+    updated_at?: string | null;
+    documents?: any[];
 }

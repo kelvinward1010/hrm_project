@@ -77,7 +77,7 @@ export function AddEditEmployee() {
         {name: 'health_insurance', value: idParams ? dataDetailEmployee?.health_insurance : "",},
         {name: 'meal_allowance', value: idParams ? dataDetailEmployee?.meal_allowance : "",},
         {name: 'grade_id', value: idParams ? dataDetailEmployee?.grade_id : "",},
-        {name: 'benefits', value: [],},
+        {name: 'benefits', value: idParams ? dataDetailEmployee?.benefits : [],},
         {name: 'remark', value: idParams ? dataDetailEmployee?.remark : "",},
         {name: 'account_user_id', value: idParams ? dataDetailEmployee?.account_user_id : "",},
         {name: 'documents', value: idParams ? dataDetailEmployee?.documents : []},
@@ -143,6 +143,7 @@ export function AddEditEmployee() {
                     type: "success",
                 })
             }
+
             // const convertMutipleFile = {
             //     employee_id: idParams,
             //     names: [finalData.contracts[0]?.name],

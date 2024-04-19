@@ -14,6 +14,7 @@ import { URL_DETAIL_USER } from "@/constant/config";
 import { apiClient } from "@/lib/api";
 import { IUserInfo } from "@/types/user";
 import { updateUser } from "@/redux/slices/authSlice";
+import { RULES_SIGNIN } from "./rule_form";
 
 const { Title, Text } = Typography;
 
@@ -78,11 +79,7 @@ export function SignIn() {
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.username")} />}
                         name="username"
-                        rules={[
-                            { required: true, message: 'Please input your username!' }, 
-                            {max: 30, message: "Username must be at maximuns 30 characters"},
-                            {pattern: new RegExp("^(?!.*@)[A-Za-z0-9_]+$"), message: "Wrong format!"}
-                        ]}
+                        rules={RULES_SIGNIN.username}
                     >
                         <Input className={"input_auth"}/>
                     </Form.Item>
@@ -90,11 +87,7 @@ export function SignIn() {
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.password")} />}
                         name="password"
-                        rules={[
-                            { required: true, message: 'Please input your password!' },
-                            { min: 8, message: "Password must have at least 8 characters"},
-                            { max: 16, message: "Password must have at most 16 characters"}
-                        ]}
+                        rules={RULES_SIGNIN.password}
                     >
                         <Input.Password className={"input_auth"}/>
                     </Form.Item>
@@ -102,9 +95,7 @@ export function SignIn() {
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.factory")} />}
                         name="factory"
-                        rules={[
-                            { required: true, message: 'Please input your factory!' }
-                        ]}
+                        rules={RULES_SIGNIN.company_id}
                     >
                         <Select
                             options={FACTORY_CONFIG}

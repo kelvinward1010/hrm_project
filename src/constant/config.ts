@@ -1,6 +1,7 @@
 export const BASE_URL = "https://api-training.hrm.div4.pgtest.co/api/v1";
 export const URL_LOGIN = "/login";
 export const URL_CHANGE_PASSWORD = "/change-password";
+export const URL_RESET_PASSWORD = "/reset-password";
 
 export const URL_DETAIL_USER = "/user/detail";
 export const URL_FORGOT_PASSWORD = "/forgot-password";

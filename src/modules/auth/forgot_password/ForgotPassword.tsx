@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { LabelConfig } from "../conponents/LabelConfig";
 import { ButtonConfigAntd } from "@/components";
 import { signinUrl } from "@/routes/urls";
-import { useForgotPassword } from "../api/forgot_password";
+import { RULES_FORGOT_PASSWORD, useForgotPassword } from "../api/forgot_password";
 import { Notification } from "@/components/notification/Notification";
 
 const { Title, Text } = Typography;
@@ -51,10 +51,7 @@ export function ForgotPassword() {
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.email")} />}
                         name="email"
-                        rules={[
-                            { required: true, message: 'Please input your email!' }, 
-                            {pattern: new RegExp("^.+@.+\..+$"), message: "Email format is invalid"}
-                        ]}
+                        rules={RULES_FORGOT_PASSWORD.email}
                     >
                         <Input className={"input_auth"}/>
                     </Form.Item>

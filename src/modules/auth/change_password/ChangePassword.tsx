@@ -1,27 +1,49 @@
 import { useTranslation } from "react-i18next";
 import styles from "./ChangePassword.module.scss";
-import { Form, Input, notification, Typography } from "antd";
+import { Form, Input, Typography } from "antd";
 import { LabelConfig } from "../conponents/LabelConfig";
 import { ButtonConfigAntd } from "@/components";
+import { useLocation } from "react-router-dom";
+import { useForgotPassword } from "../api/forgot_password";
+import { ResetPasswordProps, RULES_RESET_PASSWORD } from "../api/reset_password";
+import { Notification } from "@/components/notification/Notification";
 
 const { Title } = Typography;
 
 type FieldType = {
-    newpassword: string;
-    confirmpassword: string;
+    password: string;
+    password_confirmation: string;
 };
 
 export function ChangePassword() {
     const { t } = useTranslation();
+    const search = useLocation()?.search;
+    const params = new URLSearchParams(search);
+    const token: any = params?.get('token');
+    const email: any = params?.get('email');
+    const companyId: any = params?.get('company_id');
+
 
     const onFinish = (values: FieldType) => {
-        const data = {
-            newpassword: values.newpassword,
-            confirmpassword: values.confirmpassword,
+        const data: ResetPasswordProps = {
+            email: email,
+            company_id: companyId,
+            token: token,
+            password: values.password,
+            password_confirmation: values.password_confirmation,
         }
-        console.log(data)
-        notification.info({
-            message: "Ok",
+        useForgotPassword(data).then((res) => {
+            if(res?.result === true) {
+                Notification({
+                    message: 'Reset Password Successful',
+                    type: 'success',
+                })
+            }else{
+                Notification({
+                    message: 'Failed to reset password',
+                    type: 'error',
+                })
+            }
         })
     };
 
@@ -42,31 +64,16 @@ export function ChangePassword() {
                     <Title level={3}>{t("auth.change_password.title")}</Title>
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.newpassword")} />}
-                        name="newpassword"
-                        rules={[
-                            { required: true, message: 'Please input your password!' },
-                        ]}
+                        name="password"
+                        rules={RULES_RESET_PASSWORD.password}
                     >
                         <Input.Password className={"input_auth"}/>
                     </Form.Item>
 
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.confirmpassword")} />}
-                        name="confirmpassword"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please confirm your password!',
-                            },
-                            ({ getFieldValue }) => ({
-                                validator(_, value) {
-                                    if (!value || getFieldValue('newpassword') === value) {
-                                        return Promise.resolve();
-                                    }
-                                    return Promise.reject(new Error('The new password that you entered do not match!'));
-                                },
-                            }),
-                        ]}
+                        name="password_confirmation"
+                        rules={RULES_RESET_PASSWORD.password_confirmation}
                     >
                         <Input.Password className={"input_auth"}/>
                     </Form.Item>

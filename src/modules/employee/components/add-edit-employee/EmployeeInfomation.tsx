@@ -9,6 +9,7 @@ import { useQuery } from "react-query";
 import { useGetMarriages } from "../../api/getMarriages";
 import { configValuesSelect } from "@/utils/data";
 import { FieldData, IBaseOption } from "@/types";
+import { RULES_CREATE_EMPLOYEE } from "../../api/createEmployee";
 
 
 const dateFormat = 'YYYY/MM/DD';
@@ -99,7 +100,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                     labelAlign={'left'}
                     name="name"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_name")}
-                    rules={[{required: true, message: 'Name is required!' }]}
+                    rules={RULES_CREATE_EMPLOYEE.name}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>
@@ -107,7 +108,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                     labelAlign={'left'}
                     name="gender"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_gender")}
-                    rules={[{required: true, message: 'Gender is required!' }]}
+                    rules={RULES_CREATE_EMPLOYEE.gender}
                 >
                     <Select
                         options={GENDER_CONFIG}
@@ -126,7 +127,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                     labelAlign={'left'}
                     name="dob"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_date_of_birth")}
-                    rules={[{required: true, message: 'Date of birth is required!' }]}
+                    rules={RULES_CREATE_EMPLOYEE.dob}
                 >
                     <DatePicker
                         format={dateFormat} 
@@ -146,7 +147,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                     labelAlign={'left'}
                     name="ktp_no"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_ktp_no")}
-                    rules={[{required: true, message: 'KTP No is required!' }]}
+                    rules={RULES_CREATE_EMPLOYEE.ktp_no}
                 >
                     <Input className="input_inside"/>
                 </Form.Item>

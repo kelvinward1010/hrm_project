@@ -6,7 +6,7 @@ import { ButtonConfigAntd } from "@/components";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { IChangePassword } from "../type";
-import { useChangePassword } from "../api/changepassword";
+import { RULES_CHANGE_PASSWORD, useChangePassword } from "../api/changepassword";
 import { Notification } from "@/components/notification/Notification";
 
 
@@ -62,11 +62,7 @@ export function ProfileChangePassword() {
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.newpassword")} />}
                         name="password"
-                        rules={[
-                            { required: true, message: 'Please input your password!' },
-                            { min: 8, message: "Password must have at least 8 characters"},
-                            { max: 16, message: "Password must have at most 16 characters"}
-                        ]}
+                        rules={RULES_CHANGE_PASSWORD.password}
                     >
                         <Input.Password className={"input_auth"}/>
                     </Form.Item>
@@ -74,20 +70,7 @@ export function ProfileChangePassword() {
                     <Form.Item<FieldType>
                         label={<LabelConfig label={t("auth.label.confirmpassword")} />}
                         name="password_confirmation"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please confirm your password!',
-                            },
-                            ({ getFieldValue }) => ({
-                                validator(_, value) {
-                                    if (!value || getFieldValue('password') === value) {
-                                        return Promise.resolve();
-                                    }
-                                    return Promise.reject(new Error('The new password that you entered do not match!'));
-                                },
-                            }),
-                        ]}
+                        rules={RULES_CHANGE_PASSWORD.password_confirmation}
                     >
                         <Input.Password className={"input_auth"}/>
                     </Form.Item>

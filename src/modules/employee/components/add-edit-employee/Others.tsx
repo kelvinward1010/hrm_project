@@ -7,7 +7,7 @@ import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { convertDateToYYYYMMDD } from "@/utils/format";
 import { useQuery } from "react-query";
 import { useGetBenefits } from "../../api/getBenefits";
-import { configValuesSelect, handleMapDocuments, hasDocumentWithId } from "@/utils/data";
+import { configValuesSelect, handleMapDocuments, hasDocumentWithId} from "@/utils/data";
 import { useGetGrades } from "../../api/getGrades";
 import { FieldData, IBaseOption } from "@/types";
 import { useEffect, useState } from "react";
@@ -68,6 +68,8 @@ export const Others: React.FC<OthersProps> = ({
 
     const configBenefit = configValuesSelect(benefit);
     const configGrade = configValuesSelect(grade);
+    // const idxRemark = fields.findIndex((f: FieldData) => f.name == "benefits");
+    // const dataRemark = changeSelectMutiple(fields[idxRemark].value);
 
     const onUploadFiles = () => {
         const currentDate: Date = new Date();

@@ -1,5 +1,5 @@
 import { IContracts, IDocuments, IEmployeeTable } from "@/modules/employee/types"
-import { IBaseOption, IBaseOtherItem } from "@/types"
+import { Document, IBaseOption, IBaseOtherItem } from "@/types"
 import { extractDateT, extractFileNameFromUrl } from "./string"
 
 
@@ -113,6 +113,7 @@ export const configValuesSelect = (data: IBaseOtherItem[] | undefined) => {
     let dataFinal: IBaseOption[] = [];
     data?.forEach((field) => {
         dataFinal.push({
+            key: field?.id,
             value: field?.id,
             label: field?.name
         })
@@ -139,17 +140,25 @@ export function filterDocuments(documents: any[]) {
     return finaldata;
 }
 
-
-interface Document {
-    id?: number | string;
-    employee_id?: number;
-    document?: string;
-    created_at?: string;
-    updated_at?: string | null;
-    documents?: any[];
-}
-
 export function hasDocumentWithId(documents: Document[], id: number | string): boolean {
     const document = documents.find((doc) => doc.id === id);
     return !!document && !!document.document;
+}
+
+export function changeSelectMutiple(data: any[]){
+    const datafinal: string[] = [];
+    data?.forEach((item: any) => {
+        datafinal?.push(item?.name)
+    })
+    return datafinal ?? [];
+}
+
+export function mapDataSelectMutiple(data: any[]) {
+    const datafinal= data?.map((item: any) => {
+        return({
+            value: item?.name,
+            key: item?.id,
+        })
+    })
+    return datafinal;
 }

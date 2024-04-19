@@ -1,7 +1,7 @@
 export const authUrl = "/auth";
 export const signinUrl = `${authUrl}/sign-in`;
 export const forgotPasswordUrl = `${authUrl}/forgot-password`;
-export const changepasswordUrl = `${authUrl}/change-password`;
+export const resetpasswordUrl = `${authUrl}/reset-password`;
 
 export const layoutUrl = "/";
 export const employeeUrl = "/employee";
