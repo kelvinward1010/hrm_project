@@ -77,6 +77,7 @@ export interface IContracts{
 export interface IDocuments{
     key?: string;
     id?: string;
-    date: string;
+    created_at: string;
     documents: any[];
+    url?: any;
 }

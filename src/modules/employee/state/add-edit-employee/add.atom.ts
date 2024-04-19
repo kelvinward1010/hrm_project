@@ -16,7 +16,7 @@ export const isFilledContractInfomation = atom({
 })
 
 
-export const employeeDetail = atom({
-    key: "employeeDetail",
-    default: {},
+export const deleteIdsDocuments = atom<string[]>({
+    key: "deleteIdsDocuments",
+    default: [],
 })

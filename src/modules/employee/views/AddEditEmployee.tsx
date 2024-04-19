@@ -12,12 +12,12 @@ import {
     SalaryAndWages
 } from "../components/add-edit-employee";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { addEmployeeState, filledContractInfomation, filledEmployeeInfomation } from "../state/add-edit-employee/add.state";
+import { addEmployeeState, DataDeleteIdsDocuments, filledContractInfomation, filledEmployeeInfomation } from "../state/add-edit-employee/add.state";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { isAddEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
+import { deleteIdsDocuments, isAddEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
 import { IEmployee } from "../types";
 import { useCreateEmployee } from "../api/createEmployee";
-import { mapDataCreate, transformValues, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "@/utils/data";
+import { filterDocuments, mapDataCreate, transformValues, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
 import { useNavigate, useParams } from "react-router-dom";
 import { employeeUrl } from "@/routes/urls";
@@ -26,7 +26,6 @@ import { RootState } from "@/redux/store";
 import dayjs from "dayjs";
 import { useEditEmployee } from "../api/editEmployee";
 import { FieldData } from "@/types";
-import { useContractSaveMutiple } from "../api/uploadMutiplefile";
 import { useEmployeeDocumentUpload } from "../api/uploadDocument";
 
 const { Text } = Typography;
@@ -44,6 +43,8 @@ export function AddEditEmployee() {
     const dataDetailEmployee: any = useSelector((state: RootState) => state.employee.employee);
     const [, setFilledInformationImportant] = useRecoilState(isFilledEmployeeInfomation);
     const [, setFilledContractImportant] = useRecoilState(isFilledContractInfomation);
+    const [,setDeleteIds] = useRecoilState(deleteIdsDocuments);
+    const deleteIdsDcmt: string[] = useRecoilValue(DataDeleteIdsDocuments);
     
     const [fields, setFields] = useState<FieldData[]>([
         {name: 'name', value: idParams ? dataDetailEmployee?.name : "" ,},
@@ -101,16 +102,26 @@ export function AddEditEmployee() {
                     type: "success",
                 })
             }
-            const convertMutipleFile = {
-                employee_id: res?.data?.id,
-                names: [finalData.contracts[0]?.name],
-                deleted_contracts: [],
-                contract_dates: [finalData.contracts[0]?.contract_date],
-                documents: [finalData.contracts[0]?.document_file],
+            // const convertMutipleFile = {
+            //     employee_id: res?.data?.id,
+            //     names: [finalData.contracts[0]?.name],
+            //     deleted_contracts: [],
+            //     contract_dates: [finalData.contracts[0]?.contract_date],
+            //     documents: [finalData.contracts[0]?.document_file],
+            // }
+            // useContractSaveMutiple(convertMutipleFile).then((res) => {
+            //     console.log(res)
+            // })
+            const dataUploads = filterDocuments(finalData.documents);
+            if(dataUploads || deleteIdsDcmt?.length > 0) {
+                const convertDocumentsUpload = {
+                    employee_id: res?.data?.id,
+                    deleted_ids: deleteIdsDcmt,
+                    documents: dataUploads,
+                }
+                useEmployeeDocumentUpload(convertDocumentsUpload).then(() => setDeleteIds([]));
             }
-            useContractSaveMutiple(convertMutipleFile).then((res) => {
-                console.log(res)
-            })
+            setDeleteIds([])
         }).catch((err) => {
             Notification({
                 message: err.data?.message,
@@ -136,7 +147,6 @@ export function AddEditEmployee() {
             //     employee_id: idParams,
             //     names: [finalData.contracts[0]?.name],
             //     deleted_contracts: [],
-            //     modified_contracts: [],
             //     contract_dates: [finalData.contracts[0]?.contract_date],
             //     documents: [finalData.contracts[0]?.document_file],
             // }
@@ -144,13 +154,16 @@ export function AddEditEmployee() {
             //     console.log(res)
             // })
 
-            const convertDocumentsUpload = {
-                employee_id: idParams,
-                documents: [finalData.documents[0]?.documents]
+            const dataUploads = filterDocuments(finalData.documents);
+            if(dataUploads || deleteIdsDcmt?.length > 0) {
+                const convertDocumentsUpload = {
+                    employee_id: idParams,
+                    deleted_ids: deleteIdsDcmt,
+                    documents: dataUploads,
+                }
+                useEmployeeDocumentUpload(convertDocumentsUpload).then(() => setDeleteIds([]));
             }
-            useEmployeeDocumentUpload(convertDocumentsUpload).then((res) => {
-                console.log(res)
-            })
+            setDeleteIds([])
             navigate(employeeUrl);
         }).catch((err) => {
             Notification({
@@ -158,7 +171,7 @@ export function AddEditEmployee() {
                 type: "error",
             })
         });
-    },[fields])
+    },[fields, deleteIdsDcmt])
     
     const ConfigButtonTab = (label: string, key: string) => {
         return <ButtonConfigAntd

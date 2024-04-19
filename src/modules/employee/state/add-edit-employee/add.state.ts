@@ -1,5 +1,5 @@
 import { selector } from "recoil";
-import { employeeDetail, isAddEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation } from "./add.atom";
+import { deleteIdsDocuments, isAddEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation } from "./add.atom";
 
 export const addEmployeeState: any = selector({
     key: "addEmployeeState",
@@ -26,10 +26,10 @@ export const filledContractInfomation: any = selector({
 });
 
 
-export const DataEmployeeDetail: any = selector({
-    key: "DataEmployeeDetail",
+export const DataDeleteIdsDocuments: any = selector({
+    key: "DataDeleteIdsDocuments",
     get: ({ get }) => {
-        const data = get(employeeDetail);
+        const data = get(deleteIdsDocuments);
         return data;
     },
 });

@@ -13,3 +13,13 @@ export function generateRandomNumberString(): string {
     }
     return result;
 }
+
+export function extractFileNameFromUrl(url: string): string {
+    const urlParts = url?.split('/');
+    return urlParts[urlParts?.length - 1];
+}
+
+export function extractDateT(url: string): string {
+    const date = url?.split('T');
+    return date[0];
+}

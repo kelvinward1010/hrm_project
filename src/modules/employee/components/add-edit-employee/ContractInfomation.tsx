@@ -110,14 +110,14 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
 
     const onUploadFiles = () => {
         // formData.append('file', image);
-        // const formData = new FormData();
-        // fileList.forEach((file: any) => {
-        //     formData.append(
-        //         "files",
-        //         file as unknown as Blob,
-        //         file.name,
-        //     );
-        // });
+        const formData = new FormData();
+        fileList.forEach((file: any) => {
+            formData.append(
+                "documents",
+                file as unknown as Blob,
+                file.name,
+            );
+        });
         const dataconfig = [{
             contract_date: convertDateToYYYYMMDD(configField[0].value),
             name: configField[1].value,

@@ -47,7 +47,7 @@ export function ButtonConfigAntd(props: ButtonConfigProps) {
                         color: `${props.colorLabel ?? "black"}`,
                         fontSize: `${props.fontSizeLabel ?? "15px"}`,
                         fontWeight: `${props.fontWeightLabel ?? 300}`,
-                        margin: "0 10px"
+                        margin: `${props.leftIcon && props.rightIcon ? "0 10px" : 0}`
                     }}
                 >
                     {props.label}

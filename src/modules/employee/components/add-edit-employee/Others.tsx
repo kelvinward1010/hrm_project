@@ -1,17 +1,21 @@
 import { useTranslation } from "react-i18next";
 import styles from "./Others.module.scss";
 import { TitleAll } from "./TitleAll";
-import { Button, Col, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upload, UploadFile, UploadProps } from "antd";
-import { ButtonConfigAntd } from "@/components";
+import { Col, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upload, UploadFile, UploadProps } from "antd";
+import { ButtonConfigAntd, ButtonDownLoad } from "@/components";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
-import { convertDateToYYYYMMDD, formatDate } from "@/utils/format";
+import { convertDateToYYYYMMDD } from "@/utils/format";
 import { useQuery } from "react-query";
 import { useGetBenefits } from "../../api/getBenefits";
-import { configValuesSelect, handleMapDocuments } from "@/utils/data";
+import { configValuesSelect, handleMapDocuments, hasDocumentWithId } from "@/utils/data";
 import { useGetGrades } from "../../api/getGrades";
 import { FieldData, IBaseOption } from "@/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { generateRandomNumberString } from "@/utils/string";
+import { useParams } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { deleteIdsDocuments } from "../../state/add-edit-employee/add.atom";
+import { DataDeleteIdsDocuments } from "../../state/add-edit-employee/add.state";
 
 
 const { Text } = Typography;
@@ -45,8 +49,12 @@ export const Others: React.FC<OthersProps> = ({
     setFields
 }) => {
     const { t } = useTranslation();
+    const idParams = useParams()?.id;
     const [data, setData] = useState<any[]>([]);
     const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const [,setDeleteIds] = useRecoilState(deleteIdsDocuments);
+    const deleteIdsDcmt: string[] = useRecoilValue(DataDeleteIdsDocuments);
+    const [isAdd, setIsAdd] = useState<boolean>(false);
 
     const {data: benefit} = useQuery({
         queryKey: 'benefit',
@@ -72,7 +80,7 @@ export const Others: React.FC<OthersProps> = ({
             );
         });
         const dataconfig = [{
-            date: convertDateToYYYYMMDD(String(currentDate)),
+            created_at: convertDateToYYYYMMDD(String(currentDate)),
             documents: fileList,
             id: generateRandomNumberString(),
         }]
@@ -95,21 +103,37 @@ export const Others: React.FC<OthersProps> = ({
         },
         beforeUpload: (file) => {
             setFileList([...fileList, file]);
+            setIsAdd(true);
             return false;
         },
         fileList,
     };
+
+    useEffect(() => {
+        if(isAdd === true){
+            onUploadFiles();
+            setIsAdd(false);
+        }
+    },[fileList, isAdd])
 
     function hanleDeleteItemById(idToDelete: string) {
         const index = fields.findIndex((f: FieldData) => f.name == "documents");
         if (index !== -1) {
             const take = fields[index].value;
             const updateData = take?.filter((item: any) => item.id !== idToDelete);
+            if(hasDocumentWithId(take, idToDelete)){
+                setDeleteIds([...deleteIdsDcmt,...[idToDelete]])
+            }
             fields[index].value = updateData
         }
         setFields(fields);
         setData(fields[index].value);
     };
+
+    useEffect(() => {
+        const documentsItems: any = fields.find(item => item.name === 'documents')?.value ?? [];
+        setData(documentsItems)
+    }, [idParams]);
 
     const columns: TableColumnsType = [
         {
@@ -128,8 +152,8 @@ export const Others: React.FC<OthersProps> = ({
         },
         {
             title: "Create At",
-            dataIndex: 'date',
-            render: (text: any) => <Text className='line-clamp-1'>{formatDate(text)}</Text>,
+            dataIndex: 'created_at',
+            render: (text: any) => <Text className='line-clamp-1'>{text}</Text>,
             width: '30%',
         },
         {
@@ -138,22 +162,30 @@ export const Others: React.FC<OthersProps> = ({
             align: 'center',
             render: (_: any, record: any) => {
                 return (
-                    <ButtonConfigAntd
-                        background="var(--button-color-light-crimson)"
-                        colorLabel="var(--button-color-dark-crimson)"
-                        border="none"
-                        fontSizeLabel={14}
-                        fontWeightLabel={500}
-                        height={40}
-                        onClick={() => hanleDeleteItemById(record?.key)}
-                        leftIcon={<DeleteOutlined style={{ color: "var(--button-color-dark-crimson)" }} />}
-                    />
+                    <Row justify={'space-evenly'}>
+                        <Col span={10}>
+                            <ButtonDownLoad 
+                                fileUrl={record?.url}
+                                fileName={record?.documents}
+                            />
+                        </Col>
+                        <Col span={10}>
+                            <ButtonConfigAntd
+                                background="var(--button-color-light-crimson)"
+                                colorLabel="var(--button-color-dark-crimson)"
+                                border="none"
+                                fontSizeLabel={14}
+                                fontWeightLabel={500}
+                                height={40}
+                                onClick={() => hanleDeleteItemById(record?.key)}
+                                leftIcon={<DeleteOutlined style={{ color: "var(--button-color-dark-crimson)" }} />}
+                            />
+                        </Col>
+                    </Row>
                 )
             },
         }
     ];
-
-    console.log(fields)
 
     return (
         <div className={styles.container}>
@@ -193,7 +225,6 @@ export const Others: React.FC<OthersProps> = ({
                                 leftIcon={<UploadOutlined style={{ color: "var(--button-color-dark-blue)" }} />}
                             />
                         </Upload>
-                        <Button onClick={onUploadFiles}>Add table</Button>
                     </Col>
                 </Row>
                 <Table

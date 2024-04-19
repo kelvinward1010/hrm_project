@@ -1,5 +1,6 @@
 import { IContracts, IDocuments, IEmployeeTable } from "@/modules/employee/types"
 import { IBaseOption, IBaseOtherItem } from "@/types"
+import { extractDateT, extractFileNameFromUrl } from "./string"
 
 
 export const handleMapEmployee = (data: any[]) => {
@@ -42,8 +43,9 @@ export const handleMapDocuments = (data: any[]) => {
     const dataMap: IDocuments[] = data?.map((item: any) => {
         return ({
             key: item.id,
-            documents: item.documents?.name,
-            date: item.date,
+            documents: item.documents?.[0] ? item.documents?.[0]?.name : extractFileNameFromUrl(item?.document),
+            created_at: extractDateT(item.created_at),
+            url: item?.document ? item?.document : '',
         })
     })
 
@@ -126,4 +128,28 @@ export function transformValues(data: any[]) {
             return item;
         }
     });
+}
+
+export function filterDocuments(documents: any[]) {
+    const take = documents?.filter((doc) => doc.documents && doc.documents[0]);
+    const finaldata: any[] = [];
+    take?.forEach((item) => {
+        finaldata.push(item?.documents[0]);
+    })
+    return finaldata;
+}
+
+
+interface Document {
+    id?: number | string;
+    employee_id?: number;
+    document?: string;
+    created_at?: string;
+    updated_at?: string | null;
+    documents?: any[];
+}
+
+export function hasDocumentWithId(documents: Document[], id: number | string): boolean {
+    const document = documents.find((doc) => doc.id === id);
+    return !!document && !!document.document;
 }
