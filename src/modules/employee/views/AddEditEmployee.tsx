@@ -17,7 +17,7 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { deleteIdsDocuments, isAddEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
 import { IEmployee } from "../types";
 import { useCreateEmployee } from "../api/createEmployee";
-import { filterDocuments, mapDataCreate, transformValues, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "@/utils/data";
+import { configValuesSelect, filterDocuments, mapDataCreate, transformValues, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
 import { useNavigate, useParams } from "react-router-dom";
 import { employeeUrl } from "@/routes/urls";
@@ -77,15 +77,15 @@ export function AddEditEmployee() {
         {name: 'health_insurance', value: idParams ? dataDetailEmployee?.health_insurance : "",},
         {name: 'meal_allowance', value: idParams ? dataDetailEmployee?.meal_allowance : "",},
         {name: 'grade_id', value: idParams ? dataDetailEmployee?.grade_id : "",},
-        {name: 'benefits', value: idParams ? dataDetailEmployee?.benefits : [],},
+        {name: 'benefits', value: idParams ? configValuesSelect(dataDetailEmployee?.benefits) : [],},
         {name: 'remark', value: idParams ? dataDetailEmployee?.remark : "",},
         {name: 'account_user_id', value: idParams ? dataDetailEmployee?.account_user_id : "",},
         {name: 'documents', value: idParams ? dataDetailEmployee?.documents : []},
         {name: 'hidden_on_payroll', value: idParams ? (dataDetailEmployee?.hidden_on_payroll == '' ? 0 : dataDetailEmployee?.hidden_on_payroll) : 0},
         {name: 'entitle_ot', value: idParams ? dataDetailEmployee?.entitle_ot : 0},
         {name: 'meal_allowance_paid', value: idParams ? dataDetailEmployee?.meal_allowance_paid : 0},
-        {name: 'operational_allowance_paid', value: idParams ? dataDetailEmployee?.operational_allowance_paid : 0},
-        {name: 'attendance_allowance_paid', value: idParams ? dataDetailEmployee?.attendance_allowance_paid : 0}
+        {name: 'operational_allowance_paid', value: idParams ? dataDetailEmployee?.operational_allowance_paid : 1},
+        {name: 'attendance_allowance_paid', value: idParams ? dataDetailEmployee?.attendance_allowance_paid : 1}
     ]);
 
     const checkValueImportantEmployeeInfomation = validateFieldsEmployeeInfomation(fields);

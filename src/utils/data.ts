@@ -70,6 +70,16 @@ export function mapDataCreate(data: any[]) {
                 const date = new Date(item.value);
                 const formattedDate = date?.toISOString().split("T")[0];
                 mappedObject[item.name] = formattedDate;
+            } else if (item.name === "benefits") {
+                if(item.value[0]?.key){
+                    const it: any[] = [];
+                    item?.value?.forEach((i: any) => {
+                        it.push(i?.key)
+                    })
+                    mappedObject[item.name] = it;
+                }else{
+                    mappedObject[item.name] = item.value;
+                }
             } else {
                 mappedObject[item.name] = item.value;
             }
@@ -148,17 +158,7 @@ export function hasDocumentWithId(documents: Document[], id: number | string): b
 export function changeSelectMutiple(data: any[]){
     const datafinal: string[] = [];
     data?.forEach((item: any) => {
-        datafinal?.push(item?.name)
+        datafinal?.push(item?.value)
     })
     return datafinal ?? [];
-}
-
-export function mapDataSelectMutiple(data: any[]) {
-    const datafinal= data?.map((item: any) => {
-        return({
-            value: item?.name,
-            key: item?.id,
-        })
-    })
-    return datafinal;
 }

@@ -82,6 +82,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, co
         fields={fields}
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
+            console.log(allFields)
         }}
         className={styles.formmain}
         autoComplete="off"
@@ -174,7 +175,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, co
                     name="attendance_allowance_paid"
                     valuePropName="checked"
                 >
-                    <Checkbox  name="attendance_allowance_paid"  className={styles.check}>
+                    <Checkbox name="attendance_allowance_paid"  className={styles.check}>
                         {t("features.employee.features_add_new.eploymentdetails.lable_input_attendance_allowance_paid")}
                     </Checkbox>
                 </Form.Item>

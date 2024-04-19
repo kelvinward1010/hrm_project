@@ -68,8 +68,6 @@ export const Others: React.FC<OthersProps> = ({
 
     const configBenefit = configValuesSelect(benefit);
     const configGrade = configValuesSelect(grade);
-    // const idxRemark = fields.findIndex((f: FieldData) => f.name == "benefits");
-    // const dataRemark = changeSelectMutiple(fields[idxRemark].value);
 
     const onUploadFiles = () => {
         const currentDate: Date = new Date();
