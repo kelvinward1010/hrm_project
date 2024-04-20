@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { generateRandomNumberString } from "@/utils/string";
 import { handleMapContracts } from "@/utils/data";
 import { useParams } from "react-router-dom";
+import { RULES_CREATE_EMPLOYEE } from "../../api/createEmployee";
 
 const dateFormat = 'YYYY/MM/DD';
 const { Text } = Typography;
@@ -52,8 +53,6 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     const { t } = useTranslation();
     const [, setFilledContractImportant] = useRecoilState(isFilledContractInfomation);
     const [fileList, setFileList] = useState<UploadFile<Blob>[]>([]);
-    // const [image, setImage] = useState<any>(null);
-    // const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [data, setData] = useState<any[]>([]);
     const [configField, setConfigField] = useState<FieldData[]>([
         { name: 'contract_date', value: '' },
@@ -74,42 +73,7 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
         fileList,
     };
 
-    // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     e.preventDefault();
-    //     const files = e.target.files;
-    //     const reader = new FileReader();
-    //     reader.onload = () => {
-    //         setImage(reader.result as string);
-    //     };
-    //     if (files !== null && files.length) reader.readAsDataURL(files[0]);
-
-    //     const filteredFileList = Array.from(files || []).filter((file: File) => {
-    //         const fileExtension = file.name.toLowerCase().slice(file.name.lastIndexOf('.'));
-    //         return allowedFileTypes.includes(fileExtension);
-    //     });
-
-    //     const uploadFileList: UploadFile<any>[] = filteredFileList.map((file: File) => ({
-    //         uid: file.name,
-    //         name: file.name,
-    //         status: 'done',
-    //         url: URL.createObjectURL(file),
-    //     }));
-
-    //     setFileList(uploadFileList);
-
-    //     if (filteredFileList.length === 0) {
-    //         message.error('Please upload a valid file.');
-    //     }
-    // };
-
-    // const handleButtonClick = () => {
-    //     if (fileInputRef.current) {
-    //       fileInputRef.current.click();
-    //     }
-    // };
-
     const onUploadFiles = () => {
-        // formData.append('file', image);
         const formData = new FormData();
         fileList.forEach((file: any) => {
             formData.append(
@@ -270,14 +234,6 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
                                             leftIcon={<UploadOutlined style={{ color: "var(--button-color-dark-blue)" }} />}
                                         />
                                     </Upload>
-                                    {/* <Button 
-                                        className={styles.button_upload_file} 
-                                        onClick={handleButtonClick}
-                                        icon={<UploadOutlined style={{ color: "var(--button-color-dark-blue)" }} />}
-                                    >
-                                        <input style={{display: 'none'}} ref={fileInputRef} type="file" onChange={handleFileChange} />
-                                        {t("features.employee.features_add_new.contract_infomation.contract.lable_button_upload")}
-                                    </Button> */}
                                 </Col>
                                 <Col span={11} style={{ minWidth: "210px" }}>
                                     <ButtonConfigAntd
@@ -328,10 +284,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                 setFilledContractImportant(false);
             }
         }}
-        initialValues={{
-            "contract_start_date": fields.find(value => value?.value != null && value?.name == "contract_start_date")?.value,
-            "type": fields.find(value => value?.value != null && value?.name == "type")?.value,
-        }}
         className={styles.formmain}
         autoComplete="off"
     >
@@ -341,7 +293,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                     labelAlign={'left'}
                     name="contract_start_date"
                     label={LableInput({ label: t("features.employee.features_add_new.contract_infomation.lable_input_date_start") })}
-                    rules={[{ required: true, message: 'Date start is required!' }]}
+                    rules={RULES_CREATE_EMPLOYEE.contract_start_date}
                 >
                     <DatePicker
                         format={dateFormat}
@@ -354,7 +306,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                     labelAlign={'left'}
                     name="type"
                     label={LableInput({ label: t("features.employee.features_add_new.contract_infomation.lable_input_employee_type") })}
-                    rules={[{ required: true, message: 'Employee Type is required!' }]}
                 >
                     <Select
                         options={EMPLOYEE_TYPE_CONGIG}

@@ -1,5 +1,5 @@
 import { IContracts, IDocuments, IEmployeeTable } from "@/modules/employee/types"
-import { Document, IBaseOption, IBaseOtherItem } from "@/types"
+import { Document, FieldData, IBaseOption, IBaseOtherItem } from "@/types"
 import { extractDateT, extractFileNameFromUrl } from "./string"
 
 
@@ -110,7 +110,8 @@ export function validateFieldsContractInfomation(fields: any[]): boolean {
     let isValid = true;
     fields.forEach((field) => {
         if (field.name === 'contract_start_date'
-            || field.name === 'type') {
+            // || field.name === 'type'
+        ) {
             if (field.value === "") {
                 isValid = false;
             }
@@ -155,10 +156,12 @@ export function hasDocumentWithId(documents: Document[], id: number | string): b
     return !!document && !!document.document;
 }
 
-export function changeSelectMutiple(data: any[]){
-    const datafinal: string[] = [];
-    data?.forEach((item: any) => {
-        datafinal?.push(item?.value)
-    })
-    return datafinal ?? [];
+export function extractValues(data: any[], keys: string[]): Record<string, any> {
+    const values: Record<string, FieldData> = {};
+    for (const item of data) {
+        if (keys.includes(item.name[0])) {
+            values[item.name[0]] = item;
+        }
+    }
+    return values;
 }

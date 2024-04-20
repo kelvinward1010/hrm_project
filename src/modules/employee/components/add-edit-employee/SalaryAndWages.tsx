@@ -3,6 +3,7 @@ import styles from "./SalaryAndWages.module.scss";
 import { TitleAll } from "./TitleAll";
 import { Col, Form, InputNumber, Row, Typography } from "antd";
 import { FieldData } from "@/types";
+import { RULES_CREATE_EMPLOYEE } from "../../api/createEmployee";
 
 const { Text } = Typography;
 
@@ -65,13 +66,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
         }}
-        initialValues={{
-            "basic_salary": fields.find(value => value?.value != null && value?.name == "basic_salary")?.value,
-            "audit_salary": fields.find(value => value?.value != null && value?.name == "audit_salary")?.value,
-            "safety_insurance": fields.find(value => value?.value != null && value?.name == "safety_insurance")?.value,
-            "health_insurance": fields.find(value => value?.value != null && value?.name == "health_insurance")?.value,
-            "meal_allowance": fields.find(value => value?.value != null && value?.name == "meal_allowance")?.value,
-        }}
         className={styles.formmain}
         autoComplete="off"
     >
@@ -81,7 +75,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
                     labelAlign={'left'}
                     name="basic_salary"
                     label={t("features.employee.features_add_new.salaryandwages.lable_input_basic_salary")}
-                    rules={[{required: true, message: 'Basic Salary is required!' }]}
+                    rules={RULES_CREATE_EMPLOYEE.basic_salary}
                 >
                     <InputNumber prefix={configPrefix()} className="input_number"/>
                 </Form.Item>
@@ -89,7 +83,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
                     labelAlign={'left'}
                     name="audit_salary"
                     label={t("features.employee.features_add_new.salaryandwages.lable_input_audit_salary")}
-                    rules={[{required: true, message: 'Audit Salary is required!' }]}
+                    rules={RULES_CREATE_EMPLOYEE.audit_salary}
                 >
                     <InputNumber min={"100%"} prefix={configPrefix()} className="input_number"/>
                 </Form.Item>
@@ -97,7 +91,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
                     labelAlign={'left'}
                     name="safety_insurance"
                     label={t("features.employee.features_add_new.salaryandwages.lable_input_safety_insurance")}
-                    rules={[{required: true, message: 'Safety Insurance is required!' }]}
+                    rules={RULES_CREATE_EMPLOYEE.safety_insurance}
                 >
                     <InputNumber prefix={configPrefix()} className="input_number"/>
                 </Form.Item>
@@ -105,7 +99,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
                     labelAlign={'left'}
                     name="health_insurance"
                     label={t("features.employee.features_add_new.salaryandwages.lable_input_health_insurance")}
-                    rules={[{required: true, message: 'Health Insurance is required!' }]}
+                    rules={RULES_CREATE_EMPLOYEE.health_insurance}
                 >
                     <InputNumber prefix={configPrefix()} className="input_number"/>
                 </Form.Item>
@@ -113,7 +107,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
                     labelAlign={'left'}
                     name="meal_allowance"
                     label={t("features.employee.features_add_new.salaryandwages.lable_input_meal_allowance")}
-                    rules={[{required: true, message: 'Meal Allowance is required!' }]}
+                    rules={RULES_CREATE_EMPLOYEE.meal_allowance}
                 >
                     <InputNumber prefix={configPrefix()} className="input_number"/>
                 </Form.Item>

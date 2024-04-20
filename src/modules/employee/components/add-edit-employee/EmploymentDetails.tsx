@@ -5,7 +5,7 @@ import { Checkbox, Col, Form, Row, Select } from "antd";
 import { LableInput } from "./LableInput";
 import { useQuery } from "react-query";
 import { useGetDepartments } from "../../api/getDepartments";
-import { configValuesSelect, transformValues } from "@/utils/data";
+import { configValuesSelect, extractValues, transformValues } from "@/utils/data";
 import { useGetPositions } from "../../api/getPositions";
 import { FieldData, IBaseOption } from "@/types";
 
@@ -59,11 +59,31 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
                 fields={fields}
                 onChange={(newFields) => {
                     newFields.forEach((i: FieldData) => {
-                        const index = fields.findIndex((f: FieldData) => f.name == i.name)
+                        const index = fields.findIndex((f: FieldData) => f.name == i.name);
                         if(index !== -1){
                             fields[index].value = i.value;
                         }
                     })
+                    const keysToExtract = ["entitle_ot", "operational_allowance_paid", "attendance_allowance_paid"];
+                    const extractedValues = extractValues(newFields, keysToExtract);
+                    const checkOT: FieldData = extractedValues['entitle_ot'];
+                    const checkOA: FieldData = extractedValues['operational_allowance_paid'];
+                    const checkAA: FieldData = extractedValues['attendance_allowance_paid'];
+                    const indexOA = fields.findIndex((f: FieldData) => f.name == "operational_allowance_paid");
+                    const indexAA = fields.findIndex((f: FieldData) => f.name == "attendance_allowance_paid");
+                    if(checkOT?.touched === true && checkOT?.value === true && checkOA?.touched === false && checkAA?.touched === false){
+                        fields[indexOA].value = 0;
+                        fields[indexAA].value = 0;
+                    } else if(checkOT.touched === true && checkOT.value === false && checkOA.touched === false && checkAA.touched === false){
+                        fields[indexOA].value = 1;
+                        fields[indexAA].value = 1;
+                    } else if(checkOT?.touched === true && checkOT?.value === false && (checkOA?.touched === true || checkAA?.touched === true)){
+                        fields[indexOA].value = 1;
+                        fields[indexAA].value = 1;
+                    } else if(checkOT?.touched === true && checkOT?.value === true && (checkOA?.touched === true || checkAA?.touched === true)){
+                        fields[indexOA].value = 0;
+                        fields[indexAA].value = 0;
+                    }
                     setFields(transformValues(fields));
                 }}
                 t={t}
@@ -82,7 +102,6 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, co
         fields={fields}
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
-            console.log(allFields)
         }}
         className={styles.formmain}
         autoComplete="off"
