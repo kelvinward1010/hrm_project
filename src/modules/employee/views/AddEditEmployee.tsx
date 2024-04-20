@@ -24,7 +24,7 @@ import { employeeUrl } from "@/routes/urls";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import dayjs from "dayjs";
-import { useEditEmployee1 } from "../api/editEmployee";
+import { useEditEmployee } from "../api/editEmployee";
 import { FieldData } from "@/types";
 import { useEmployeeDocumentUpload } from "../api/uploadDocument";
 
@@ -128,7 +128,7 @@ export function AddEditEmployee() {
         configCreateEmployee.mutate(finalData);
     },[fields])
 
-    const configEditEmployee = useEditEmployee1({
+    const configEditEmployee = useEditEmployee({
         config:{
             onSuccess: () => {
                 Notification({
