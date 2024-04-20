@@ -3,10 +3,9 @@ import styles from "./EmploymentDetails.module.scss";
 import { TitleAll } from "./TitleAll";
 import { Checkbox, Col, Form, Row, Select } from "antd";
 import { LableInput } from "./LableInput";
-import { useQuery } from "react-query";
-import { useGetDepartments } from "../../api/getDepartments";
+import { useDepartments } from "../../api/getDepartments";
 import { configValuesSelect, extractValues, transformValues } from "@/utils/data";
-import { useGetPositions } from "../../api/getPositions";
+import { usePositions } from "../../api/getPositions";
 import { FieldData, IBaseOption } from "@/types";
 
 const formItemLayout = {
@@ -39,18 +38,8 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const {data: department} = useQuery({
-        queryKey: 'department',
-        queryFn: () => useGetDepartments()
-    })
-
-    const {data: position} = useQuery({
-        queryKey: 'position',
-        queryFn: () => useGetPositions()
-    })
-
-    const configDepartment = configValuesSelect(department);
-    const configPosition = configValuesSelect(position);
+    const configDepartment = configValuesSelect(useDepartments({})?.data);
+    const configPosition = configValuesSelect(usePositions({})?.data);
 
     return (
         <div className={styles.container}>

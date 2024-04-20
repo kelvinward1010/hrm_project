@@ -4,7 +4,6 @@ import { useDeleteMultipleEmployees } from "../api/deleteMultipleEmployees";
 import { getIdsItemsEmployee } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
 import { IEmployeeTable } from "../types";
-import { useMutation } from "react-query";
 import { queryClient } from "@/lib/react-query";
 import { useRecoilState } from "recoil";
 import { isDeleteItemAtom } from "../state/table.atom";
@@ -24,29 +23,29 @@ export function ModalDelete(props: ModalDeleteProps) {
         record_ids: getIdsItemsEmployee(props.itemsSelected)
     }
 
-    const deletePostMutation = useMutation(useDeleteMultipleEmployees, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(['employee'])
-        }
-    });
-
-    const handleDeleteEmployee = async () => {
-        try {
-            await deletePostMutation.mutateAsync(queryFn).then(() => {
+    const configDeletemutiple = useDeleteMultipleEmployees({
+        config: {
+            onSuccess: () => {
                 Notification({
                     message: "Successfully deleted",
                     type: "success",
                 })
                 props.setIsOpen(false);
                 setIsItemSelected(true);
-            });
-        } catch (error) {
-            Notification({
-                message: error as string,
-                type: "error",
-            })
+                queryClient.invalidateQueries(['employees'])
+            },
+            onError: (error) => {
+                Notification({
+                    message: error?.message,
+                    type: "error",
+                })
+            }
         }
-    };
+    })
+
+    const handleDelete = () => {
+        configDeletemutiple.mutate(queryFn);
+    }
     
     return (
         <Modal
@@ -73,7 +72,7 @@ export function ModalDelete(props: ModalDeleteProps) {
                 <Col span={11}>
                     <ButtonConfigAntd
                         label={"Yes"}
-                        onClick={handleDeleteEmployee}
+                        onClick={handleDelete}
                         background="var(--button-color-dark-blue)"
                         colorLabel="white"
                         border="none"

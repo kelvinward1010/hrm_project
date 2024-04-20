@@ -5,11 +5,10 @@ import { Col, DatePicker, Form, Input, Row, Select } from "antd";
 import { isFilledEmployeeInfomation } from "../../state/add-edit-employee/add.atom";
 import { useRecoilState } from "recoil";
 import { GENDER_CONFIG } from "../../config";
-import { useQuery } from "react-query";
-import { useGetMarriages } from "../../api/getMarriages";
 import { configValuesSelect } from "@/utils/data";
 import { FieldData, IBaseOption } from "@/types";
 import { RULES_CREATE_EMPLOYEE } from "../../api/createEmployee";
+import { useMarriages } from "../../api/getMarriages";
 
 
 const dateFormat = 'YYYY/MM/DD';
@@ -45,12 +44,7 @@ export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
     const { t } = useTranslation();
     const [, setFilledInformationImportant] = useRecoilState(isFilledEmployeeInfomation);
 
-    const {data: marriage} = useQuery({
-        queryKey: 'marriage',
-        queryFn: () => useGetMarriages()
-    })
-
-    const configMarriage = configValuesSelect(marriage);
+    const configMarriage = configValuesSelect(useMarriages({})?.data);
 
     return (
         <div className={styles.container}>

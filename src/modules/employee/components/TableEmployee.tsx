@@ -6,13 +6,12 @@ import { useRecoilState } from "recoil";
 import { isDeleteItemAtom } from "../state/table.atom";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { handleMapEmployee } from "@/utils/data";
-import { useGetEmployees } from "../api/getEmployees";
+import { useEmployees } from "../api/getEmployees";
 import { useGetDetailEmployee } from "../api/getDetailEmployee";
 import { IEmployeeTable } from "../types";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { employeeDetail } from "@/redux/slices/employeeSlice";
-import { useQuery } from "react-query";
 
 type TableRowSelection<T> = TableProps<T>['rowSelection'];
 
@@ -90,7 +89,7 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
     const [total, setTotal] = useState<number>();
 
     const rowSelection: TableRowSelection<IEmployeeTable> = {
-        onChange: (selectedRowKeys, selectedRows) => {
+        onChange: (_, selectedRows) => {
             if (selectedRows.length > 0) {
                 setIsItemSelected(false);
             } else {
@@ -98,7 +97,7 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
             }
             setItemsSelected(selectedRows);
         },
-        onSelectAll: (selected, selectedRows, changeRows) => {
+        onSelectAll: (_, selectedRows, ___) => {
             if (selectedRows.length > 0) {
                 setIsItemSelected(false);
             } else {
@@ -112,10 +111,7 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
         search: searchContent,
     }
 
-    const {data: employee, isLoading} = useQuery({
-        queryKey: ['employee',  queryFn],
-        queryFn: ()  => useGetEmployees(queryFn),
-    });
+    const {data: employee, isLoading} = useEmployees({params: queryFn})
     
     const handleDetailEmployee = (id: string) => {
         useGetDetailEmployee(id).then((res) => {

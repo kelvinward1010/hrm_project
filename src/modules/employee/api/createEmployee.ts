@@ -2,20 +2,36 @@ import { BASE_URL, URL_EMPLOYEE } from "@/constant/config";
 import { apiClient } from "@/lib/api";
 import { IEmployee } from "../types";
 import { FormRule } from "antd";
+import { MutationConfig } from "@/lib/react-query";
+import { useMutation } from "react-query";
 
-export const useCreateEmployee = async (data: IEmployee): Promise<any> => {
-    const res = await apiClient.post(`${BASE_URL}${URL_EMPLOYEE}`, data)
-    return res;
-}
+export const createEmployee = async (data: IEmployee): Promise<any> => {
+    const res = await apiClient.post(`${BASE_URL}${URL_EMPLOYEE}`, data);
+    return res.data;
+};
+
+type UseCreateEmployeeOptions = {
+    config?: MutationConfig<typeof createEmployee>;
+};
+
+export const useCreateEmployee = ({ config }: UseCreateEmployeeOptions) => {
+    return useMutation({
+        onMutate: () => { },
+        onError: () => { },
+        onSuccess: () => { },
+        ...config,
+        mutationFn: createEmployee,
+    });
+};
 
 
-export const RULES_CREATE_EMPLOYEE: Record<keyof IEmployee, FormRule[]> ={
-    name: [{required: true, message: 'Name is required!' }],
-    gender: [{required: true, message: 'Gender is required!' }],
+export const RULES_CREATE_EMPLOYEE: Record<keyof IEmployee, FormRule[]> = {
+    name: [{ required: true, message: 'Name is required!' }],
+    gender: [{ required: true, message: 'Gender is required!' }],
     mother_name: [],
-    dob: [{required: true, message: 'Date of birth is required!' }],
+    dob: [{ required: true, message: 'Date of birth is required!' }],
     pob: [],
-    ktp_no: [{required: true, message: 'KTP No is required!' }],
+    ktp_no: [{ required: true, message: 'KTP No is required!' }],
     nc_id: [],
     home_address_1: [],
     home_address_2: [],
@@ -35,11 +51,11 @@ export const RULES_CREATE_EMPLOYEE: Record<keyof IEmployee, FormRule[]> ={
     position_id: [],
     shift: [],
     hidden_on_payroll: [],
-    basic_salary: [{required: true, message: 'Basic Salary is required!' }],
-    audit_salary: [{required: true, message: 'Audit Salary is required!' }],
-    safety_insurance: [{required: true, message: 'Safety Insurance is required!' }],
-    health_insurance: [{required: true, message: 'Health Insurance is required!' }],
-    meal_allowance: [{required: true, message: 'Meal Allowance is required!' }],
+    basic_salary: [{ required: true, message: 'Basic Salary is required!' }],
+    audit_salary: [{ required: true, message: 'Audit Salary is required!' }],
+    safety_insurance: [{ required: true, message: 'Safety Insurance is required!' }],
+    health_insurance: [{ required: true, message: 'Health Insurance is required!' }],
+    meal_allowance: [{ required: true, message: 'Meal Allowance is required!' }],
     grade_id: [],
     benefits: [],
     remark: [],

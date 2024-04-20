@@ -15,7 +15,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { addEmployeeState, DataDeleteIdsDocuments, filledContractInfomation, filledEmployeeInfomation } from "../state/add-edit-employee/add.state";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { deleteIdsDocuments, isAddEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
-import { IEmployee } from "../types";
+import { IEditEmployee, IEmployee } from "../types";
 import { useCreateEmployee } from "../api/createEmployee";
 import { configValuesSelect, filterDocuments, mapDataCreate, transformValues, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
@@ -24,7 +24,7 @@ import { employeeUrl } from "@/routes/urls";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import dayjs from "dayjs";
-import { useEditEmployee } from "../api/editEmployee";
+import { useEditEmployee1 } from "../api/editEmployee";
 import { FieldData } from "@/types";
 import { useEmployeeDocumentUpload } from "../api/uploadDocument";
 
@@ -91,87 +91,88 @@ export function AddEditEmployee() {
     const checkValueImportantEmployeeInfomation = validateFieldsEmployeeInfomation(fields);
     const checkValueImportantContractInfomation = validateFieldsContractInfomation(fields);
 
-    const handleCreateEmployee = useCallback(() => {
-        const configdata = transformValues(fields);
-        const data: any = mapDataCreate(configdata);
-        const finalData: IEmployee = {...data};
-        useCreateEmployee(finalData).then((res) => {
-            if(res?.result === true) {
+    const configCreateEmployee = useCreateEmployee({
+        config:{
+            onSuccess: (res) => {
                 Notification({
                     message: "Successfully created employee",
                     type: "success",
                 })
-            }
-            // const convertMutipleFile = {
-            //     employee_id: res?.data?.id,
-            //     names: [finalData.contracts[0]?.name],
-            //     deleted_contracts: [],
-            //     contract_dates: [finalData.contracts[0]?.contract_date],
-            //     documents: [finalData.contracts[0]?.document_file],
-            // }
-            // useContractSaveMutiple(convertMutipleFile).then((res) => {
-            //     console.log(res)
-            // })
-            const dataUploads = filterDocuments(finalData.documents);
-            if(dataUploads || deleteIdsDcmt?.length > 0) {
-                const convertDocumentsUpload = {
-                    employee_id: res?.data?.id,
-                    deleted_ids: deleteIdsDcmt,
-                    documents: dataUploads,
+                const indexDocuments = fields.findIndex((f: FieldData) => f.name == "documents");
+                const dcmts = fields[indexDocuments].value;
+                const dataUploads = filterDocuments(dcmts);
+                if(dataUploads || deleteIdsDcmt?.length > 0) {
+                    const convertDocumentsUpload = {
+                        employee_id: res?.id,
+                        deleted_ids: deleteIdsDcmt,
+                        documents: dataUploads,
+                    }
+                    useEmployeeDocumentUpload(convertDocumentsUpload).then(() => setDeleteIds([]));
                 }
-                useEmployeeDocumentUpload(convertDocumentsUpload).then(() => setDeleteIds([]));
+                setDeleteIds([]);
+                navigate(employeeUrl);
+            },
+            onError: (err: any) => {
+                Notification({
+                    message: err.data?.message,
+                    type: "error",
+                })
             }
-            setDeleteIds([])
-        }).catch((err) => {
-            Notification({
-                message: err.data?.message,
-                type: "error",
-            })
-        }).finally(() => {
-            navigate(employeeUrl);
-        });
-    },[fields])
+        }
+    })
 
-    const handleEditEmployee = useCallback(() => {
+    const handleCreateEmployee = useCallback(() => {
         const configdata = transformValues(fields);
         const data: any = mapDataCreate(configdata);
         const finalData: IEmployee = {...data};
-        useEditEmployee(finalData, idParams as string).then((res) => {
-            if(res?.result === true) {
+        configCreateEmployee.mutate(finalData);
+    },[fields])
+
+    const configEditEmployee = useEditEmployee1({
+        config:{
+            onSuccess: () => {
                 Notification({
                     message: "Successfully update employee",
                     type: "success",
                 })
-            }
-
-            // const convertMutipleFile = {
-            //     employee_id: idParams,
-            //     names: [finalData.contracts[0]?.name],
-            //     deleted_contracts: [],
-            //     contract_dates: [finalData.contracts[0]?.contract_date],
-            //     documents: [finalData.contracts[0]?.document_file],
-            // }
-            // useContractSaveMutiple(convertMutipleFile).then((res) => {
-            //     console.log(res)
-            // })
-
-            const dataUploads = filterDocuments(finalData.documents);
-            if(dataUploads || deleteIdsDcmt?.length > 0) {
-                const convertDocumentsUpload = {
-                    employee_id: idParams,
-                    deleted_ids: deleteIdsDcmt,
-                    documents: dataUploads,
+                const indexDocuments = fields.findIndex((f: FieldData) => f.name == "documents");
+                const dcmts = fields[indexDocuments].value;
+                const dataUploads = filterDocuments(dcmts);
+                if(dataUploads || deleteIdsDcmt?.length > 0) {
+                    const convertDocumentsUpload = {
+                        employee_id: idParams,
+                        deleted_ids: deleteIdsDcmt,
+                        documents: dataUploads,
+                    }
+                    useEmployeeDocumentUpload(convertDocumentsUpload).then(() => setDeleteIds([]));
                 }
-                useEmployeeDocumentUpload(convertDocumentsUpload).then(() => setDeleteIds([]));
+                setDeleteIds([])
+                navigate(employeeUrl);
+            },
+            onError: (err: any) => {
+                Notification({
+                    message: err.data?.message,
+                    type: "error",
+                })
             }
-            setDeleteIds([])
-            navigate(employeeUrl);
-        }).catch((err) => {
-            Notification({
-                message: err.data?.message,
-                type: "error",
-            })
-        });
+        }
+    })
+
+    const handleEditEmployee = useCallback(() => {
+        const configdata = transformValues(fields);
+        const data: any = mapDataCreate(configdata);
+        const finalData: IEditEmployee = {...data,...{id: idParams}};
+        configEditEmployee.mutate(finalData);
+        // const convertMutipleFile = {
+        //     employee_id: idParams,
+        //     names: [finalData.contracts[0]?.name],
+        //     deleted_contracts: [],
+        //     contract_dates: [finalData.contracts[0]?.contract_date],
+        //     documents: [finalData.contracts[0]?.document_file],
+        // }
+        // useContractSaveMutiple(convertMutipleFile).then((res) => {
+        //     console.log(res)
+        // })
     },[fields, deleteIdsDcmt])
     
     const ConfigButtonTab = (label: string, key: string) => {

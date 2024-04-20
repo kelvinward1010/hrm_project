@@ -5,10 +5,8 @@ import { Col, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upl
 import { ButtonConfigAntd, ButtonDownLoad } from "@/components";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { convertDateToYYYYMMDD } from "@/utils/format";
-import { useQuery } from "react-query";
-import { useGetBenefits } from "../../api/getBenefits";
+import { useBenefits } from "../../api/getBenefits";
 import { configValuesSelect, handleMapDocuments, hasDocumentWithId} from "@/utils/data";
-import { useGetGrades } from "../../api/getGrades";
 import { FieldData, IBaseOption } from "@/types";
 import { useEffect, useState } from "react";
 import { generateRandomNumberString } from "@/utils/string";
@@ -16,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { deleteIdsDocuments } from "../../state/add-edit-employee/add.atom";
 import { DataDeleteIdsDocuments } from "../../state/add-edit-employee/add.state";
+import { useGrades } from "../../api/getGrades";
 
 
 const { Text } = Typography;
@@ -56,18 +55,8 @@ export const Others: React.FC<OthersProps> = ({
     const deleteIdsDcmt: string[] = useRecoilValue(DataDeleteIdsDocuments);
     const [isAdd, setIsAdd] = useState<boolean>(false);
 
-    const {data: benefit} = useQuery({
-        queryKey: 'benefit',
-        queryFn: () => useGetBenefits()
-    })
-
-    const {data: grade} = useQuery({
-        queryKey: 'grade',
-        queryFn: () => useGetGrades()
-    })
-
-    const configBenefit = configValuesSelect(benefit);
-    const configGrade = configValuesSelect(grade);
+    const configBenefit = configValuesSelect(useBenefits({})?.data);
+    const configGrade = configValuesSelect(useGrades({})?.data);
 
     const onUploadFiles = () => {
         const currentDate: Date = new Date();
