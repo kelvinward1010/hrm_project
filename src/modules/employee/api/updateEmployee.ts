@@ -4,21 +4,21 @@ import { IEditEmployee } from "../types";
 import { MutationConfig } from "@/lib/react-query";
 import { useMutation } from "react-query";
 
-export const editEmployee = async (data: IEditEmployee): Promise<any> => {
+export const updateEmployee = async (data: IEditEmployee): Promise<any> => {
     const res = await apiClient.put(`${BASE_URL}${URL_EMPLOYEE}/${data?.id}`, data)
     return res?.data;
 }
 
-type UseEditEmployeeOptions = {
-    config?: MutationConfig<typeof editEmployee>;
+type UseUpdateEmployeeOptions = {
+    config?: MutationConfig<typeof updateEmployee>;
 };
 
-export const useEditEmployee = ({ config }: UseEditEmployeeOptions) => {
+export const useUpdateEmployee = ({ config }: UseUpdateEmployeeOptions) => {
     return useMutation({
         onMutate: () => { },
         onError: () => { },
         onSuccess: () => { },
         ...config,
-        mutationFn: editEmployee
+        mutationFn: updateEmployee
     });
 };

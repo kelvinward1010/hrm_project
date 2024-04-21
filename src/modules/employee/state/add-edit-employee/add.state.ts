@@ -1,11 +1,19 @@
 import { selector } from "recoil";
-import { deleteIdsDocuments, isAddEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation } from "./add.atom";
+import { deleteIdsDocuments, isAddEmplyee, isEditEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation } from "./add.atom";
 
 export const addEmployeeState: any = selector({
     key: "addEmployeeState",
     get: ({ get }) => {
         const isAdd = get(isAddEmplyee);
         return isAdd;
+    },
+});
+
+export const editEmployeeState: any = selector({
+    key: "editEmployeeState",
+    get: ({ get }) => {
+        const isEdit = get(isEditEmplyee);
+        return isEdit;
     },
 });
 

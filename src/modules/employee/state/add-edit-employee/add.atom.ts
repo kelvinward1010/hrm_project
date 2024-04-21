@@ -5,6 +5,11 @@ export const isAddEmplyee = atom({
     default: true,
 });
 
+export const isEditEmplyee = atom({
+    key: "isEditEmplyee",
+    default: true,
+});
+
 export const isFilledEmployeeInfomation = atom({
     key: "isFilledEmployeeInfomation",
     default: false,

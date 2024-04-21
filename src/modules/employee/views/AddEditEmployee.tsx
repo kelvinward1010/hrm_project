@@ -12,9 +12,9 @@ import {
     SalaryAndWages
 } from "../components/add-edit-employee";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { addEmployeeState, DataDeleteIdsDocuments, filledContractInfomation, filledEmployeeInfomation } from "../state/add-edit-employee/add.state";
+import { addEmployeeState, DataDeleteIdsDocuments, editEmployeeState, filledContractInfomation, filledEmployeeInfomation } from "../state/add-edit-employee/add.state";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { deleteIdsDocuments, isAddEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
+import { deleteIdsDocuments, isAddEmplyee, isEditEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
 import { IEditEmployee, IEmployee } from "../types";
 import { useCreateEmployee } from "../api/createEmployee";
 import { configValuesSelect, filterDocuments, mapDataCreate, transformValues, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "@/utils/data";
@@ -24,9 +24,9 @@ import { employeeUrl } from "@/routes/urls";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import dayjs from "dayjs";
-import { useEditEmployee } from "../api/editEmployee";
 import { FieldData } from "@/types";
 import { useEmployeeDocumentUpload } from "../api/uploadDocument";
+import { useUpdateEmployee } from "../api/updateEmployee";
 
 const { Text } = Typography;
 
@@ -38,6 +38,8 @@ export function AddEditEmployee() {
     const [activeTab, setActiveTab] = useState<string>("1");
     const [, setIsAddEmployee] = useRecoilState(isAddEmplyee);
     const isAddEmployee: boolean = useRecoilValue(addEmployeeState);
+    const [, setIsEditEmployee] = useRecoilState(isEditEmplyee);
+    const isEditEmployee: boolean = useRecoilValue(editEmployeeState);
     const isEmployeeInfomation: boolean = useRecoilValue(filledEmployeeInfomation);
     const isContractInfomation: boolean = useRecoilValue(filledContractInfomation);
     const dataDetailEmployee: any = useSelector((state: RootState) => state.employee.employee);
@@ -128,7 +130,7 @@ export function AddEditEmployee() {
         configCreateEmployee.mutate(finalData);
     },[fields])
 
-    const configEditEmployee = useEditEmployee({
+    const configEditEmployee = useUpdateEmployee({
         config:{
             onSuccess: () => {
                 Notification({
@@ -185,7 +187,7 @@ export function AddEditEmployee() {
             height={45}
             border="none"
             padding="5px 30px"
-            rightIcon={((!isEmployeeInfomation || !checkValueImportantEmployeeInfomation) && key == '1' || (!isContractInfomation || !checkValueImportantContractInfomation) && key == '2') ? <InfoCircleOutlined style={{color: "red", fontSize: "20px"}}/> : null}
+            rightIcon={((!isEmployeeInfomation || !checkValueImportantEmployeeInfomation) && key == '1' || (!isContractInfomation || !checkValueImportantContractInfomation) && key == '2') ? <InfoCircleOutlined style={{color: "red", fontSize: "20px", marginLeft: "6px"}}/> : null}
         />
     }
     
@@ -223,8 +225,9 @@ export function AddEditEmployee() {
 
     useEffect(() => {
         (isContractInfomation && isEmployeeInfomation && checkValueImportantEmployeeInfomation && checkValueImportantContractInfomation) ? setIsAddEmployee(false) : setIsAddEmployee(true);
+        (isContractInfomation && isEmployeeInfomation) ? setIsEditEmployee(false) : setIsEditEmployee(true);
     },[isContractInfomation, isEmployeeInfomation, fields]);
-
+    
     useEffect(() => {
         if(!idParams){
             setFilledContractImportant(false);
@@ -233,7 +236,7 @@ export function AddEditEmployee() {
             setFilledContractImportant(true);
             setFilledInformationImportant(true);
         }
-    },[dataDetailEmployee, idParams])
+    },[dataDetailEmployee, idParams]);
 
     return (
         <div className={styles.container}>
@@ -249,7 +252,7 @@ export function AddEditEmployee() {
                         height={40}
                         with="auto"
                         border="none"
-                        disabled={idParams ? false : isAddEmployee}
+                        disabled={idParams ? isEditEmployee : isAddEmployee}
                         onClick={idParams ? handleEditEmployee : handleCreateEmployee}
                     />
                 </Col>
