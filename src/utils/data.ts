@@ -1,5 +1,5 @@
 import { IContracts, IDocuments, IEmployeeTable } from "@/modules/employee/types"
-import { Document, FieldData, IBaseOption, IBaseOtherItem } from "@/types"
+import { IDocument, FieldData, IBaseOption, IBaseOtherItem } from "@/types"
 import { extractDateT, extractFileNameFromUrl } from "./string"
 
 
@@ -151,7 +151,7 @@ export function filterDocuments(documents: any[]) {
     return finaldata;
 }
 
-export function hasDocumentWithId(documents: Document[], id: number | string): boolean {
+export function hasDocumentWithId(documents: IDocument[], id: number | string): boolean {
     const document = documents.find((doc) => doc.id === id);
     return !!document && !!document.document;
 }

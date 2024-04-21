@@ -25,8 +25,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import dayjs from "dayjs";
 import { FieldData } from "@/types";
-import { useEmployeeDocumentUpload } from "../api/uploadDocument";
 import { useUpdateEmployee } from "../api/updateEmployee";
+import { useUploadDocuments } from "../api/uploadDocument";
 
 const { Text } = Typography;
 
@@ -93,6 +93,8 @@ export function AddEditEmployee() {
     const checkValueImportantEmployeeInfomation = validateFieldsEmployeeInfomation(fields);
     const checkValueImportantContractInfomation = validateFieldsContractInfomation(fields);
 
+    const configUploadDocuments = useUploadDocuments({})
+
     const configCreateEmployee = useCreateEmployee({
         config:{
             onSuccess: (res) => {
@@ -109,7 +111,7 @@ export function AddEditEmployee() {
                         deleted_ids: deleteIdsDcmt,
                         documents: dataUploads,
                     }
-                    useEmployeeDocumentUpload(convertDocumentsUpload).then(() => setDeleteIds([]));
+                    configUploadDocuments.mutate(convertDocumentsUpload)
                 }
                 setDeleteIds([]);
                 navigate(employeeUrl);
@@ -122,13 +124,6 @@ export function AddEditEmployee() {
             }
         }
     })
-
-    const handleCreateEmployee = useCallback(() => {
-        const configdata = transformValues(fields);
-        const data: any = mapDataCreate(configdata);
-        const finalData: IEmployee = {...data};
-        configCreateEmployee.mutate(finalData);
-    },[fields])
 
     const configEditEmployee = useUpdateEmployee({
         config:{
@@ -146,7 +141,7 @@ export function AddEditEmployee() {
                         deleted_ids: deleteIdsDcmt,
                         documents: dataUploads,
                     }
-                    useEmployeeDocumentUpload(convertDocumentsUpload).then(() => setDeleteIds([]));
+                    configUploadDocuments.mutate(convertDocumentsUpload)
                 }
                 setDeleteIds([])
                 navigate(employeeUrl);
@@ -159,6 +154,13 @@ export function AddEditEmployee() {
             }
         }
     })
+
+    const handleCreateEmployee = useCallback(() => {
+        const configdata = transformValues(fields);
+        const data: any = mapDataCreate(configdata);
+        const finalData: IEmployee = {...data};
+        configCreateEmployee.mutate(finalData);
+    },[fields])
 
     const handleEditEmployee = useCallback(() => {
         const configdata = transformValues(fields);

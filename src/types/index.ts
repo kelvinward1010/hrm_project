@@ -16,6 +16,11 @@ export type IBaseListItem<T> = {
     total: number;
 }
 
+export type IResReceived = {
+    message: string;
+    result: boolean;
+}
+
 export type IBaseOtherItem = {
     code: string;
     id: number;
@@ -33,7 +38,7 @@ export type IBaseOption = {
     label: string | number;
 }
 
-export interface Document {
+export interface IDocument {
     id?: number | string;
     employee_id?: number;
     document?: string;

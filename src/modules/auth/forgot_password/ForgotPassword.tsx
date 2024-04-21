@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { LabelConfig } from "../conponents/LabelConfig";
 import { ButtonConfigAntd } from "@/components";
 import { signinUrl } from "@/routes/urls";
-import { RULES_FORGOT_PASSWORD, useForgotPassword } from "../api/forgot_password";
+import { RULES_FORGOT_PASSWORD, useForgotPassword} from "../api/forgot_password";
 import { Notification } from "@/components/notification/Notification";
 
 const { Title, Text } = Typography;
@@ -18,20 +18,25 @@ export function ForgotPassword() {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const onFinish = (values: FieldType) => {
-        useForgotPassword({email: values.email}).then((res) => {
-            if(res?.result === true) {
+    const configForgotPassword = useForgotPassword({
+        config: {
+            onSuccess: () => {
                 Notification({
                     message: "Send success",
                     type: "success",
                 })
+            },
+            onError: (err: any) => {
+                Notification({
+                    message: err?.data?.message,
+                    type: "error",
+                })
             }
-        }).catch((err) => {
-            Notification({
-                message: err.data?.message,
-                type: "error",
-            })
-        })
+        }
+    });
+
+    const onFinish = (values: FieldType) => {
+        configForgotPassword.mutate({email: values.email})
     };
 
     return (

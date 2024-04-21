@@ -1,6 +1,8 @@
 import { BASE_URL, URL_RESET_PASSWORD } from "@/constant/config";
 import { apiClient } from "@/lib/api";
+import { MutationConfig } from "@/lib/react-query";
 import { FormRule } from "antd";
+import { useMutation } from "react-query";
 
 
 export interface ResetPasswordProps {
@@ -11,10 +13,24 @@ export interface ResetPasswordProps {
     password_confirmation: string;
 }
 
-export const useForgotPassword = async (data: ResetPasswordProps): Promise<any> => {
+export const resetPassword = async (data: ResetPasswordProps): Promise<any> => {
     const res = await apiClient.post(`${BASE_URL}${URL_RESET_PASSWORD}`, data)
     return res;
 }
+
+type UseResetPasswordOptions = {
+    config?: MutationConfig<typeof resetPassword>;
+};
+
+export const useResetPassword = ({ config }: UseResetPasswordOptions) => {
+    return useMutation({
+        onMutate: () => { },
+        onError: () => { },
+        onSuccess: () => { },
+        ...config,
+        mutationFn: resetPassword,
+    });
+};
 
 export const RULES_RESET_PASSWORD: Record<keyof ResetPasswordProps, FormRule[]> ={
     email: [],

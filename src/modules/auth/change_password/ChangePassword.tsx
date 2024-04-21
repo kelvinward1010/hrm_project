@@ -4,8 +4,7 @@ import { Form, Input, Typography } from "antd";
 import { LabelConfig } from "../conponents/LabelConfig";
 import { ButtonConfigAntd } from "@/components";
 import { useLocation } from "react-router-dom";
-import { useForgotPassword } from "../api/forgot_password";
-import { ResetPasswordProps, RULES_RESET_PASSWORD } from "../api/reset_password";
+import { ResetPasswordProps, RULES_RESET_PASSWORD, useResetPassword } from "../api/reset_password";
 import { Notification } from "@/components/notification/Notification";
 
 const { Title } = Typography;
@@ -23,6 +22,23 @@ export function ChangePassword() {
     const email: any = params?.get('email');
     const companyId: any = params?.get('company_id');
 
+    const configResetPassword = useResetPassword({
+        config: {
+            onSuccess: () => {
+                Notification({
+                    message: 'Reset Password Successful',
+                    type: 'success',
+                })
+            },
+            onError: () => {
+                Notification({
+                    message: 'Failed to reset password',
+                    type: 'error',
+                })
+            }
+        }
+    })
+
 
     const onFinish = (values: FieldType) => {
         const data: ResetPasswordProps = {
@@ -32,19 +48,7 @@ export function ChangePassword() {
             password: values.password,
             password_confirmation: values.password_confirmation,
         }
-        useForgotPassword(data).then((res) => {
-            if(res?.result === true) {
-                Notification({
-                    message: 'Reset Password Successful',
-                    type: 'success',
-                })
-            }else{
-                Notification({
-                    message: 'Failed to reset password',
-                    type: 'error',
-                })
-            }
-        })
+        configResetPassword.mutate(data);
     };
 
     return (
