@@ -1,5 +1,5 @@
 import { IContracts, IDocuments, IEmployeeTable } from "@/modules/employee/types"
-import { IDocument, FieldData, IBaseOption, IBaseOtherItem } from "@/types"
+import { IDocument, FieldData, IBaseOption, IBaseOtherItem, IContract } from "@/types"
 import { extractDateT, extractFileNameFromUrl } from "./string"
 
 
@@ -151,9 +151,42 @@ export function filterDocuments(documents: any[]) {
     return finaldata;
 }
 
+interface DataContracts {
+    employee_id: string | number,
+    names: string[],
+    deleted_contracts: string[],
+    contract_dates: string[],
+    documents: any[],
+    modified_contracts: string[],
+}
+
+export function filterContracts(documents: any[], id: string, deletes: string[]) {
+    const take: any[] = documents?.filter((doc) => doc.document_file);
+    const initialdata: DataContracts = {
+        employee_id: id,
+        names: [],
+        deleted_contracts: deletes,
+        contract_dates: [],
+        documents: [],
+        modified_contracts: [],
+    }
+    take?.forEach((item: any) => {
+        initialdata.names.push(item?.name as string)
+        initialdata.documents.push(item?.document_file)
+        initialdata.contract_dates.push(item?.contract_date)
+        initialdata.modified_contracts.push("");
+    })
+    return initialdata;
+}
+
 export function hasDocumentWithId(documents: IDocument[], id: number | string): boolean {
     const document = documents.find((doc) => doc.id === id);
     return !!document && !!document.document;
+}
+
+export function hasContractWithId(contracts: IContract[], id: number | string): boolean {
+    const contract = contracts.find((cnt) => cnt.id === id);
+    return !!contract && !!contract.created_at;
 }
 
 export function extractValues(data: any[], keys: string[]): Record<string, any> {

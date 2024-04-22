@@ -12,12 +12,12 @@ import {
     SalaryAndWages
 } from "../components/add-edit-employee";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { addEmployeeState, DataDeleteIdsDocuments, editEmployeeState, filledContractInfomation, filledEmployeeInfomation } from "../state/add-edit-employee/add.state";
+import { addEmployeeState, DataDeleteIdsContracts, DataDeleteIdsDocuments, editEmployeeState, filledContractInfomation, filledEmployeeInfomation } from "../state/add-edit-employee/add.state";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { deleteIdsDocuments, isAddEmplyee, isEditEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
+import { deleteIdsContracts, deleteIdsDocuments, isAddEmplyee, isEditEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
 import { IEditEmployee, IEmployee } from "../types";
 import { useCreateEmployee } from "../api/createEmployee";
-import { configValuesSelect, filterDocuments, mapDataCreate, transformValues, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "@/utils/data";
+import { configValuesSelect, filterContracts, filterDocuments, mapDataCreate, transformValues, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
 import { useNavigate, useParams } from "react-router-dom";
 import { employeeUrl } from "@/routes/urls";
@@ -27,6 +27,7 @@ import dayjs from "dayjs";
 import { FieldData } from "@/types";
 import { useUpdateEmployee } from "../api/updateEmployee";
 import { useUploadDocuments } from "../api/uploadDocument";
+import { useContractSaveMultiple } from "../api/uploadMutiplefile";
 
 const { Text } = Typography;
 
@@ -47,6 +48,8 @@ export function AddEditEmployee() {
     const [, setFilledContractImportant] = useRecoilState(isFilledContractInfomation);
     const [,setDeleteIds] = useRecoilState(deleteIdsDocuments);
     const deleteIdsDcmt: string[] = useRecoilValue(DataDeleteIdsDocuments);
+    const [,setDeleteCntIds] = useRecoilState(deleteIdsContracts);
+    const deleteIdsCnts: string[] = useRecoilValue(DataDeleteIdsContracts);
     
     const [fields, setFields] = useState<FieldData[]>([
         {name: 'name', value: idParams ? dataDetailEmployee?.name : "" ,},
@@ -93,7 +96,8 @@ export function AddEditEmployee() {
     const checkValueImportantEmployeeInfomation = validateFieldsEmployeeInfomation(fields);
     const checkValueImportantContractInfomation = validateFieldsContractInfomation(fields);
 
-    const configUploadDocuments = useUploadDocuments({})
+    const configUploadDocuments = useUploadDocuments({});
+    const configContractSaveMultiple = useContractSaveMultiple({});
 
     const configCreateEmployee = useCreateEmployee({
         config:{
@@ -103,8 +107,11 @@ export function AddEditEmployee() {
                     type: "success",
                 })
                 const indexDocuments = fields.findIndex((f: FieldData) => f.name == "documents");
+                const indexContracts = fields.findIndex((f: FieldData) => f.name == "contracts");
                 const dcmts = fields[indexDocuments].value;
+                const cnts = fields[indexContracts].value;
                 const dataUploads = filterDocuments(dcmts);
+                const mapData = filterContracts(cnts, String(idParams), deleteIdsCnts);
                 if(dataUploads || deleteIdsDcmt?.length > 0) {
                     const convertDocumentsUpload = {
                         employee_id: res?.id,
@@ -113,6 +120,10 @@ export function AddEditEmployee() {
                     }
                     configUploadDocuments.mutate(convertDocumentsUpload)
                 }
+                if(mapData?.documents?.length > 0 || deleteIdsCnts?.length > 0) {
+                    configContractSaveMultiple.mutate(mapData)
+                }
+                setDeleteCntIds([]);
                 setDeleteIds([]);
                 navigate(employeeUrl);
             },
@@ -133,8 +144,11 @@ export function AddEditEmployee() {
                     type: "success",
                 })
                 const indexDocuments = fields.findIndex((f: FieldData) => f.name == "documents");
+                const indexContracts = fields.findIndex((f: FieldData) => f.name == "contracts");
                 const dcmts = fields[indexDocuments].value;
+                const cnts = fields[indexContracts].value;
                 const dataUploads = filterDocuments(dcmts);
+                const mapData = filterContracts(cnts, String(idParams), deleteIdsCnts);
                 if(dataUploads || deleteIdsDcmt?.length > 0) {
                     const convertDocumentsUpload = {
                         employee_id: idParams,
@@ -143,6 +157,11 @@ export function AddEditEmployee() {
                     }
                     configUploadDocuments.mutate(convertDocumentsUpload)
                 }
+                console.log(deleteIdsCnts)
+                if(mapData?.documents?.length > 0 || deleteIdsCnts?.length > 0) {
+                    configContractSaveMultiple.mutate(mapData)
+                }
+                setDeleteCntIds([]);
                 setDeleteIds([])
                 navigate(employeeUrl);
             },
@@ -153,7 +172,7 @@ export function AddEditEmployee() {
                 })
             }
         }
-    })
+    });
 
     const handleCreateEmployee = useCallback(() => {
         const configdata = transformValues(fields);
@@ -167,17 +186,7 @@ export function AddEditEmployee() {
         const data: any = mapDataCreate(configdata);
         const finalData: IEditEmployee = {...data,...{id: idParams}};
         configEditEmployee.mutate(finalData);
-        // const convertMutipleFile = {
-        //     employee_id: idParams,
-        //     names: [finalData.contracts[0]?.name],
-        //     deleted_contracts: [],
-        //     contract_dates: [finalData.contracts[0]?.contract_date],
-        //     documents: [finalData.contracts[0]?.document_file],
-        // }
-        // useContractSaveMutiple(convertMutipleFile).then((res) => {
-        //     console.log(res)
-        // })
-    },[fields, deleteIdsDcmt])
+    },[fields, deleteIdsDcmt]);
     
     const ConfigButtonTab = (label: string, key: string) => {
         return <ButtonConfigAntd

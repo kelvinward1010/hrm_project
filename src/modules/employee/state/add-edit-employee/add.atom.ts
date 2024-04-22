@@ -25,3 +25,8 @@ export const deleteIdsDocuments = atom<string[]>({
     key: "deleteIdsDocuments",
     default: [],
 })
+
+export const deleteIdsContracts = atom<string[]>({
+    key: "deleteIdsContracts",
+    default: [],
+})

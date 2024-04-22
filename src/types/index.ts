@@ -46,3 +46,16 @@ export interface IDocument {
     updated_at?: string | null;
     documents?: any[];
 }
+
+export interface IContract {
+    action?: string;
+    id?: number | string;
+    name?: string;
+    employee_id?: number;
+    document?: string;
+    document_file?: any[];
+    contract_date?: string;
+    deleted_at: string | null;
+    created_at?: string;
+    updated_at?: string | null;
+}

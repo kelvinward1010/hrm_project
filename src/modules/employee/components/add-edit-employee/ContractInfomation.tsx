@@ -6,15 +6,16 @@ import { ButtonConfigAntd } from "@/components";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { convertDateToYYYYMMDD, formatDate } from "@/utils/format";
 import { LableInput } from "./LableInput";
-import { useRecoilState } from "recoil";
-import { isFilledContractInfomation } from "../../state/add-edit-employee/add.atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { deleteIdsContracts, isFilledContractInfomation } from "../../state/add-edit-employee/add.atom";
 import { EMPLOYEE_TYPE_CONGIG } from "../../config";
 import { FieldData } from "@/types";
 import { useEffect, useState } from "react";
 import { generateRandomNumberString } from "@/utils/string";
-import { handleMapContracts } from "@/utils/data";
+import { handleMapContracts, hasContractWithId } from "@/utils/data";
 import { useParams } from "react-router-dom";
 import { RULES_CREATE_EMPLOYEE } from "../../api/createEmployee";
+import { DataDeleteIdsContracts } from "../../state/add-edit-employee/add.state";
 
 const dateFormat = 'YYYY/MM/DD';
 const { Text } = Typography;
@@ -54,6 +55,8 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     const [, setFilledContractImportant] = useRecoilState(isFilledContractInfomation);
     const [fileList, setFileList] = useState<UploadFile<Blob>[]>([]);
     const [data, setData] = useState<any[]>([]);
+    const [,setDeleteCntIds] = useRecoilState(deleteIdsContracts);
+    const deleteIdsCnts: string[] = useRecoilValue(DataDeleteIdsContracts);
     const [configField, setConfigField] = useState<FieldData[]>([
         { name: 'contract_date', value: '' },
         { name: 'name', value: '' },
@@ -105,6 +108,9 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
         if (index !== -1) {
             const take = fields[index].value;
             const updateData = take?.filter((item: any) => item.id !== idToDelete);
+            if(hasContractWithId(take, idToDelete)){
+                setDeleteCntIds([...deleteIdsCnts,...[idToDelete]])
+            }
             fields[index].value = updateData
         }
         setFields(fields);
