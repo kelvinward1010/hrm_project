@@ -19,6 +19,13 @@ export function extractFileNameFromUrl(url: string): string {
     return urlParts[urlParts?.length - 1];
 }
 
+export function extractFileName(url: string): string {
+    const urlParts = url?.split('/');
+    const fullFileName = urlParts[urlParts?.length - 1];
+    const fileNameWithoutExtension = fullFileName.split('.')[0];
+    return fileNameWithoutExtension;
+}
+
 export function extractDateT(url: string): string {
     const date = url?.split('T');
     return date[0];

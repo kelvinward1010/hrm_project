@@ -152,12 +152,12 @@ export const Others: React.FC<OthersProps> = ({
             render: (_: any, record: any) => {
                 return (
                     <Row justify={'space-evenly'}>
-                        <Col span={10}>
+                        {record?.url && <Col span={10}>
                             <ButtonDownLoad 
                                 fileUrl={record?.url}
                                 fileName={record?.documents}
                             />
-                        </Col>
+                        </Col>}
                         <Col span={10}>
                             <ButtonConfigAntd
                                 background="var(--button-color-light-crimson)"

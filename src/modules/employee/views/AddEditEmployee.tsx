@@ -112,7 +112,7 @@ export function AddEditEmployee() {
                 const cnts = fields[indexContracts].value;
                 const dataUploads = filterDocuments(dcmts);
                 const mapData = filterContracts(cnts, String(idParams), deleteIdsCnts);
-                if(dataUploads || deleteIdsDcmt?.length > 0) {
+                if(dataUploads?.length > 0 || deleteIdsDcmt?.length > 0) {
                     const convertDocumentsUpload = {
                         employee_id: res?.id,
                         deleted_ids: deleteIdsDcmt,
@@ -149,7 +149,7 @@ export function AddEditEmployee() {
                 const cnts = fields[indexContracts].value;
                 const dataUploads = filterDocuments(dcmts);
                 const mapData = filterContracts(cnts, String(idParams), deleteIdsCnts);
-                if(dataUploads || deleteIdsDcmt?.length > 0) {
+                if(dataUploads?.length > 0 || deleteIdsDcmt?.length > 0) {
                     const convertDocumentsUpload = {
                         employee_id: idParams,
                         deleted_ids: deleteIdsDcmt,
@@ -157,7 +157,6 @@ export function AddEditEmployee() {
                     }
                     configUploadDocuments.mutate(convertDocumentsUpload)
                 }
-                console.log(deleteIdsCnts)
                 if(mapData?.documents?.length > 0 || deleteIdsCnts?.length > 0) {
                     configContractSaveMultiple.mutate(mapData)
                 }

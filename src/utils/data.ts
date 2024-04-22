@@ -29,10 +29,12 @@ export const handleMapEmployee = (data: any[]) => {
 export const handleMapContracts = (data: any[]) => {
     const dataMap: IContracts[] = data?.map((item: IContracts) => {
         return ({
-            key: item.id,
-            document_file: item.document_file,
-            contract_date: item.contract_date,
-            name: item.name,
+            key: item?.id,
+            id: item?.id,
+            document_file: item?.document_file?.[0],
+            contract_date: item?.contract_date,
+            name: item?.name,
+            document: item?.document,
         })
     })
 

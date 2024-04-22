@@ -24,12 +24,20 @@
         },
         "cs": "Copyright © 2022. All Rights Reserved"
     },
+    "sign_out": {
+        "title": "Apakah Anda ingin keluar?"
+    },
     "settings": {
-        "lable_settings": "Settings",
-        "lable_change_password": "Change Password"
+        "lable_settings": "Pengaturan",
+        "lable_change_password": "Ganti kata sandi"
     },
     "nav": {
         "lable_main": "UMUM"
+    },
+    "breadcrumbName": {
+        "employeeUrl": "Karyawan",
+        "addemployeeUrl": "Tambahkan dan edit karyawan",
+        "settingsUrl": "Pengaturan"
     },
     "features": {
         "name": "Data Karyawan",
@@ -38,7 +46,7 @@
             "lable_delete": "Hapus",
             "features_add_new": {
                 "lable_add": "Tambah Data",
-                "lable_save_change": "Save Change",
+                "lable_save_change": "Simpan perubahan",
                 "tabs": {
                     "tab1": "Infomasi Karyawan",
                     "tab2": "Infomasi Kontrak Kerja",
@@ -113,7 +121,13 @@
                     "lable_input_grade": "Grade karyawan",
                     "lable_input_remark": "Pasilitas",
                     "lable_input_benefits": "Keterangan",
-                    "lable_input_hrm_user_account": "HRM User Account"
+                    "lable_input_hrm_user_account": "HRM User Account",
+                    "table": {
+                        "lable1": "Tidak",
+                        "lable2": "Nama dokumen",
+                        "lable3": "Buat Pada",
+                        "lable4": "Tindakan"
+                    }
                 }
             }
         }

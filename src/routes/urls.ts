@@ -9,10 +9,3 @@ export const addemployeeUrl = `${employeeUrl}/add-edit-employee`;
 export const editemployeeUrl = `${employeeUrl}/add-edit-employee/:id`;
 
 export const settingsUrl = "/settings";
-
-export const breadcrumbNameMap: Record<string, string> = {
-    [employeeUrl]: 'Employee',
-    [addemployeeUrl]: 'Add and edit employee',
-    [editemployeeUrl]: 'Edit Employee',
-    [settingsUrl]: 'Settings',
-}

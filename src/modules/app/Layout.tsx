@@ -3,15 +3,21 @@ import { useDisclosure } from '@mantine/hooks';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import Header from './header/Header';
 import Navbar from './navbar/Navbar';
-import { breadcrumbNameMap } from '@/routes/urls';
 import { Breadcrumb, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { addemployeeUrl, employeeUrl, settingsUrl } from '@/routes/urls';
 
 export function Layout() {
 
     const { t } = useTranslation();
     const [opened, { toggle }] = useDisclosure();
     const location = useLocation();
+
+    const breadcrumbNameMap: Record<string, string> = {
+        [employeeUrl]: t("breadcrumbName.employeeUrl"),
+        [addemployeeUrl]: t("breadcrumbName.addemployeeUrl"),
+        [settingsUrl]: t("breadcrumbName.settingsUrl"),
+    }
 
     const pathSnippets = location.pathname.split("/").filter((i) => i);
     const breadcrumbItems = pathSnippets.map((_, index) => {

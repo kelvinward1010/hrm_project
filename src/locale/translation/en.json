@@ -24,12 +24,20 @@
         },
         "cs": "Copyright © 2022. All Rights Reserved"
     },
+    "sign_out": {
+        "title": "Do you wish to sign out?"
+    },
     "settings": {
         "lable_settings": "Settings",
         "lable_change_password": "Change Password"
     },
     "nav": {
         "lable_main": "General"
+    },
+    "breadcrumbName": {
+        "employeeUrl": "Employee",
+        "addemployeeUrl": "Add and edit employee",
+        "settingsUrl": "Settings"
     },
     "features": {
         "name": "Employee Management",
@@ -113,7 +121,13 @@
                     "lable_input_grade": "Grade",
                     "lable_input_remark": "Remark",
                     "lable_input_benefits": "Benefits",
-                    "lable_input_hrm_user_account": "HRM User Account"
+                    "lable_input_hrm_user_account": "HRM User Account",
+                    "table": {
+                        "lable1": "No",
+                        "lable2": "Document Name",
+                        "lable3": "Create At",
+                        "lable4": "Actions"
+                    }
                 }
             }
         }

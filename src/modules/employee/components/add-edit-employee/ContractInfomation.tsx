@@ -2,7 +2,7 @@ import { TitleAll } from "./TitleAll";
 import styles from "./ContractInfomation.module.scss";
 import { useTranslation } from "react-i18next";
 import { Col, DatePicker, Form, Input, Row, Select, Table, TableColumnsType, Typography, Upload, UploadFile, UploadProps } from "antd";
-import { ButtonConfigAntd } from "@/components";
+import { ButtonConfigAntd, ButtonDownLoad } from "@/components";
 import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { convertDateToYYYYMMDD, formatDate } from "@/utils/format";
 import { LableInput } from "./LableInput";
@@ -11,7 +11,7 @@ import { deleteIdsContracts, isFilledContractInfomation } from "../../state/add-
 import { EMPLOYEE_TYPE_CONGIG } from "../../config";
 import { FieldData } from "@/types";
 import { useEffect, useState } from "react";
-import { generateRandomNumberString } from "@/utils/string";
+import { extractFileName, generateRandomNumberString } from "@/utils/string";
 import { handleMapContracts, hasContractWithId } from "@/utils/data";
 import { useParams } from "react-router-dom";
 import { RULES_CREATE_EMPLOYEE } from "../../api/createEmployee";
@@ -150,17 +150,27 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
             align: 'center',
             render: (_: any, record: any) => {
                 return (
-                    <ButtonConfigAntd
-                        label="Delete"
-                        background="var(--button-color-light-crimson)"
-                        colorLabel="var(--button-color-dark-crimson)"
-                        border="none"
-                        fontSizeLabel={14}
-                        fontWeightLabel={500}
-                        height={40}
-                        onClick={() => hanleDeleteItemById(record?.key)}
-                        leftIcon={<DeleteOutlined style={{ color: "var(--button-color-dark-crimson)" }} />}
-                    />
+                    <Row justify={'space-evenly'}>
+                        {record?.document && <Col span={10}>
+                            <ButtonDownLoad
+                                fileUrl={record?.document}
+                                fileName={extractFileName(record?.document)}
+                            />
+                        </Col>}
+                        <Col span={10}>
+                            <ButtonConfigAntd
+                                label="Delete"
+                                background="var(--button-color-light-crimson)"
+                                colorLabel="var(--button-color-dark-crimson)"
+                                border="none"
+                                fontSizeLabel={14}
+                                fontWeightLabel={500}
+                                height={40}
+                                onClick={() => hanleDeleteItemById(record?.key)}
+                                leftIcon={<DeleteOutlined style={{ color: "var(--button-color-dark-crimson)" }} />}
+                            />
+                        </Col>
+                    </Row>
                 )
             },
         }
@@ -258,7 +268,7 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
                             </Row>
                         </Form>
                     </Col>
-                    <Col span={16} style={{ minWidth: "400px" }}>
+                    <Col span={16} className={styles.table_main}>
                         <Table
                             columns={columns}
                             dataSource={handleMapContracts(data)}

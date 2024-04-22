@@ -4,6 +4,7 @@ import { signOut } from "@/redux/actions/authAction";
 import { AppDispatch } from "@/redux/store";
 import { signinUrl } from "@/routes/urls";
 import { Col, Modal, Row } from "antd";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +16,7 @@ interface ModalSignOutProps {
 export function ModalSignOut(props: ModalSignOutProps) {
     
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const dispatch: AppDispatch = useDispatch();
 
     const handleLogout = () => {
@@ -35,7 +37,7 @@ export function ModalSignOut(props: ModalSignOutProps) {
 
     return (
         <Modal
-            title={`Do you wish to sign out?`}
+            title={t("sign_out.title")}
             open={props.isOpen}
             onCancel={() => props.setIsOpen(false)}
             width={300}

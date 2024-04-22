@@ -27,6 +27,12 @@
 
         .contract_more {
             padding: 5px 0 5px 5px;
+
+            .table_main{
+                min-width: 400px;
+                max-width: 100%;
+                width: 100%;
+            }
         }
 
         .button_upload_file{
