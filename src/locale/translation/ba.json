@@ -24,6 +24,10 @@
         },
         "cs": "Copyright © 2022. All Rights Reserved"
     },
+    "account_actions": {
+        "lable_sign_out": "Keluar",
+        "lable_reset_password": "Setel ulang kata sandi"
+    },
     "sign_out": {
         "title": "Apakah Anda ingin keluar?"
     },

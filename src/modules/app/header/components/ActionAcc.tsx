@@ -7,6 +7,7 @@ import { cutString } from "@/utils/string";
 import { COLOR_AVATAR_CONFIG } from "../config";
 import { useNavigate } from "react-router-dom";
 import { settingsUrl } from "@/routes/urls";
+import { useTranslation } from "react-i18next";
 
 const { Text, Title } = Typography;
 
@@ -19,6 +20,7 @@ export const ActionAcc: React.FC<ActionAccProps> = ({
 }) => {
 
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const [isOpenSignOut, setIsOpenSignOut] = useState(false);
 
     const handleOpen = () => {
@@ -44,7 +46,7 @@ export const ActionAcc: React.FC<ActionAccProps> = ({
                 <Title level={4} className={styles.sew}>Sew Department</Title>
                 <Title level={4} style={{marginTop: "-10px"}}>NIK: 1010</Title>
                 <ButtonConfigAntd
-                    label={"Sign Out"}
+                    label={t("account_actions.lable_sign_out")}
                     background="#0091FF"
                     colorLabel={"white"}
                     fontWeightLabel={400}
@@ -52,7 +54,9 @@ export const ActionAcc: React.FC<ActionAccProps> = ({
                     m="20px 0 15px 0"
                     onClick={handleOpen}
                 />
-                <Text className={styles.resetpass} onClick={handleGoProfileChangePassword}>Reset password</Text>
+                <Text className={styles.resetpass} onClick={handleGoProfileChangePassword}>
+                    {t("account_actions.lable_reset_password")}
+                </Text>
             </div>
         </>
     )

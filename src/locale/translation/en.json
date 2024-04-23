@@ -24,6 +24,10 @@
         },
         "cs": "Copyright © 2022. All Rights Reserved"
     },
+    "account_actions": {
+        "lable_sign_out": "Sign Out",
+        "lable_reset_password": "Reset password"
+    },
     "sign_out": {
         "title": "Do you wish to sign out?"
     },
