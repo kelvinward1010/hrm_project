@@ -17,7 +17,7 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { deleteIdsContracts, deleteIdsDocuments, isAddEmplyee, isEditEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
 import { IEditEmployee, IEmployee } from "../types";
 import { useCreateEmployee } from "../api/createEmployee";
-import { configValuesSelect, filterContracts, filterDocuments, mapDataCreate, transformValues, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "@/utils/data";
+import { configValuesSelect, filterContracts, filterDocuments, transformValues } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
 import { useNavigate, useParams } from "react-router-dom";
 import { employeeUrl } from "@/routes/urls";
@@ -28,6 +28,7 @@ import { FieldData } from "@/types";
 import { useUpdateEmployee } from "../api/updateEmployee";
 import { useUploadDocuments } from "../api/uploadDocument";
 import { useContractSaveMultiple } from "../api/uploadMutiplefile";
+import { mapDataCreate, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "../utils";
 
 const { Text } = Typography;
 

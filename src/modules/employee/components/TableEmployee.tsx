@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { isDeleteItemAtom } from "../state/table.atom";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { handleMapEmployee } from "@/utils/data";
 import { useEmployees } from "../api/getEmployees";
 import { useGetDetailEmployee } from "../api/getDetailEmployee";
 import { IEmployeeTable } from "../types";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { employeeDetail } from "@/redux/slices/employeeSlice";
+import { handleMapEmployee } from "../utils";
 
 type TableRowSelection<T> = TableProps<T>['rowSelection'];
 

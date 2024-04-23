@@ -1,12 +1,12 @@
 import { ButtonConfigAntd } from "@/components";
 import { Col, Modal, Row, Typography } from "antd";
 import { useDeleteMultipleEmployees } from "../api/deleteMultipleEmployees";
-import { getIdsItemsEmployee } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
 import { IEmployeeTable } from "../types";
 import { queryClient } from "@/lib/react-query";
 import { useRecoilState } from "recoil";
 import { isDeleteItemAtom } from "../state/table.atom";
+import { getIdsItemsEmployee } from "../utils";
 
 interface ModalDeleteProps {
     isOpen?: boolean;
