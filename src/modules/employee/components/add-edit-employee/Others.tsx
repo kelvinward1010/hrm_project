@@ -95,6 +95,7 @@ export const Others: React.FC<OthersProps> = ({
             setIsAdd(true);
             return false;
         },
+        accept: '.jpg,.png,.gif,.docx,.xlsx,.xls,.doc,.pdf',
         fileList,
     };
 

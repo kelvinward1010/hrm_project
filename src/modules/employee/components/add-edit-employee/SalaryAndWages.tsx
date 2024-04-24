@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import styles from "./SalaryAndWages.module.scss";
 import { TitleAll } from "./TitleAll";
-import { Col, Form, InputNumber, Row, Typography } from "antd";
+import { Col, Form, Input, Row, Typography } from "antd";
 import { FieldData } from "@/types";
 import { RULES_CREATE_EMPLOYEE } from "../../api/createEmployee";
 
@@ -77,7 +77,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
                     label={t("features.employee.features_add_new.salaryandwages.lable_input_basic_salary")}
                     rules={RULES_CREATE_EMPLOYEE.basic_salary}
                 >
-                    <InputNumber prefix={configPrefix()} className="input_number"/>
+                    <Input type={'number'} step={1} prefix={configPrefix()} className="input_number"/>
                 </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
@@ -85,7 +85,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
                     label={t("features.employee.features_add_new.salaryandwages.lable_input_audit_salary")}
                     rules={RULES_CREATE_EMPLOYEE.audit_salary}
                 >
-                    <InputNumber min={"100%"} prefix={configPrefix()} className="input_number"/>
+                    <Input type={'number'} step={1} min={"100%"} prefix={configPrefix()} className="input_number"/>
                 </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
@@ -93,7 +93,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
                     label={t("features.employee.features_add_new.salaryandwages.lable_input_safety_insurance")}
                     rules={RULES_CREATE_EMPLOYEE.safety_insurance}
                 >
-                    <InputNumber prefix={configPrefix()} className="input_number"/>
+                    <Input type={'number'} step={1} prefix={configPrefix()} className="input_number"/>
                 </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
@@ -101,7 +101,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
                     label={t("features.employee.features_add_new.salaryandwages.lable_input_health_insurance")}
                     rules={RULES_CREATE_EMPLOYEE.health_insurance}
                 >
-                    <InputNumber prefix={configPrefix()} className="input_number"/>
+                    <Input type={'number'} step={1} prefix={configPrefix()} className="input_number"/>
                 </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
@@ -109,7 +109,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) 
                     label={t("features.employee.features_add_new.salaryandwages.lable_input_meal_allowance")}
                     rules={RULES_CREATE_EMPLOYEE.meal_allowance}
                 >
-                    <InputNumber prefix={configPrefix()} className="input_number"/>
+                    <Input type={'number'} step={1} prefix={configPrefix()} className="input_number"/>
                 </Form.Item>
             </Col>
         </Row>

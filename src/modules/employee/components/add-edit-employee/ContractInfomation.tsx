@@ -73,6 +73,7 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
             setFileList([...fileList, file]);
             return false;
         },
+        accept: '.jpg,.png,.gif,.docx,.xlsx,.xls,.doc,.pdf',
         fileList,
     };
 
@@ -322,6 +323,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                     labelAlign={'left'}
                     name="type"
                     label={LableInput({ label: t("features.employee.features_add_new.contract_infomation.lable_input_employee_type") })}
+                    rules={RULES_CREATE_EMPLOYEE.type}
                 >
                     <Select
                         options={EMPLOYEE_TYPE_CONGIG}

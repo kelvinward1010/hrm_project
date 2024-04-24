@@ -143,14 +143,14 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_ktp_no")}
                     rules={RULES_CREATE_EMPLOYEE.ktp_no}
                 >
-                    <Input className="input_inside"/>
+                    <Input className="input_inside" type={'number'} step={1}/>
                 </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
                     name="nc_id"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_national_card_id")}
                 >
-                    <Input className="input_inside"/>
+                    <Input className="input_inside" type={'number'} step={1}/>
                 </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
@@ -173,14 +173,14 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                     name="mobile_no"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_mobile_no")}
                 >
-                    <Input className="input_inside"/>
+                    <Input type={'number'} step={1} className="input_inside"/>
                 </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
                     name="tel_no"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_tel_no")}
                 >
-                    <Input className="input_inside"/>
+                    <Input type={'number'} step={1} className="input_inside"/>
                 </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
@@ -198,7 +198,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                     name="card_number"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_bank_card_no")}
                 >
-                    <Input className="input_inside"/>
+                    <Input type={'number'} step={1} className="input_inside"/>
                 </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
@@ -219,21 +219,21 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, se
                     name="family_card_number"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_family_card_name")}
                 >
-                    <Input className="input_inside"/>
+                    <Input type={'number'} step={1} className="input_inside"/>
                 </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
                     name="safety_insurance_no"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_safety_insurance_no")}
                 >
-                    <Input className="input_inside"/>
+                    <Input type={'number'} step={1} className="input_inside"/>
                 </Form.Item>
                 <Form.Item
                     labelAlign={'left'}
                     name="health_insurance_no"
                     label={t("features.employee.features_add_new.employee_infomation.lable_input_health_insurance_no")}
                 >
-                    <Input className="input_inside"/>
+                    <Input type={'number'} step={1} className="input_inside"/>
                 </Form.Item>
             </Col>
         </Row>

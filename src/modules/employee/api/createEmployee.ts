@@ -45,7 +45,7 @@ export const RULES_CREATE_EMPLOYEE: Record<keyof IEmployee, FormRule[]> = {
     safety_insurance_no: [],
     health_insurance_no: [],
     contract_start_date: [{ required: true, message: 'Date start is required!' }],
-    type: [],
+    type: [{ required: true, message: 'Type is required!' }],
     contracts: [],
     department_id: [],
     position_id: [],
