@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { employeeDetail } from "@/redux/slices/employeeSlice";
 import { handleMapEmployee } from "../utils";
+import { extractEditemployeeUrl } from "@/routes/urls";
 
 type TableRowSelection<T> = TableProps<T>['rowSelection'];
 
@@ -111,12 +112,12 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
         search: searchContent,
     }
 
-    const {data: employee, isLoading} = useEmployees({params: queryFn})
+    const {data: employee, isLoading} = useEmployees({params: queryFn});
     
     const handleDetailEmployee = (id: string) => {
         useGetDetailEmployee(id).then((res) => {
             dispatch(employeeDetail(res?.data));
-        }).finally(() => navigate(`/employee/add-edit-employee/${id}`))
+        }).finally(() => navigate(`${extractEditemployeeUrl}/${id}`))
     }
 
     useEffect(() => {

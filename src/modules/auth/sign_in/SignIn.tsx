@@ -12,7 +12,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { login } from "@/redux/actions/authAction";
 import { URL_DETAIL_USER } from "@/constant/config";
 import { apiClient } from "@/lib/api";
-import { IUserInfo } from "@/types/user";
+import { IUserInfo } from "@/types";
 import { updateUser } from "@/redux/slices/authSlice";
 import { RULES_SIGNIN } from "./rule_form";
 

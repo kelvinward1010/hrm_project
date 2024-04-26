@@ -1,3 +1,12 @@
+export interface IUserInfo{
+    id: any;
+    username: string;
+    email: string;
+    level?: number;
+    company_id: number;
+    password?: string;
+}
+
 export interface FieldData {
     name: string | number | (string | number)[];
     value?: any;
