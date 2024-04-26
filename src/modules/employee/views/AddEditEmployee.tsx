@@ -55,7 +55,7 @@ export function AddEditEmployee() {
     // {idParams && useDetailEmployee({id: idParams, config: {
     //     onSuccess: (res) => {
     //         const data: IEditEmployee = res?.data;
-    //         const mapdataFill = {
+    //         const mapdataFill1 = {
     //             name: data?.name,
     //             gender: data.gender,
     //             mother_name: data.mother_name,
@@ -74,10 +74,12 @@ export function AddEditEmployee() {
     //             family_card_number: data?.family_card_number,
     //             safety_insurance_no: data?.safety_insurance_no,
     //             health_insurance_no: data?.health_insurance_no,
+    //         }
+    //         form1.setFieldsValue(mapdataFill1);
+    //         form2.setFieldsValue({
     //             contract_start_date: dayjs(data?.contract_start_date, 'YYYY-MM-DD'),
     //             type: data?.type,
-    //         }
-    //         form.setFieldsValue(mapdataFill)
+    //         })
     //     }
     // }})}
     
