@@ -51,6 +51,35 @@ export function AddEditEmployee() {
     const deleteIdsDcmt: string[] = useRecoilValue(DataDeleteIdsDocuments);
     const [,setDeleteCntIds] = useRecoilState(deleteIdsContracts);
     const deleteIdsCnts: string[] = useRecoilValue(DataDeleteIdsContracts);
+
+    // {idParams && useDetailEmployee({id: idParams, config: {
+    //     onSuccess: (res) => {
+    //         const data: IEditEmployee = res?.data;
+    //         const mapdataFill = {
+    //             name: data?.name,
+    //             gender: data.gender,
+    //             mother_name: data.mother_name,
+    //             dob: dayjs(data?.dob, 'YYYY-MM-DD'),
+    //             pob: data?.pob,
+    //             ktp_no: data?.ktp_no,
+    //             nc_id: data?.nc_id,
+    //             home_address_1: data?.home_address_1,
+    //             home_address_2: data?.home_address_2,
+    //             mobile_no: data?.mobile_no,
+    //             tel_no: data?.tel_no,
+    //             marriage_id: data?.marriage_id,
+    //             card_number: data?.card_number,
+    //             bank_account_no: data?.bank_account_no,
+    //             bank_name: data?.bank_name,
+    //             family_card_number: data?.family_card_number,
+    //             safety_insurance_no: data?.safety_insurance_no,
+    //             health_insurance_no: data?.health_insurance_no,
+    //             contract_start_date: dayjs(data?.contract_start_date, 'YYYY-MM-DD'),
+    //             type: data?.type,
+    //         }
+    //         form.setFieldsValue(mapdataFill)
+    //     }
+    // }})}
     
     const [fields, setFields] = useState<FieldData[]>([
         {name: 'name', value: idParams ? dataDetailEmployee?.name : "" ,},
