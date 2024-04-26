@@ -94,6 +94,19 @@ export function AddEditEmployee() {
         {name: 'attendance_allowance_paid', value: idParams ? dataDetailEmployee?.attendance_allowance_paid : 1}
     ]);
 
+    const handleFormChange = (_: any, allValues: any) => {
+        if(allValues?.name !== '' && allValues?.gender !== '' && allValues?.dob !== null && allValues?.ktp_no !== ''){
+            setFilledInformationImportant(true);
+        }else{
+            setFilledInformationImportant(false);
+        }
+        if (allValues?.contract_start_date !== null && allValues?.type !== "") {
+            setFilledContractImportant(true);
+        } else {
+            setFilledContractImportant(false);
+        }
+    };
+
     const checkValueImportantEmployeeInfomation = validateFieldsEmployeeInfomation(fields);
     const checkValueImportantContractInfomation = validateFieldsContractInfomation(fields);
 
@@ -188,6 +201,7 @@ export function AddEditEmployee() {
         configEditEmployee.mutate(finalData);
     },[fields, deleteIdsDcmt]);
     
+
     const ConfigButtonTab = (label: string, key: string) => {
         return <ButtonConfigAntd
             label={label}
@@ -206,12 +220,12 @@ export function AddEditEmployee() {
         {
           key: '1',
           label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab1"), "1"),
-          children: <EmployeeInfomation fields={fields} setFields={setFields}/>,
+          children: <EmployeeInfomation handleFormChange={handleFormChange} fields={fields} setFields={setFields}/>,
         },
         {
           key: '2',
           label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab2"), "2"),
-          children: <ContractInfomation fields={fields} setFields={setFields} />,
+          children: <ContractInfomation handleFormChange={handleFormChange} fields={fields} setFields={setFields} />,
         },
         {
           key: '3',

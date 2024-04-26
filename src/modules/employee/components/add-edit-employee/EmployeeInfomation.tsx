@@ -2,8 +2,6 @@ import { TitleAll } from "./TitleAll";
 import styles from "./EmployeeInfomation.module.scss";
 import { useTranslation } from "react-i18next";
 import { Col, DatePicker, Form, Input, Row, Select } from "antd";
-import { isFilledEmployeeInfomation } from "../../state/add-edit-employee/add.atom";
-import { useRecoilState } from "recoil";
 import { GENDER_CONFIG } from "../../config";
 import { configValuesSelect } from "@/utils/data";
 import { FieldData, IBaseOption } from "@/types";
@@ -27,22 +25,23 @@ const formItemLayout = {
 interface EmployeeInfomationProps{
     fields: FieldData[];
     setFields: any;
+    handleFormChange: any;
 }
 
 interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
     fields: FieldData[];
     t?: any;
-    setFilledInformationImportant?: any;
     configMarriage: IBaseOption[];
+    handleFormChange?: any;
 }
 
 export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
     fields,
-    setFields
+    setFields,
+    handleFormChange,
 }) => {
     const { t } = useTranslation();
-    const [, setFilledInformationImportant] = useRecoilState(isFilledEmployeeInfomation);
 
     const configMarriage = configValuesSelect(useMarriages({})?.data);
 
@@ -61,7 +60,7 @@ export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
                     setFields(fields);
                 }}
                 t={t}
-                setFilledInformationImportant={setFilledInformationImportant}
+                handleFormChange={handleFormChange}
                 configMarriage={configMarriage}
             />
         </div>
@@ -69,21 +68,16 @@ export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
 }
 
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, setFilledInformationImportant, configMarriage }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ 
+    onChange, fields, t, configMarriage, handleFormChange
+}) => (
     <Form
         name="employee_information"
         {...formItemLayout}
+        onValuesChange={handleFormChange}
         fields={fields}
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
-            if(fields[0]?.value !== "" && fields[1]?.value !== "" && fields[3]?.value !== null && fields[5]?.value !== ""){
-                setFilledInformationImportant(true);
-            }else{
-                setFilledInformationImportant(false);
-            }
-        }}
-        initialValues={{
-            "name": fields.find(value => value?.value != null && value?.name == "name")?.value,
         }}
         className={styles.formmain}
         autoComplete="off"

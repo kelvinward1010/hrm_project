@@ -91,3 +91,14 @@ export function validateFieldsContractInfomation(fields: any[]): boolean {
     });
     return isValid;
 }
+
+// export function validateFieldsEmployeeInfomation2(fields: any): boolean {
+//     let isValid = true;
+//     if (fields.name === ''
+//         || fields.gender === ''
+//         || fields.dob === ''
+//         || fields.ktp_no === '') {
+//             isValid = false;
+//     }
+//     return isValid;
+// }

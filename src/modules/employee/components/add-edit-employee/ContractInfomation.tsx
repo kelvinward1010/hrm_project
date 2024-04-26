@@ -7,7 +7,7 @@ import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { convertDateToYYYYMMDD, formatDate } from "@/utils/format";
 import { LableInput } from "./LableInput";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { deleteIdsContracts, isFilledContractInfomation } from "../../state/add-edit-employee/add.atom";
+import { deleteIdsContracts } from "../../state/add-edit-employee/add.atom";
 import { EMPLOYEE_TYPE_CONGIG } from "../../config";
 import { FieldData } from "@/types";
 import { useEffect, useState } from "react";
@@ -36,23 +36,24 @@ const formItemLayout = {
 interface ContractInfomationProps {
     fields: FieldData[];
     setFields: any;
+    handleFormChange: any;
 }
 
 interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
     fields: FieldData[];
     t?: any;
-    setFilledContractImportant: any;
+    handleFormChange?: any;
 }
 
 export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     fields,
-    setFields
+    setFields,
+    handleFormChange,
 }) => {
     const [form] = Form.useForm();
     const idParams = useParams()?.id;
     const { t } = useTranslation();
-    const [, setFilledContractImportant] = useRecoilState(isFilledContractInfomation);
     const [fileList, setFileList] = useState<UploadFile<Blob>[]>([]);
     const [data, setData] = useState<any[]>([]);
     const [,setDeleteCntIds] = useRecoilState(deleteIdsContracts);
@@ -191,8 +192,8 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
                     })
                     setFields(fields);
                 }}
+                handleFormChange={handleFormChange}
                 t={t}
-                setFilledContractImportant={setFilledContractImportant}
             />
             <div className={styles.contract}>
                 <Row className={styles.lable_cntrct}>
@@ -288,18 +289,14 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     )
 }
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, setFilledContractImportant }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, handleFormChange }) => (
     <Form
         name="contract_information"
         {...formItemLayout}
+        onValuesChange={handleFormChange}
         fields={fields}
         onFieldsChange={(_, allFields) => {
             onChange(allFields);
-            if (allFields[0].value !== null && allFields[1].value !== "") {
-                setFilledContractImportant(true);
-            } else {
-                setFilledContractImportant(false);
-            }
         }}
         className={styles.formmain}
         autoComplete="off"
