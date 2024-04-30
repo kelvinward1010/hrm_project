@@ -22,6 +22,7 @@ const formItemLayout = {
 interface EmploymentDetailsProps{
     fields: FieldData[];
     setFields: any;
+    form?: any;
 }
 
 interface CustomizedFormProps {
@@ -30,11 +31,13 @@ interface CustomizedFormProps {
     t?: any;
     configDepartment: IBaseOption[];
     configPosition: IBaseOption[];
+    form?: any;
 }
 
 export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
     fields,
     setFields,
+    form
 }) => {
     const { t } = useTranslation();
 
@@ -76,6 +79,7 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
                     setFields(transformValues(fields));
                 }}
                 t={t}
+                form={form}
                 configDepartment={configDepartment}
                 configPosition={configPosition}
             />
@@ -84,9 +88,10 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
 }
 
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, configDepartment, configPosition }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, configDepartment, configPosition, form }) => (
     <Form
         name="employee_details"
+        form={form}
         {...formItemLayout}
         fields={fields}
         onFieldsChange={(_, allFields) => {

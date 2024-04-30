@@ -52,6 +52,21 @@ export function transformValues(data: any[]) {
     });
 }
 
+export function transformValuesEdit(data: any) {
+    const { hidden_on_payroll, entitle_ot, meal_allowance_paid, operational_allowance_paid, attendance_allowance_paid, ...rest } = data;
+    const transformedData: any = {
+        ...rest,
+        hidden_on_payroll: hidden_on_payroll ? 1 : 0,
+        entitle_ot: entitle_ot ? 1 : 0,
+        meal_allowance_paid: meal_allowance_paid ? 1 : 0,
+        operational_allowance_paid: operational_allowance_paid ? 1 : 0,
+        attendance_allowance_paid: attendance_allowance_paid ? 1 : 0,
+      };
+    
+      return transformedData;
+
+}
+
 export function filterDocuments(documents: any[]) {
     const take = documents?.filter((doc) => doc.documents && doc.documents[0]);
     const finaldata: any[] = [];

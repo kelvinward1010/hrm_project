@@ -49,7 +49,11 @@ export interface IEmployee {
     department_id: number;
     position_id: number;
     shift: string;
-    hidden_on_payroll: number;
+    hidden_on_payroll?: any;
+    entitle_ot?: any;
+    meal_allowance_paid?: any;
+    operational_allowance_paid?: any;
+    attendance_allowance_paid?: any;
     basic_salary: number;
     audit_salary: number;
     safety_insurance: number;

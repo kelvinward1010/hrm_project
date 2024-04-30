@@ -1,4 +1,4 @@
-import { Col, Row, Typography, Tabs } from "antd";
+import { Col, Row, Typography, Tabs, Form } from "antd";
 import styles from "./Employee.module.scss";
 import { useTranslation } from "react-i18next";
 import type { TabsProps } from 'antd';
@@ -17,7 +17,7 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { deleteIdsContracts, deleteIdsDocuments, isAddEmplyee, isEditEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
 import { IEditEmployee, IEmployee } from "../types";
 import { useCreateEmployee } from "../api/createEmployee";
-import { configValuesSelect, filterContracts, filterDocuments, transformValues } from "@/utils/data";
+import { configValuesSelect, filterContracts, filterDocuments, transformValues, transformValuesEdit } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
 import { useNavigate, useParams } from "react-router-dom";
 import { employeeUrl } from "@/routes/urls";
@@ -28,7 +28,8 @@ import { FieldData } from "@/types";
 import { useUpdateEmployee } from "../api/updateEmployee";
 import { useUploadDocuments } from "../api/uploadDocument";
 import { useContractSaveMultiple } from "../api/uploadMutiplefile";
-import { mapDataCreate, validateFieldsContractInfomation, validateFieldsEmployeeInfomation } from "../utils";
+import { mapDataCreate, validateFieldsContractInfomation2, validateFieldsEmployeeInfomation2 } from "../utils";
+import { useDetailEmployee } from "../api/getDetailEmployee";
 
 const { Text } = Typography;
 
@@ -37,6 +38,11 @@ export function AddEditEmployee() {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const idParams = useParams()?.id;
+    const [formEmployeeInfo] = Form.useForm();
+    const [formContractInfo] = Form.useForm();
+    const [formEployeeDetail] = Form.useForm();
+    const [formSalaryAndWages] = Form.useForm();
+    const [formOthers] = Form.useForm();
     const [activeTab, setActiveTab] = useState<string>("1");
     const [, setIsAddEmployee] = useRecoilState(isAddEmplyee);
     const isAddEmployee: boolean = useRecoilValue(addEmployeeState);
@@ -52,77 +58,100 @@ export function AddEditEmployee() {
     const [,setDeleteCntIds] = useRecoilState(deleteIdsContracts);
     const deleteIdsCnts: string[] = useRecoilValue(DataDeleteIdsContracts);
 
-    // {idParams && useDetailEmployee({id: idParams, config: {
-    //     onSuccess: (res) => {
-    //         const data: IEditEmployee = res?.data;
-    //         const mapdataFill1 = {
-    //             name: data?.name,
-    //             gender: data.gender,
-    //             mother_name: data.mother_name,
-    //             dob: dayjs(data?.dob, 'YYYY-MM-DD'),
-    //             pob: data?.pob,
-    //             ktp_no: data?.ktp_no,
-    //             nc_id: data?.nc_id,
-    //             home_address_1: data?.home_address_1,
-    //             home_address_2: data?.home_address_2,
-    //             mobile_no: data?.mobile_no,
-    //             tel_no: data?.tel_no,
-    //             marriage_id: data?.marriage_id,
-    //             card_number: data?.card_number,
-    //             bank_account_no: data?.bank_account_no,
-    //             bank_name: data?.bank_name,
-    //             family_card_number: data?.family_card_number,
-    //             safety_insurance_no: data?.safety_insurance_no,
-    //             health_insurance_no: data?.health_insurance_no,
-    //         }
-    //         form1.setFieldsValue(mapdataFill1);
-    //         form2.setFieldsValue({
-    //             contract_start_date: dayjs(data?.contract_start_date, 'YYYY-MM-DD'),
-    //             type: data?.type,
-    //         })
-    //     }
-    // }})}
+    {idParams && useDetailEmployee({id: idParams, config: {
+        onSuccess: (res) => {
+            const data: IEditEmployee = res?.data;
+            if(!data) return;
+            formEmployeeInfo?.setFieldsValue({
+                name: data?.name,
+                gender: data.gender,
+                mother_name: data.mother_name,
+                dob: dayjs(data?.dob, 'YYYY-MM-DD'),
+                pob: data?.pob,
+                ktp_no: data?.ktp_no,
+                nc_id: data?.nc_id,
+                home_address_1: data?.home_address_1,
+                home_address_2: data?.home_address_2,
+                mobile_no: data?.mobile_no,
+                tel_no: data?.tel_no,
+                marriage_id: data?.marriage_id,
+                card_number: data?.card_number,
+                bank_account_no: data?.bank_account_no,
+                bank_name: data?.bank_name,
+                family_card_number: data?.family_card_number,
+                safety_insurance_no: data?.safety_insurance_no,
+                health_insurance_no: data?.health_insurance_no,
+            });
+            formContractInfo?.setFieldsValue({
+                contract_start_date: dayjs(data?.contract_start_date, 'YYYY-MM-DD'),
+                type: data?.type,
+            });
+            formEployeeDetail?.setFieldsValue({
+                department_id: data?.department_id,
+                position_id: data?.position_id,
+                shift: data?.shift,
+                hidden_on_payroll: data?.hidden_on_payroll == '' ? 0 : data?.hidden_on_payroll,
+                entitle_ot: data?.entitle_ot,
+                meal_allowance_paid: data?.meal_allowance_paid,
+                operational_allowance_paid: data?.operational_allowance_paid,
+                attendance_allowance_paid: data?.attendance_allowance_paid,
+            });
+            formSalaryAndWages?.setFieldsValue({
+                basic_salary: data?.basic_salary,
+                audit_salary: data?.audit_salary,
+                safety_insurance: data?.safety_insurance,
+                health_insurance: data?.health_insurance,
+                meal_allowance: data?.meal_allowance,
+            });
+            formOthers?.setFieldsValue({
+                grade_id: data?.grade_id,
+                benefits: configValuesSelect(data?.benefits),
+                remark: data?.remark,
+                account_user_id: data?.account_user_id,
+            })
+        }
+    }})}
     
     const [fields, setFields] = useState<FieldData[]>([
-        {name: 'name', value: idParams ? dataDetailEmployee?.name : "" ,},
-        {name: 'gender', value: idParams ? dataDetailEmployee?.gender : "",},
-        {name: 'mother_name', value: idParams ? dataDetailEmployee?.mother_name : "",},
-        {name: 'dob', value: idParams ? dayjs(dataDetailEmployee?.dob, 'YYYY-MM-DD') : "",},
-        {name: 'pob', value: idParams ? dataDetailEmployee?.pob : "",},
-        {name: 'ktp_no', value: idParams ? dataDetailEmployee?.ktp_no : "",},
-        {name: 'nc_id', value: idParams ? dataDetailEmployee?.nc_id : "",},
-        {name: 'home_address_1', value: idParams ? dataDetailEmployee?.home_address_1 : "",},
-        {name: 'home_address_2', value: idParams ? dataDetailEmployee?.home_address_2 : "",},
-        {name: 'mobile_no',value: idParams ? dataDetailEmployee?.mobile_no : "",},
-        {name: 'tel_no',value: idParams ? dataDetailEmployee?.tel_no : "",},
-        {name: 'marriage_id',value: idParams ? dataDetailEmployee?.marriage_id : "",},
-        {name: 'card_number',value: idParams ? dataDetailEmployee?.card_number : "",},
-        {name: 'bank_account_no',value: idParams ? dataDetailEmployee?.bank_account_no : "",},
-        {name: 'bank_name',value: idParams ? dataDetailEmployee?.bank_name : "",},
-        {name: 'family_card_number',value: idParams ? dataDetailEmployee?.family_card_number : "",},
-        {name: 'safety_insurance_no',value: idParams ? dataDetailEmployee?.safety_insurance_no : "",},
-        {name: 'health_insurance_no',value: idParams ? dataDetailEmployee?.health_insurance_no : "",},
-        {name: 'contract_start_date', value: idParams ? dayjs(dataDetailEmployee?.contract_start_date, 'YYYY-MM-DD') : "",},
-        {name: 'type', value: idParams ? dataDetailEmployee?.type : "",},
+        {name: 'name', value: "" ,},
+        {name: 'gender', value: "",},
+        {name: 'mother_name', value: "",},
+        {name: 'dob', value:  "",},
+        {name: 'pob', value:  "",},
+        {name: 'ktp_no', value:  "",},
+        {name: 'nc_id', value: "",},
+        {name: 'home_address_1', value: "",},
+        {name: 'home_address_2', value: "",},
+        {name: 'mobile_no',value: "",},
+        {name: 'tel_no',value: "",},
+        {name: 'marriage_id',value: "",},
+        {name: 'card_number',value: "",},
+        {name: 'bank_account_no',value: "",},
+        {name: 'bank_name',value: "",},
+        {name: 'family_card_number',value: "",},
+        {name: 'safety_insurance_no',value: "",},
+        {name: 'health_insurance_no',value: "",},
+        {name: 'contract_start_date', value: "",},
+        {name: 'type', value: "",},
         {name: 'contracts', value: idParams ? dataDetailEmployee?.contracts : []},
-        {name: 'department_id', value: idParams ? dataDetailEmployee?.department_id : "",},
-        {name: 'position_id', value: idParams ? dataDetailEmployee?.position_id : "",},
-        {name: 'shift', value: idParams ? dataDetailEmployee?.shift : "",},
-        {name: 'basic_salary', value: idParams ? dataDetailEmployee?.basic_salary : "",},
-        {name: 'audit_salary', value: idParams ? dataDetailEmployee?.audit_salary : "",},
-        {name: 'safety_insurance', value: idParams ? dataDetailEmployee?.safety_insurance : "",},
-        {name: 'health_insurance', value: idParams ? dataDetailEmployee?.health_insurance : "",},
-        {name: 'meal_allowance', value: idParams ? dataDetailEmployee?.meal_allowance : "",},
-        {name: 'grade_id', value: idParams ? dataDetailEmployee?.grade_id : "",},
-        {name: 'benefits', value: idParams ? configValuesSelect(dataDetailEmployee?.benefits) : [],},
-        {name: 'remark', value: idParams ? dataDetailEmployee?.remark : "",},
-        {name: 'account_user_id', value: idParams ? dataDetailEmployee?.account_user_id : "",},
+        {name: 'department_id', value: "",},
+        {name: 'position_id', value: "",},
+        {name: 'shift', value: "",},
+        {name: 'hidden_on_payroll', value: 0},
+        {name: 'entitle_ot', value: 0},
+        {name: 'meal_allowance_paid', value: 0},
+        {name: 'operational_allowance_paid', value: 1},
+        {name: 'attendance_allowance_paid', value: 1},
+        {name: 'basic_salary', value:  "",},
+        {name: 'audit_salary', value: "",},
+        {name: 'safety_insurance', value: "",},
+        {name: 'health_insurance', value: "",},
+        {name: 'meal_allowance', value: "",},
+        {name: 'grade_id', value: "",},
+        {name: 'benefits', value: [],},
+        {name: 'remark', value: "",},
+        {name: 'account_user_id', value: "",},
         {name: 'documents', value: idParams ? dataDetailEmployee?.documents : []},
-        {name: 'hidden_on_payroll', value: idParams ? (dataDetailEmployee?.hidden_on_payroll == '' ? 0 : dataDetailEmployee?.hidden_on_payroll) : 0},
-        {name: 'entitle_ot', value: idParams ? dataDetailEmployee?.entitle_ot : 0},
-        {name: 'meal_allowance_paid', value: idParams ? dataDetailEmployee?.meal_allowance_paid : 0},
-        {name: 'operational_allowance_paid', value: idParams ? dataDetailEmployee?.operational_allowance_paid : 1},
-        {name: 'attendance_allowance_paid', value: idParams ? dataDetailEmployee?.attendance_allowance_paid : 1}
     ]);
 
     const handleFormChange = (_: any, allValues: any) => {
@@ -138,8 +167,8 @@ export function AddEditEmployee() {
         }
     };
 
-    const checkValueImportantEmployeeInfomation = validateFieldsEmployeeInfomation(fields);
-    const checkValueImportantContractInfomation = validateFieldsContractInfomation(fields);
+    const checkValueImportantEmployeeInfomation = validateFieldsEmployeeInfomation2(formEmployeeInfo?.getFieldsValue());
+    const checkValueImportantContractInfomation = validateFieldsContractInfomation2(formContractInfo?.getFieldsValue());
 
     const configUploadDocuments = useUploadDocuments({});
     const configContractSaveMultiple = useContractSaveMultiple({});
@@ -226,10 +255,23 @@ export function AddEditEmployee() {
     },[fields])
 
     const handleEditEmployee = useCallback(() => {
-        const configdata = transformValues(fields);
-        const data: any = mapDataCreate(configdata);
-        const finalData: IEditEmployee = {...data,...{id: idParams}};
-        configEditEmployee.mutate(finalData);
+        const dataEmployeeInfo: any = formEmployeeInfo?.getFieldsValue();
+        const dataContractInfo: any = formContractInfo?.getFieldsValue();
+        const dataEmployeeDetail: any = formEployeeDetail?.getFieldsValue();
+        const dataSalaryAndWages: any = formSalaryAndWages?.getFieldsValue();
+        const dataOthers: any = formOthers?.getFieldsValue();
+        const wrapData = {
+            ...dataEmployeeInfo,
+            ...dataContractInfo,
+            ...dataEmployeeDetail, 
+            ...dataSalaryAndWages,
+            ...dataOthers,
+        }
+        const configdata = transformValuesEdit(wrapData);
+        console.log(configdata)
+        // const data: any = mapDataCreate(configdata);
+        // const finalData: IEditEmployee = {...data,...{id: idParams}};
+        // configEditEmployee.mutate(finalData);
     },[fields, deleteIdsDcmt]);
     
 
@@ -249,29 +291,34 @@ export function AddEditEmployee() {
     
     const items: TabsProps['items'] = [
         {
-          key: '1',
-          label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab1"), "1"),
-          children: <EmployeeInfomation handleFormChange={handleFormChange} fields={fields} setFields={setFields}/>,
+            key: '1',
+            label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab1"), "1"),
+            children: <EmployeeInfomation form={formEmployeeInfo} handleFormChange={handleFormChange} fields={fields} setFields={setFields}/>,
+            forceRender: true,
         },
         {
-          key: '2',
-          label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab2"), "2"),
-          children: <ContractInfomation handleFormChange={handleFormChange} fields={fields} setFields={setFields} />,
+            key: '2',
+            label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab2"), "2"),
+            children: <ContractInfomation form_main={formContractInfo} handleFormChange={handleFormChange} fields={fields} setFields={setFields} />,
+            forceRender: true,
         },
         {
-          key: '3',
-          label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab3"), "3"),
-          children: <EmploymentDetails fields={fields} setFields={setFields}/>,
+            key: '3',
+            label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab3"), "3"),
+            children: <EmploymentDetails form={formEployeeDetail} fields={fields} setFields={setFields}/>,
+            forceRender: true,
         },
         {
             key: '4',
             label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab4"), "4"),
-            children: <SalaryAndWages fields={fields} setFields={setFields}/>,
+            children: <SalaryAndWages form={formSalaryAndWages} fields={fields} setFields={setFields}/>,
+            forceRender: true,
         },
         {
             key: '5',
             label: ConfigButtonTab(t("features.employee.features_add_new.tabs.tab5"), "5"),
-            children: <Others fields={fields} setFields={setFields}/>,
+            children: <Others form={formOthers} fields={fields} setFields={setFields}/>,
+            forceRender: true,
         }
     ];
 
@@ -282,7 +329,7 @@ export function AddEditEmployee() {
     useEffect(() => {
         (isContractInfomation && isEmployeeInfomation && checkValueImportantEmployeeInfomation && checkValueImportantContractInfomation) ? setIsAddEmployee(false) : setIsAddEmployee(true);
         (isContractInfomation && isEmployeeInfomation) ? setIsEditEmployee(false) : setIsEditEmployee(true);
-    },[isContractInfomation, isEmployeeInfomation, fields]);
+    },[isContractInfomation, isEmployeeInfomation, fields, checkValueImportantEmployeeInfomation, checkValueImportantContractInfomation]);
     
     useEffect(() => {
         if(!idParams){

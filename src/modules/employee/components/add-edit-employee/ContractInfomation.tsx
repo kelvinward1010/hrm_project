@@ -37,6 +37,7 @@ interface ContractInfomationProps {
     fields: FieldData[];
     setFields: any;
     handleFormChange: any;
+    form_main?: any;
 }
 
 interface CustomizedFormProps {
@@ -44,12 +45,14 @@ interface CustomizedFormProps {
     fields: FieldData[];
     t?: any;
     handleFormChange?: any;
+    form?: any;
 }
 
 export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     fields,
     setFields,
     handleFormChange,
+    form_main
 }) => {
     const [form] = Form.useForm();
     const idParams = useParams()?.id;
@@ -192,6 +195,7 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
                     })
                     setFields(fields);
                 }}
+                form={form_main}
                 handleFormChange={handleFormChange}
                 t={t}
             />
@@ -289,9 +293,10 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     )
 }
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, handleFormChange }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, handleFormChange, form }) => (
     <Form
         name="contract_information"
+        form={form}
         {...formItemLayout}
         onValuesChange={handleFormChange}
         fields={fields}

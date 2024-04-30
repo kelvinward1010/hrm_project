@@ -33,6 +33,7 @@ const formItemLayout = {
 interface OthersProps{
     fields: FieldData[];
     setFields: any;
+    form?: any;
 }
 
 interface CustomizedFormProps {
@@ -41,11 +42,13 @@ interface CustomizedFormProps {
     t?: any;
     configBenefit: IBaseOption[];
     configGrade: IBaseOption[];
+    form?: any;
 }
 
 export const Others: React.FC<OthersProps> = ({
     fields,
-    setFields
+    setFields,
+    form
 }) => {
     const { t } = useTranslation();
     const idParams = useParams()?.id;
@@ -192,6 +195,7 @@ export const Others: React.FC<OthersProps> = ({
                     setFields(fields);
                 }}
                 t={t}
+                form={form}
                 configBenefit={configBenefit}
                 configGrade={configGrade}
             />
@@ -234,9 +238,10 @@ export const Others: React.FC<OthersProps> = ({
 }
 
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, configBenefit, configGrade }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, configBenefit, configGrade, form }) => (
     <Form
         name="others"
+        form={form}
         {...formItemLayout}
         fields={fields}
         onFieldsChange={(_, allFields) => {

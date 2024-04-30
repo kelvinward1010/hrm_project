@@ -26,6 +26,7 @@ interface EmployeeInfomationProps{
     fields: FieldData[];
     setFields: any;
     handleFormChange: any;
+    form?: any;
 }
 
 interface CustomizedFormProps {
@@ -34,12 +35,14 @@ interface CustomizedFormProps {
     t?: any;
     configMarriage: IBaseOption[];
     handleFormChange?: any;
+    form?: any;
 }
 
 export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
     fields,
     setFields,
     handleFormChange,
+    form
 }) => {
     const { t } = useTranslation();
 
@@ -60,6 +63,7 @@ export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
                     setFields(fields);
                 }}
                 t={t}
+                form={form}
                 handleFormChange={handleFormChange}
                 configMarriage={configMarriage}
             />
@@ -69,10 +73,11 @@ export const EmployeeInfomation: React.FC<EmployeeInfomationProps> = ({
 
 
 const CustomizedForm: React.FC<CustomizedFormProps> = ({ 
-    onChange, fields, t, configMarriage, handleFormChange
+    onChange, fields, t, configMarriage, handleFormChange, form
 }) => (
     <Form
         name="employee_information"
+        form={form}
         {...formItemLayout}
         onValuesChange={handleFormChange}
         fields={fields}

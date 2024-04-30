@@ -63,6 +63,20 @@ export function mapDataCreate(data: any[]) {
     return mappedObject;
 }
 
+export function mapDataCreate2(data: any) {
+    const { contract_start_date, benefits, ...rest } = data;
+    type EmployeeData = Record<any, any | string | null | undefined>;
+
+    function checkValue(value: string | null | undefined): string {
+        return value ?? "";
+    }
+    const transformedData: EmployeeData = {};
+    for (const key in data) {
+        transformedData[key] = checkValue(data[key]);
+    }
+    return transformedData;
+}
+
 export function validateFieldsEmployeeInfomation(fields: any[]): boolean {
     let isValid = true;
     fields.forEach((field) => {
@@ -92,13 +106,23 @@ export function validateFieldsContractInfomation(fields: any[]): boolean {
     return isValid;
 }
 
-// export function validateFieldsEmployeeInfomation2(fields: any): boolean {
-//     let isValid = true;
-//     if (fields.name === ''
-//         || fields.gender === ''
-//         || fields.dob === ''
-//         || fields.ktp_no === '') {
-//             isValid = false;
-//     }
-//     return isValid;
-// }
+export function validateFieldsEmployeeInfomation2(fields: any): boolean {
+    let isValid = true;
+    if (fields.name === ''
+        || fields.gender === ''
+        || fields.dob === ''
+        || fields.ktp_no === '') {
+            isValid = false;
+    }
+    return isValid;
+}
+
+export function validateFieldsContractInfomation2(fields: any): boolean {
+    let isValid = true;
+    if (fields.contract_start_date === ''
+        // || fields.name === 'type'
+    ) {
+            isValid = false;
+    }
+    return isValid;
+}

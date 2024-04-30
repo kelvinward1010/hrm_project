@@ -21,16 +21,19 @@ const formItemLayout = {
 interface SalaryAndWagesProps{
     fields: FieldData[];
     setFields: any;
+    form?: any;
 }
 interface CustomizedFormProps {
     onChange: (fields: FieldData[]) => void;
     fields: FieldData[];
     t?: any;
+    form?: any;
 }
 
 export const SalaryAndWages: React.FC<SalaryAndWagesProps> = ({
     fields,
-    setFields
+    setFields,
+    form
 }) => {
     const { t } = useTranslation();
 
@@ -49,6 +52,7 @@ export const SalaryAndWages: React.FC<SalaryAndWagesProps> = ({
                     setFields(fields);
                 }}
                 t={t}
+                form={form}
             />
         </div>
     )
@@ -58,9 +62,10 @@ const configPrefix = () => {
     return <Text style={{color: "var(--text-color-blue)"}}>Rp</Text>
 }
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, form }) => (
     <Form
         name="Salaryandwages"
+        form={form}
         {...formItemLayout}
         fields={fields}
         onFieldsChange={(_, allFields) => {
