@@ -64,7 +64,7 @@ export function mapDataCreate(data: any[]) {
 }
 
 export function mapDataCreate2(data: any) {
-    const { contract_start_date, benefits, ...rest } = data;
+    //const { contract_start_date, benefits, ...rest } = data;
     type EmployeeData = Record<any, any | string | null | undefined>;
 
     function checkValue(value: string | null | undefined): string {

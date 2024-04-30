@@ -28,7 +28,7 @@ import { FieldData } from "@/types";
 import { useUpdateEmployee } from "../api/updateEmployee";
 import { useUploadDocuments } from "../api/uploadDocument";
 import { useContractSaveMultiple } from "../api/uploadMutiplefile";
-import { mapDataCreate, validateFieldsContractInfomation2, validateFieldsEmployeeInfomation2 } from "../utils";
+import { mapDataCreate, mapDataCreate2, validateFieldsContractInfomation2, validateFieldsEmployeeInfomation2 } from "../utils";
 import { useDetailEmployee } from "../api/getDetailEmployee";
 
 const { Text } = Typography;
@@ -268,8 +268,8 @@ export function AddEditEmployee() {
             ...dataOthers,
         }
         const configdata = transformValuesEdit(wrapData);
-        console.log(configdata)
-        // const data: any = mapDataCreate(configdata);
+        const data: any = mapDataCreate2(configdata);
+        console.log(data)
         // const finalData: IEditEmployee = {...data,...{id: idParams}};
         // configEditEmployee.mutate(finalData);
     },[fields, deleteIdsDcmt]);
