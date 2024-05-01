@@ -61,10 +61,9 @@ export function transformValuesEdit(data: any) {
         meal_allowance_paid: meal_allowance_paid ? 1 : 0,
         operational_allowance_paid: operational_allowance_paid ? 1 : 0,
         attendance_allowance_paid: attendance_allowance_paid ? 1 : 0,
-      };
+    };
     
-      return transformedData;
-
+    return transformedData;
 }
 
 export function filterDocuments(documents: any[]) {

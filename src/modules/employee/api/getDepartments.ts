@@ -18,7 +18,7 @@ type UseDepartmentsOptions = {
 export const useDepartments = ({ config }: UseDepartmentsOptions) => {
     return useQuery<ExtractFnReturnType<QueryFnType>>({
         ...config,
-        queryKey: ["marriage"],
+        queryKey: ["departments"],
         queryFn: () => getDepartments(),
     });
 };

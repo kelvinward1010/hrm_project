@@ -4,7 +4,7 @@ import { TitleAll } from "./TitleAll";
 import { Checkbox, Col, Form, Row, Select } from "antd";
 import { LableInput } from "./LableInput";
 import { useDepartments } from "../../api/getDepartments";
-import { configValuesSelect, extractValues, transformValues } from "@/utils/data";
+import { configValuesSelect, extractValues } from "@/utils/data";
 import { usePositions } from "../../api/getPositions";
 import { FieldData, IBaseOption } from "@/types";
 
@@ -56,6 +56,8 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
                             fields[index].value = i.value;
                         }
                     })
+                    const dataForm = form?.getFieldsValue();
+                    const { operational_allowance_paid, attendance_allowance_paid, ...rest } = dataForm; 
                     const keysToExtract = ["entitle_ot", "operational_allowance_paid", "attendance_allowance_paid"];
                     const extractedValues = extractValues(newFields, keysToExtract);
                     const checkOT: FieldData = extractedValues['entitle_ot'];
@@ -66,17 +68,41 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
                     if(checkOT?.touched === true && checkOT?.value === true && checkOA?.touched === false && checkAA?.touched === false){
                         fields[indexOA].value = 0;
                         fields[indexAA].value = 0;
+                        const updateDataForm = { 
+                            operational_allowance_paid: 0, 
+                            attendance_allowance_paid: 0, 
+                            ...rest
+                        };
+                        form?.setFieldsValue(updateDataForm);
                     } else if(checkOT.touched === true && checkOT.value === false && checkOA.touched === false && checkAA.touched === false){
                         fields[indexOA].value = 1;
                         fields[indexAA].value = 1;
+                        const updateDataForm = { 
+                            operational_allowance_paid: 1, 
+                            attendance_allowance_paid: 1, 
+                            ...rest
+                        };
+                        form?.setFieldsValue(updateDataForm);
                     } else if(checkOT?.touched === true && checkOT?.value === false && (checkOA?.touched === true || checkAA?.touched === true)){
                         fields[indexOA].value = 1;
                         fields[indexAA].value = 1;
+                        const updateDataForm = { 
+                            operational_allowance_paid: 1, 
+                            attendance_allowance_paid: 1, 
+                            ...rest
+                        };
+                        form?.setFieldsValue(updateDataForm);
                     } else if(checkOT?.touched === true && checkOT?.value === true && (checkOA?.touched === true || checkAA?.touched === true)){
                         fields[indexOA].value = 0;
                         fields[indexAA].value = 0;
+                        const updateDataForm = { 
+                            operational_allowance_paid: 0, 
+                            attendance_allowance_paid: 0, 
+                            ...rest
+                        };
+                        form?.setFieldsValue(updateDataForm);
                     }
-                    setFields(transformValues(fields));
+                    setFields(fields);
                 }}
                 t={t}
                 form={form}
@@ -90,7 +116,7 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
 
 const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, configDepartment, configPosition, form }) => (
     <Form
-        name="employee_details"
+        name="employee_detail"
         form={form}
         {...formItemLayout}
         fields={fields}

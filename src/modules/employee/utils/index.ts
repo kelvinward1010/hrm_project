@@ -64,15 +64,33 @@ export function mapDataCreate(data: any[]) {
 }
 
 export function mapDataCreate2(data: any) {
-    //const { contract_start_date, benefits, ...rest } = data;
+    const { contract_start_date, benefits, ...rest } = data;
+    const date = new Date(contract_start_date);
+    const formattedDate = date?.toISOString().split("T")[0];
+    const mappedObject: Record<string, any> = {};
+    if(benefits[0]?.key){
+        const it: any[] = [];
+        benefits?.forEach((i: any) => {
+            it.push(i?.key)
+        })
+        mappedObject['benefits'] = it;
+    }else{
+        mappedObject['benefits'] = benefits;
+    }
+    const dataTransform: any = {
+        ...rest,
+        contract_start_date: formattedDate,
+        benefits: mappedObject['benefits'],
+    }
+    
     type EmployeeData = Record<any, any | string | null | undefined>;
 
-    function checkValue(value: string | null | undefined): string {
+    function checkValue(value: string | null | undefined): any {
         return value ?? "";
     }
     const transformedData: EmployeeData = {};
-    for (const key in data) {
-        transformedData[key] = checkValue(data[key]);
+    for (const key in dataTransform) {
+        transformedData[key] = checkValue(dataTransform[key]);
     }
     return transformedData;
 }

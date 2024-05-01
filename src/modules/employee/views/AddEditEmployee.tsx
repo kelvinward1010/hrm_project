@@ -61,6 +61,7 @@ export function AddEditEmployee() {
     {idParams && useDetailEmployee({id: idParams, config: {
         onSuccess: (res) => {
             const data: IEditEmployee = res?.data;
+            const datahidden = data?.hidden_on_payroll == '' ? 0 : data?.hidden_on_payroll
             if(!data) return;
             formEmployeeInfo?.setFieldsValue({
                 name: data?.name,
@@ -90,7 +91,7 @@ export function AddEditEmployee() {
                 department_id: data?.department_id,
                 position_id: data?.position_id,
                 shift: data?.shift,
-                hidden_on_payroll: data?.hidden_on_payroll == '' ? 0 : data?.hidden_on_payroll,
+                hidden_on_payroll: datahidden,
                 entitle_ot: data?.entitle_ot,
                 meal_allowance_paid: data?.meal_allowance_paid,
                 operational_allowance_paid: data?.operational_allowance_paid,
@@ -252,7 +253,7 @@ export function AddEditEmployee() {
         const data: any = mapDataCreate(configdata);
         const finalData: IEmployee = {...data};
         configCreateEmployee.mutate(finalData);
-    },[fields])
+    },[fields]);
 
     const handleEditEmployee = useCallback(() => {
         const dataEmployeeInfo: any = formEmployeeInfo?.getFieldsValue();
@@ -269,9 +270,8 @@ export function AddEditEmployee() {
         }
         const configdata = transformValuesEdit(wrapData);
         const data: any = mapDataCreate2(configdata);
-        console.log(data)
-        // const finalData: IEditEmployee = {...data,...{id: idParams}};
-        // configEditEmployee.mutate(finalData);
+        const finalData: IEditEmployee = {...data,...{id: idParams}};
+        configEditEmployee.mutate(finalData);
     },[fields, deleteIdsDcmt]);
     
 
