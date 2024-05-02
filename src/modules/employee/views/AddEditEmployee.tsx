@@ -291,7 +291,6 @@ export function AddEditEmployee() {
         const finalData: IEditEmployee = {...data,...{id: idParams}};
         configEditEmployee.mutate(finalData);
     },[fields, deleteIdsDcmt]);
-    
 
     const ConfigButtonTab = (label: string, key: string) => {
         return <ButtonConfigAntd

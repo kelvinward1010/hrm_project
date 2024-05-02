@@ -3,11 +3,6 @@ import { apiClient } from "@/lib/api";
 import { ExtractFnReturnType, QueryConfig } from "@/lib/react-query";
 import { useQuery } from "react-query";
 
-export const useGetDetailEmployee = async (id: string): Promise<any> => {
-    const res = await apiClient.get(`${BASE_URL}${URL_EMPLOYEE}/${id}`);
-    return res;
-}
-
 export const getDetailEmployee = async (id?: string): Promise<any> => {
     const res = await apiClient.get(`${BASE_URL}${URL_EMPLOYEE}/${id}`);
     return res;
