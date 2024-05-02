@@ -61,46 +61,19 @@ export const EmploymentDetails: React.FC<EmploymentDetailsProps> = ({
                     const keysToExtract = ["entitle_ot", "operational_allowance_paid", "attendance_allowance_paid"];
                     const extractedValues = extractValues(newFields, keysToExtract);
                     const checkOT: FieldData = extractedValues['entitle_ot'];
-                    const checkOA: FieldData = extractedValues['operational_allowance_paid'];
-                    const checkAA: FieldData = extractedValues['attendance_allowance_paid'];
-                    const indexOA = fields.findIndex((f: FieldData) => f.name == "operational_allowance_paid");
-                    const indexAA = fields.findIndex((f: FieldData) => f.name == "attendance_allowance_paid");
-                    if(checkOT?.touched === true && checkOT?.value === true && checkOA?.touched === false && checkAA?.touched === false){
-                        fields[indexOA].value = 0;
-                        fields[indexAA].value = 0;
-                        const updateDataForm = { 
-                            operational_allowance_paid: 0, 
-                            attendance_allowance_paid: 0, 
+                    if(checkOT?.touched === true && checkOT?.value === true ){
+                        form.setFieldsValue({ 
+                            operational_allowance_paid: false, 
+                            attendance_allowance_paid: false, 
                             ...rest
-                        };
-                        form?.setFieldsValue(updateDataForm);
-                    } else if(checkOT.touched === true && checkOT.value === false && checkOA.touched === false && checkAA.touched === false){
-                        fields[indexOA].value = 1;
-                        fields[indexAA].value = 1;
-                        const updateDataForm = { 
-                            operational_allowance_paid: 1, 
-                            attendance_allowance_paid: 1, 
+                        });
+                    } 
+                    if(checkOT.touched === true && checkOT.value === false){
+                        form.setFieldsValue({ 
+                            operational_allowance_paid: true, 
+                            attendance_allowance_paid: true, 
                             ...rest
-                        };
-                        form?.setFieldsValue(updateDataForm);
-                    } else if(checkOT?.touched === true && checkOT?.value === false && (checkOA?.touched === true || checkAA?.touched === true)){
-                        fields[indexOA].value = 1;
-                        fields[indexAA].value = 1;
-                        const updateDataForm = { 
-                            operational_allowance_paid: 1, 
-                            attendance_allowance_paid: 1, 
-                            ...rest
-                        };
-                        form?.setFieldsValue(updateDataForm);
-                    } else if(checkOT?.touched === true && checkOT?.value === true && (checkOA?.touched === true || checkAA?.touched === true)){
-                        fields[indexOA].value = 0;
-                        fields[indexAA].value = 0;
-                        const updateDataForm = { 
-                            operational_allowance_paid: 0, 
-                            attendance_allowance_paid: 0, 
-                            ...rest
-                        };
-                        form?.setFieldsValue(updateDataForm);
+                        });
                     }
                     setFields(fields);
                 }}
@@ -204,7 +177,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, co
                     name="operational_allowance_paid"
                     valuePropName="checked"
                 >
-                    <Checkbox name="operational_allowance_paid" className={styles.check}>
+                    <Checkbox disabled name="operational_allowance_paid" className={styles.check}>
                         {t("features.employee.features_add_new.eploymentdetails.lable_input_operational_allowance_paid")}
                     </Checkbox>
                 </Form.Item>
@@ -214,7 +187,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, co
                     name="attendance_allowance_paid"
                     valuePropName="checked"
                 >
-                    <Checkbox name="attendance_allowance_paid"  className={styles.check}>
+                    <Checkbox disabled name="attendance_allowance_paid"  className={styles.check}>
                         {t("features.employee.features_add_new.eploymentdetails.lable_input_attendance_allowance_paid")}
                     </Checkbox>
                 </Form.Item>
