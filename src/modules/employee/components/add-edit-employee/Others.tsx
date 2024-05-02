@@ -12,8 +12,8 @@ import { useEffect, useState } from "react";
 import { generateRandomNumberString } from "@/utils/string";
 import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { deleteIdsDocuments } from "../../state/add-edit-employee/add.atom";
-import { DataDeleteIdsDocuments } from "../../state/add-edit-employee/add.state";
+import { checkDone, deleteIdsDocuments } from "../../state/add-edit-employee/add.atom";
+import { CheckDoneFiles, DataDeleteIdsDocuments } from "../../state/add-edit-employee/add.state";
 import { useGrades } from "../../api/getGrades";
 
 
@@ -57,6 +57,8 @@ export const Others: React.FC<OthersProps> = ({
     const [,setDeleteIds] = useRecoilState(deleteIdsDocuments);
     const deleteIdsDcmt: string[] = useRecoilValue(DataDeleteIdsDocuments);
     const [isAdd, setIsAdd] = useState<boolean>(false);
+    const isDoneFiles: boolean = useRecoilValue(CheckDoneFiles);
+    const [, setDoneFiles] = useRecoilState(checkDone);
 
     const configBenefit = configValuesSelect(useBenefits({})?.data);
     const configGrade = configValuesSelect(useGrades({})?.data);
@@ -124,10 +126,12 @@ export const Others: React.FC<OthersProps> = ({
     };
 
     useEffect(() => {
-        const documentsItems: any = fields.find(item => item.name === 'documents')?.value ?? [];
-        setData(documentsItems);
-    }, [idParams]);
-    
+        if(isDoneFiles === true){
+            const documentsItems: any = fields.find(item => item.name === 'documents')?.value;
+            setData(documentsItems);
+            setDoneFiles(false)
+        }
+    }, [idParams, isDoneFiles, setDoneFiles]);
 
     const columns: TableColumnsType = [
         {

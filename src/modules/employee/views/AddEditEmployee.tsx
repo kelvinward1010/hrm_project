@@ -14,15 +14,13 @@ import {
 import { useRecoilState, useRecoilValue } from "recoil";
 import { addEmployeeState, DataDeleteIdsContracts, DataDeleteIdsDocuments, editEmployeeState, filledContractInfomation, filledEmployeeInfomation } from "../state/add-edit-employee/add.state";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { deleteIdsContracts, deleteIdsDocuments, isAddEmplyee, isEditEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
+import { checkDone, deleteIdsContracts, deleteIdsDocuments, isAddEmplyee, isEditEmplyee, isFilledContractInfomation, isFilledEmployeeInfomation, } from "../state/add-edit-employee/add.atom";
 import { IEditEmployee} from "../types";
 import { useCreateEmployee } from "../api/createEmployee";
 import { configValuesSelect, filterContracts, filterDocuments } from "@/utils/data";
 import { Notification } from "@/components/notification/Notification";
 import { useNavigate, useParams } from "react-router-dom";
 import { employeeUrl } from "@/routes/urls";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 import dayjs from "dayjs";
 import { FieldData } from "@/types";
 import { useUpdateEmployee } from "../api/updateEmployee";
@@ -50,13 +48,13 @@ export function AddEditEmployee() {
     const isEditEmployee: boolean = useRecoilValue(editEmployeeState);
     const isEmployeeInfomation: boolean = useRecoilValue(filledEmployeeInfomation);
     const isContractInfomation: boolean = useRecoilValue(filledContractInfomation);
-    const dataDetailEmployee: any = useSelector((state: RootState) => state.employee.employee);
     const [, setFilledInformationImportant] = useRecoilState(isFilledEmployeeInfomation);
     const [, setFilledContractImportant] = useRecoilState(isFilledContractInfomation);
     const [,setDeleteIds] = useRecoilState(deleteIdsDocuments);
     const deleteIdsDcmt: string[] = useRecoilValue(DataDeleteIdsDocuments);
     const [,setDeleteCntIds] = useRecoilState(deleteIdsContracts);
     const deleteIdsCnts: string[] = useRecoilValue(DataDeleteIdsContracts);
+    const [, setDoneFiles] = useRecoilState(checkDone);
     
     const [fields, setFields] = useState<FieldData[]>([
         {name: 'name', value: "" ,},
@@ -79,7 +77,7 @@ export function AddEditEmployee() {
         {name: 'health_insurance_no',value: "",},
         {name: 'contract_start_date', value: "",},
         {name: 'type', value: "",},
-        {name: 'contracts', value: idParams ? dataDetailEmployee?.contracts : []},
+        {name: 'contracts', value: []},
         {name: 'department_id', value: "",},
         {name: 'position_id', value: "",},
         {name: 'shift', value: "",},
@@ -97,7 +95,7 @@ export function AddEditEmployee() {
         {name: 'benefits', value: [],},
         {name: 'remark', value: "",},
         {name: 'account_user_id', value: "",},
-        {name: 'documents', value: idParams ? dataDetailEmployee?.documents : []},
+        {name: 'documents', value: []},
     ]);
 
     {idParams && useDetailEmployee({id: idParams, config: {
@@ -105,6 +103,14 @@ export function AddEditEmployee() {
             const data: IEditEmployee = res?.data;
             const datahidden = data?.hidden_on_payroll == '' ? 0 : data?.hidden_on_payroll;
             if(!data) return;
+            const indexDocuments = fields.findIndex((f: FieldData) => f.name == "documents");
+            const indexContracts = fields.findIndex((f: FieldData) => f.name == "contracts");
+            if(indexDocuments !== -1 && indexContracts !== -1){
+                fields[indexDocuments].value = data?.documents;
+                fields[indexContracts].value = data?.contracts;
+                setFields(fields)
+                setDoneFiles(true)
+            }
             formEmployeeInfo?.setFieldsValue({
                 name: data?.name,
                 gender: data.gender,
@@ -351,7 +357,7 @@ export function AddEditEmployee() {
             setFilledContractImportant(true);
             setFilledInformationImportant(true);
         }
-    },[dataDetailEmployee, idParams]);
+    },[idParams]);
 
     return (
         <div className={styles.container}>

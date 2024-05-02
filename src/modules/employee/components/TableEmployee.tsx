@@ -6,11 +6,7 @@ import { useRecoilState } from "recoil";
 import { isDeleteItemAtom } from "../state/table.atom";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEmployees } from "../api/getEmployees";
-import { useGetDetailEmployee } from "../api/getDetailEmployee";
 import { IEmployeeTable } from "../types";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import { employeeDetail } from "@/redux/slices/employeeSlice";
 import { handleMapEmployee } from "../utils";
 import { extractEditemployeeUrl } from "@/routes/urls";
 
@@ -80,7 +76,6 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
 }) => {
 
     const navigate = useNavigate();
-    const dispatch: AppDispatch = useDispatch();
     const [, setIsItemSelected] = useRecoilState(isDeleteItemAtom);
     const [searchParams, setSearchParams] = useSearchParams();
     const pageIndex = Number(searchParams.get("pageIndex")) || 1;
@@ -114,11 +109,7 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
 
     const {data: employee, isLoading} = useEmployees({params: queryFn});
     
-    const handleDetailEmployee = (id: string) => {
-        useGetDetailEmployee(id).then((res) => {
-            dispatch(employeeDetail(res?.data));
-        }).finally(() => navigate(`${extractEditemployeeUrl}/${id}`))
-    }
+    const handleGoEmployee = (id: string) => {navigate(`${extractEditemployeeUrl}/${id}`)}
 
     useEffect(() => {
         if(employee?.data){
@@ -133,7 +124,7 @@ export const TableEmployee: React.FC<TableEmployeeProps> = ({
                 rowSelection={rowSelection}
                 columns={columns}
                 onRow={(record) => ({
-                    onDoubleClick: () => handleDetailEmployee(record?.key),
+                    onDoubleClick: () => handleGoEmployee(record?.key),
                 })}
                 dataSource={data}
                 sticky

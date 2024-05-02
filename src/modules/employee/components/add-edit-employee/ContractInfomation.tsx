@@ -7,7 +7,7 @@ import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import { convertDateToYYYYMMDD, formatDate } from "@/utils/format";
 import { LableInput } from "./LableInput";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { deleteIdsContracts } from "../../state/add-edit-employee/add.atom";
+import { checkDone, deleteIdsContracts } from "../../state/add-edit-employee/add.atom";
 import { EMPLOYEE_TYPE_CONGIG } from "../../config";
 import { FieldData } from "@/types";
 import { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ import { extractFileName, generateRandomNumberString } from "@/utils/string";
 import { handleMapContracts, hasContractWithId } from "@/utils/data";
 import { useParams } from "react-router-dom";
 import { RULES_CREATE_EMPLOYEE } from "../../api/createEmployee";
-import { DataDeleteIdsContracts } from "../../state/add-edit-employee/add.state";
+import { CheckDoneFiles, DataDeleteIdsContracts } from "../../state/add-edit-employee/add.state";
 
 const dateFormat = 'YYYY/MM/DD';
 const { Text } = Typography;
@@ -59,6 +59,8 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     const [data, setData] = useState<any[]>([]);
     const [,setDeleteCntIds] = useRecoilState(deleteIdsContracts);
     const deleteIdsCnts: string[] = useRecoilValue(DataDeleteIdsContracts);
+    const isDoneFiles: boolean = useRecoilValue(CheckDoneFiles);
+    const [, setDoneFiles] = useRecoilState(checkDone);
     const [configField, setConfigField] = useState<FieldData[]>([
         { name: 'contract_date', value: '' },
         { name: 'name', value: '' },
@@ -121,9 +123,12 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
     };
 
     useEffect(() => {
-        const contractItems: any = fields.find(item => item.name === 'contracts')?.value ?? [];
-        setData(contractItems)
-    }, [idParams]);
+        if(isDoneFiles === true){
+            const contractItems: any = fields.find(item => item.name === 'contracts')?.value ?? [];
+            setData(contractItems)
+            setDoneFiles(false);
+        }
+    }, [idParams, isDoneFiles, setDoneFiles]);
     
 
     const columns: TableColumnsType = [

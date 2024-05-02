@@ -2,7 +2,6 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import authReducer from './slices/authSlice';
-import employeeReducer from './slices/employeeSlice';
 
 const persistConfig = {
     key: 'HRM_system',
@@ -12,7 +11,6 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    employee: employeeReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

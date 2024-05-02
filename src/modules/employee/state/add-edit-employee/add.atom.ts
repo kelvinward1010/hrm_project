@@ -30,3 +30,8 @@ export const deleteIdsContracts = atom<string[]>({
     key: "deleteIdsContracts",
     default: [],
 })
+
+export const checkDone = atom<boolean>({
+    key: "checkDone",
+    default: false,
+})
