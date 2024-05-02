@@ -124,6 +124,7 @@ export const ContractInfomation: React.FC<ContractInfomationProps> = ({
         const contractItems: any = fields.find(item => item.name === 'contracts')?.value ?? [];
         setData(contractItems)
     }, [idParams]);
+    
 
     const columns: TableColumnsType = [
         {

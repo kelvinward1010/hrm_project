@@ -127,6 +127,7 @@ export const Others: React.FC<OthersProps> = ({
         const documentsItems: any = fields.find(item => item.name === 'documents')?.value ?? [];
         setData(documentsItems);
     }, [idParams]);
+    
 
     const columns: TableColumnsType = [
         {
