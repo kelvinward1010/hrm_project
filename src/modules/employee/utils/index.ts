@@ -33,7 +33,7 @@ export const getIdsItemsEmployee = (data: IEmployeeTable[]) => {
 }
 
 
-export function mapDataCreate(data: any[]) {
+export function mapDataCreate1(data: any[]) {
     const mappedObject: Record<string, any> = {};
 
     data?.forEach((item) => {
@@ -63,7 +63,7 @@ export function mapDataCreate(data: any[]) {
     return mappedObject;
 }
 
-export function mapDataCreate2(data: any) {
+export function mapDataCreate(data: any) {
     const { contract_start_date, benefits, ...rest } = data;
     const date = new Date(contract_start_date);
     const formattedDate = date?.toISOString().split("T")[0];
@@ -93,38 +93,23 @@ export function mapDataCreate2(data: any) {
         transformedData[key] = checkValue(dataTransform[key]);
     }
     return transformedData;
+};
+
+export function transformValues(data: any) {
+    const { hidden_on_payroll, entitle_ot, meal_allowance_paid, operational_allowance_paid, attendance_allowance_paid, ...rest } = data;
+    const transformedData: any = {
+        ...rest,
+        hidden_on_payroll: hidden_on_payroll ? 1 : 0,
+        entitle_ot: entitle_ot ? 1 : 0,
+        meal_allowance_paid: meal_allowance_paid ? 1 : 0,
+        operational_allowance_paid: operational_allowance_paid ? 1 : 0,
+        attendance_allowance_paid: attendance_allowance_paid ? 1 : 0,
+    };
+    
+    return transformedData;
 }
 
-export function validateFieldsEmployeeInfomation(fields: any[]): boolean {
-    let isValid = true;
-    fields.forEach((field) => {
-        if (field.name === 'name'
-            || field.name === 'gender'
-            || field.name === 'dob'
-            || field.name === 'ktp_no') {
-            if (field.value === "") {
-                isValid = false;
-            }
-        }
-    });
-    return isValid;
-}
-
-export function validateFieldsContractInfomation(fields: any[]): boolean {
-    let isValid = true;
-    fields.forEach((field) => {
-        if (field.name === 'contract_start_date'
-            // || field.name === 'type'
-        ) {
-            if (field.value === "") {
-                isValid = false;
-            }
-        }
-    });
-    return isValid;
-}
-
-export function validateFieldsEmployeeInfomation2(fields: any): boolean {
+export function validateFieldsEmployeeInfomation(fields: any): boolean {
     let isValid = true;
     if (fields.name === ''
         || fields.gender === ''
@@ -135,12 +120,10 @@ export function validateFieldsEmployeeInfomation2(fields: any): boolean {
     return isValid;
 }
 
-export function validateFieldsContractInfomation2(fields: any): boolean {
+export function validateFieldsContractInfomation(fields: any): boolean {
     let isValid = true;
-    if (fields.contract_start_date === ''
-        // || fields.name === 'type'
-    ) {
-            isValid = false;
+    if (fields.contract_start_date === '' || fields.name === 'type'){
+        isValid = false;
     }
     return isValid;
 }

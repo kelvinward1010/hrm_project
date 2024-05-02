@@ -106,8 +106,8 @@ export const Others: React.FC<OthersProps> = ({
         if(isAdd === true){
             onUploadFiles();
             setIsAdd(false);
-        }
-    },[fileList, isAdd])
+        };
+    },[fileList, isAdd]);
 
     function hanleDeleteItemById(idToDelete: string) {
         const index = fields.findIndex((f: FieldData) => f.name == "documents");
@@ -115,9 +115,9 @@ export const Others: React.FC<OthersProps> = ({
             const take = fields[index].value;
             const updateData = take?.filter((item: any) => item.id !== idToDelete);
             if(hasDocumentWithId(take, idToDelete)){
-                setDeleteIds([...deleteIdsDcmt,...[idToDelete]])
-            }
-            fields[index].value = updateData
+                setDeleteIds([...deleteIdsDcmt,...[idToDelete]]);
+            };
+            fields[index].value = updateData;
         }
         setFields(fields);
         setData(fields[index].value);
@@ -125,7 +125,7 @@ export const Others: React.FC<OthersProps> = ({
 
     useEffect(() => {
         const documentsItems: any = fields.find(item => item.name === 'documents')?.value ?? [];
-        setData(documentsItems)
+        setData(documentsItems);
     }, [idParams]);
 
     const columns: TableColumnsType = [
@@ -266,7 +266,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, co
                 <Form.Item
                     labelAlign={'left'}
                     name="benefits"
-                    label={t("features.employee.features_add_new.others.lable_input_remark")}
+                    label={t("features.employee.features_add_new.others.lable_input_benefits")}
                 >
                     <Select
                         mode="multiple"
@@ -279,7 +279,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, t, co
                 <Form.Item
                     labelAlign={'left'}
                     name="remark"
-                    label={t("features.employee.features_add_new.others.lable_input_benefits")}
+                    label={t("features.employee.features_add_new.others.lable_input_remark")}
                 >
                     <Input.TextArea className="input_inside"/>
                 </Form.Item>

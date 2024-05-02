@@ -20,8 +20,6 @@ import { DataDeleteIdsContracts } from "../../state/add-edit-employee/add.state"
 const dateFormat = 'YYYY/MM/DD';
 const { Text } = Typography;
 
-// const allowedFileTypes = ['.jpg', '.png', '.gif', '.docx', '.xlsx', '.xls', '.doc', '.pdf'];
-
 const formItemLayout = {
     labelCol: {
         xs: { span: 24 },
