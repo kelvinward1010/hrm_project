@@ -3,7 +3,7 @@ import styles from "./Employee.module.scss";
 import { useTranslation } from "react-i18next";
 import type { TabsProps } from 'antd';
 import { useCallback, useEffect, useState } from "react";
-import { ButtonConfigAntd, TextLicense } from "@/components";
+import { ButtonConfigAntd, Error, TextLicense } from "@/components";
 import { 
     ContractInfomation, 
     EmployeeInfomation, 
@@ -158,6 +158,11 @@ export function AddEditEmployee() {
                 remark: data?.remark,
                 account_user_id: data?.account_user_id,
             });
+        },
+        onError: () => {
+            return (
+                <Error />
+            )
         }
     }})};
 
